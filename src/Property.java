@@ -16,14 +16,14 @@ public class Property extends Tile{
    private String owner;
    private boolean morgStatus;
 
-   public Property (int position, String desc, String type) {
+   public Property (int position, String desc) {
 	   numOfHouses = 0;
 	   numOfHotels = 0;
 	   owner = "";
 	   morgStatus = false;
 	   super.setPosition (position);
 	   super.setDesc (desc);
-	   super.setType (type);
+	   super.setType ("property");
    
    }
    
