@@ -21,9 +21,9 @@ public class Property extends Tile{
 	   numOfHotels = 0;
 	   owner = "";
 	   morgStatus = false;
-	   setPosition (position);
-	   setDesc (desc);
-	   setType (type);
+	   super.setPosition (position);
+	   super.setDesc (desc);
+	   super.setType (type);
    
    }
    
