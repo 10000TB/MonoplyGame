@@ -10,21 +10,22 @@ public class Property extends Tile{
 
    private int cost;       		// cost to build one house
    private int rent;
+   private int rentData[];
    private int purchasePrice;  	// cost to purchase one house
    private int numOfHouses;
    private int numOfHotels;
    private String owner;
    private boolean morgStatus;
 
-   public Property (int position, String desc) {
+   public Property (int position, String desc, int rentData[]) {
 	   numOfHouses = 0;
 	   numOfHotels = 0;
 	   owner = "";
 	   morgStatus = false;
+	   this.rentData = rentData;
 	   super.setPosition (position);
 	   super.setDesc (desc);
 	   super.setType ("property");
-   
    }
    
    
@@ -36,6 +37,11 @@ public class Property extends Tile{
    // get the rent of the property
    public int getRent () {
 	   return rent;
+   }
+   
+   // update rent according to the property status
+   public void updateRent() {
+	   rent = rentData[numOfHouses-1];
    }
    
    // get the price to purchase the property
@@ -63,6 +69,12 @@ public class Property extends Tile{
 	   return owner;
    }
    
+   
+   // property announce morg
+   public void setMorg() {
+	   morgStatus = true;
+   }
+   
    // get morg status
    public boolean morg () {
 	   return morgStatus;
@@ -86,8 +98,12 @@ public class Property extends Tile{
 	   numOfHotels = 1;
    }
    
-   public void updateRent () {
-	   
+   // destroy all houses / hotel on the property tile when bankrupt or so.
+   public void clearAll() {
+	   numOfHouses = 0;
+	   numOfHotels = 0;
+	   owner = "";
+	   morgStatus = false;
    }
    
    
