@@ -18,6 +18,7 @@ public class Property extends Tile{
    private boolean morgStatus;
 
    public Property (int position, String desc, int rentData[]) {
+	   cost = rentData[0];
 	   numOfHouses = 0;
 	   numOfHotels = 0;
 	   owner = "";
@@ -41,7 +42,11 @@ public class Property extends Tile{
    
    // update rent according to the property status
    public void updateRent() {
-	   rent = rentData[numOfHouses-1];
+	   if (numOfHotels == 1) {
+		   rent = rentData[4];
+	   } else {
+		   rent = rentData[numOfHouses];
+	   }
    }
    
    // get the price to purchase the property
