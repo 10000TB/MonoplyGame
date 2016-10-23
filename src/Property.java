@@ -16,6 +16,7 @@ public class Property extends Tile{
    private int numOfHotels;
    private String owner;
    private boolean morgStatus;
+   private boolean canBuild;
 
    public Property (int position, String desc, int rentData[]) {
 	   cost = rentData[0];
@@ -23,14 +24,21 @@ public class Property extends Tile{
 	   numOfHotels = 0;
 	   owner = "";
 	   morgStatus = false;
+	   this.canBuild = true;
 	   this.rentData = rentData;
 	   super.setPosition (position);
 	   super.setDesc (desc);
 	   super.setType ("property");
    }
    
-   
-   // get the cost to build house/hotel on the tile
+   // used for electricity tile
+   public Property (int position, String desc, int rentData[], boolean canBuild) {
+	   this (position, desc, rentData);
+	   this.canBuild = canBuild;
+   }
+  
+
+// get the cost to build house/hotel on the tile
    public int getCost () {
 	   return cost;
    }
@@ -85,6 +93,11 @@ public class Property extends Tile{
 	   return morgStatus;
    }
    
+   // return false for electricity tile
+   public boolean ifBuildable () {
+	   return canBuild;
+   }
+   
    // check if player can buy hotel at the property (4 being the legitimate number).
    public boolean isFullHouse () {
 	   return numOfHouses == 4;
@@ -94,7 +107,6 @@ public class Property extends Tile{
    public void buildHouse () {
 	   numOfHouses += 1;
 	   updateRent();
-	   
    }
    
    // build hotel on the property. # assume isFullHouse checked already
