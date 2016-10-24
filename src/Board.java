@@ -123,6 +123,10 @@ public class Board {
 	   
    }
    
+   public Tile getTile (int index) {
+	   return tiles.get(index);
+   }
+   
    
    
    public void info() {
