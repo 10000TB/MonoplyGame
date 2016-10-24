@@ -1,0 +1,177 @@
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.util.ArrayList;
+
+import javax.swing.BorderFactory;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.WindowConstants;
+
+public class GridBagLayoutExample extends JFrame {
+
+public static void main(String[] args) {
+    new GridBagLayoutExample().setVisible(true);
+}
+
+public GridBagLayoutExample() {
+
+    try {
+        //Setup the Layout
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        GridBagLayout thisLayout = new GridBagLayout();
+        thisLayout.rowWeights = new double[] { 0.1, 0.05, 0.05,
+                0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.1 };
+        thisLayout.columnWeights = new double[] { 0.1, 0.05, 0.05,
+                0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.1 };
+        getContentPane().setLayout(thisLayout);
+
+        //Default Grid values
+        int gridX = 0;
+        int gridY = 0;        
+        
+        
+        //Add Panels for Each of the four sides
+        ArrayList<String> nameOfTiles = new ArrayList<String>();
+        nameOfTiles.add("<html><h6> Free <br> Parking </h6></html>");
+        nameOfTiles.add("<html><h6> Kentucky <br> Avenue</h6></html>");
+        nameOfTiles.add("<html><h6> Chance</h6></html>");
+        nameOfTiles.add("<html><h6> Indiana <br> Avenue</h6></html>");
+        nameOfTiles.add("<html><h6> Illinois <br> Avenue</h6></html>");
+        nameOfTiles.add("<html><h6> B&O Rail <br> Road</h6></html>");
+        nameOfTiles.add("<html><h6> Atlantic <br> Avenue</h6></html>");
+        nameOfTiles.add("<html><h6> Ventnor <br> Avenue</h6></html>");
+        nameOfTiles.add("<html><h6> Water <br> Works</h6></html>");
+        nameOfTiles.add("<html><h6> Marvin <br> Gardens</h6></html>");
+        nameOfTiles.add("<html><h6> GO TO <br> JAIL </h6></html>");
+        nameOfTiles.add("Pacific Avenue");
+        nameOfTiles.add("North Carolina Avenue");
+        nameOfTiles.add("Community Chest");
+        nameOfTiles.add("Pennsylvania Avenue");
+        nameOfTiles.add("Short Line Station");
+        nameOfTiles.add("Chance");
+        nameOfTiles.add("Park Place");
+        nameOfTiles.add("SUPER TAX");
+        nameOfTiles.add("Boardwalk");
+        nameOfTiles.add("GO!");
+        nameOfTiles.add("Mediterranean Avenue");
+        nameOfTiles.add("Community Chest");
+        nameOfTiles.add("Baltic Avenue");
+        nameOfTiles.add("Income Tax");
+        nameOfTiles.add("Reading RailRoad");
+        nameOfTiles.add("Oriental Avenue");
+        nameOfTiles.add("Chance");
+        nameOfTiles.add("Vermont Avenue");
+        nameOfTiles.add("Connecticut Avenue");
+        nameOfTiles.add("IN JAIL");
+        nameOfTiles.add("St. Charles Place");
+        nameOfTiles.add("Electricity Company");
+        nameOfTiles.add("States Avenue");
+        nameOfTiles.add("Virginia Avenue");
+        nameOfTiles.add("Pennsylvania RR");
+        nameOfTiles.add("St. James Place");
+        nameOfTiles.add("Community Chest");
+        nameOfTiles.add("Tennessee Avenue");
+        nameOfTiles.add("New York Avenue");
+        //nameOfTiles.add("Free Parking (Just take a rest)");
+        System.out.println(nameOfTiles.size());
+        
+        int flag = 0;
+        for (int j = 0; j < 4; j++) {
+            for (int i = 0; i < 11; i++) {
+                JPanel tempPanel = new JPanel();
+                
+                switch(j)
+                {
+                case 0://Top Spaces
+                    gridX = i;
+                    gridY = 0;
+                 	JLabel label = new JLabel();
+                    label.setText(nameOfTiles.get(flag));
+                    //System.out.println(nameOfTiles.get(flag) + (j*10+i));
+                    flag++;
+                    
+                    add(label);
+                    break;
+                case 1://Left Spaces
+                    gridX = 0;
+                    gridY = i;
+                    JLabel labell = new JLabel();
+                    labell.setText("WTF");
+                    add(labell);
+
+                    
+                    break;
+                case 2://Right Spaces
+                    gridX = 10;
+                    gridY = i;
+                    break;
+                case 3://Bottom Spaces
+                    gridX = i;
+                    gridY = 10;
+                    break;
+                }
+                getContentPane().add(tempPanel,
+                        new GridBagConstraints(gridX,// XGridSpot
+                                gridY,// YGridSpot
+                                1,// XGridSpaces
+                                1,// YGridSpaces
+                                0.0, 0.0, GridBagConstraints.CENTER,
+                                GridBagConstraints.BOTH,//Fill
+                                new Insets(0, 0, 0, 0), 0, 0)
+                        
+                        
+
+                        );
+
+//
+//                if (flag <10){
+//                 	JLabel label = new JLabel();
+//                    label.setText(nameOfTiles.get(flag));
+//                    //System.out.println(nameOfTiles.get(flag) + (j*10+i));
+//                    flag++;
+//                    
+//                    add(label);
+//                    }
+                
+                tempPanel.setBorder(BorderFactory
+                        .createLineBorder(Color.BLACK));
+                
+
+            }
+        }
+
+        {// Main Inner Area Notice Starts at (1,1) and takes up 11x11
+            JPanel innerPanel = new JPanel();
+            
+            getContentPane().add(
+                    innerPanel,
+                    new GridBagConstraints(1,
+                            1,
+                            11,
+                            11,
+                            0.0, 0.0,
+                            GridBagConstraints.CENTER,
+                            GridBagConstraints.BOTH,
+                            new Insets(0, 0, 0, 0), 0, 0));
+        }
+        pack();
+
+
+
+        setSize(1000, 1000);
+        setLocation(200, 100);
+
+        
+
+
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+
+}
