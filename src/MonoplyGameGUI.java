@@ -25,10 +25,10 @@ import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
 import java.net.URL;
 
-public class GridBagLayoutExample extends JFrame {
+public class MonoplyGameGUI extends JFrame {
 
 public static void main(String[] args) {
-    new GridBagLayoutExample().setVisible(true);
+    new MonoplyGameGUI().setVisible(true);
 }
 public static boolean isNumeric(String str)  
 {  
@@ -59,7 +59,7 @@ public void paintComponent(Graphics g) {
 //	      }
 //	   }   
 
-public GridBagLayoutExample() {
+public MonoplyGameGUI() {
 
 	ArrayList<String> names = new ArrayList<String>();
 	String numOfPlayers = JOptionPane.showInputDialog("Please input the number of players");
