@@ -45,5 +45,40 @@ public class Chance extends Card{
 	public void setTargetTile(int targetTile) {
 		this.targetTile = targetTile;
 	}
+	
+	public int getNearestUtility(int playerPosition){
+		if(playerPosition == 7){
+			return 12;
+		}
+		
+		if(playerPosition == 22){
+			return 28;
+		}
+		
+		if(playerPosition == 36){
+			return 12;
+		}
+		else{
+			return 0;
+		}
+		
+	}
+	
+	public int getNearestRailroad(int playerPosition){
+		if(playerPosition == 7){
+			return 5;
+		}
+		
+		if(playerPosition == 22){
+			return 25;
+		}
+		
+		if(playerPosition == 36){
+			return 35;
+		}
+		else{
+			return 0;
+		}
+	}
 
 }
