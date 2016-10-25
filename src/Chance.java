@@ -17,10 +17,11 @@ public class Chance extends Card{
 	}
 
 	
-	Chance(String description,boolean goToJail,boolean getOutOfJail,boolean isUsed,int amountChange,boolean influenceOthers,int houseCost,int hotelCost, int numOfSteps, int targetTile){
+	Chance(String description, boolean goToJail,boolean isGetOutOfJail,int amountChange, boolean influenceOthers, int houseCost, int hotelCost, int numSteps, int targetTile ){
 		this.setDescription(description);
 		this.setGoToJail(goToJail);
-		this.setUsed(isUsed);
+		this.setGetOutOfJail(isGetOutOfJail);
+		this.setUsed(false);
 		this.setAmountChange(amountChange);
 		this.setInfluenceOthers(influenceOthers);
 		this.setHouseCost(houseCost);
