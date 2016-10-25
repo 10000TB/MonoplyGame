@@ -36,46 +36,55 @@ public GridBagLayoutExample() {
         
         //Add Panels for Each of the four sides
         ArrayList<String> nameOfTiles = new ArrayList<String>();
-        nameOfTiles.add("<html><h6> Free <br> Parking </h6></html>");
-        nameOfTiles.add("<html><h6> Kentucky <br> Avenue</h6></html>");
-        nameOfTiles.add("<html><h6> Chance</h6></html>");
-        nameOfTiles.add("<html><h6> Indiana <br> Avenue</h6></html>");
-        nameOfTiles.add("<html><h6> Illinois <br> Avenue</h6></html>");
-        nameOfTiles.add("<html><h6> B&O Rail <br> Road</h6></html>");
-        nameOfTiles.add("<html><h6> Atlantic <br> Avenue</h6></html>");
-        nameOfTiles.add("<html><h6> Ventnor <br> Avenue</h6></html>");
-        nameOfTiles.add("<html><h6> Water <br> Works</h6></html>");
-        nameOfTiles.add("<html><h6> Marvin <br> Gardens</h6></html>");
-        nameOfTiles.add("<html><h6> GO TO <br> JAIL </h6></html>");
-        nameOfTiles.add("Pacific Avenue");
-        nameOfTiles.add("North Carolina Avenue");
-        nameOfTiles.add("Community Chest");
-        nameOfTiles.add("Pennsylvania Avenue");
-        nameOfTiles.add("Short Line Station");
-        nameOfTiles.add("Chance");
-        nameOfTiles.add("Park Place");
-        nameOfTiles.add("SUPER TAX");
-        nameOfTiles.add("Boardwalk");
-        nameOfTiles.add("GO!");
-        nameOfTiles.add("Mediterranean Avenue");
-        nameOfTiles.add("Community Chest");
-        nameOfTiles.add("Baltic Avenue");
-        nameOfTiles.add("Income Tax");
-        nameOfTiles.add("Reading RailRoad");
-        nameOfTiles.add("Oriental Avenue");
-        nameOfTiles.add("Chance");
-        nameOfTiles.add("Vermont Avenue");
-        nameOfTiles.add("Connecticut Avenue");
-        nameOfTiles.add("IN JAIL");
-        nameOfTiles.add("St. Charles Place");
-        nameOfTiles.add("Electricity Company");
-        nameOfTiles.add("States Avenue");
-        nameOfTiles.add("Virginia Avenue");
-        nameOfTiles.add("Pennsylvania RR");
-        nameOfTiles.add("St. James Place");
-        nameOfTiles.add("Community Chest");
-        nameOfTiles.add("Tennessee Avenue");
-        nameOfTiles.add("New York Avenue");
+        nameOfTiles.add("<html><h4> Free <br> Parking </h4></html>");
+        nameOfTiles.add("<html><h4> Kentucky <br> Avenue</h4></html>");
+        nameOfTiles.add("<html><h4> Chance</h4></html>");
+        nameOfTiles.add("<html><h4> Indiana <br> Avenue</h4></html>");
+        nameOfTiles.add("<html><h4> Illinois <br> Avenue</h4></html>");
+        nameOfTiles.add("<html><h4> B&O Rail <br> Road</h4></html>");
+        nameOfTiles.add("<html><h4> Atlantic <br> Avenue</h4></html>");
+        nameOfTiles.add("<html><h4> Ventnor <br> Avenue</h4></html>");
+        nameOfTiles.add("<html><h4> Water <br> Works</h4></html>");
+        nameOfTiles.add("<html><h4> Marvin <br> Gardens</h4></html>");
+        nameOfTiles.add("<html><h4> GO TO <br> JAIL </h4></html>");
+        nameOfTiles.add("null");
+        
+        
+        nameOfTiles.add("<html><h4>New York<br> Avenue</h4></html>");
+        nameOfTiles.add("<html><h4>Tennessee <br>Avenue</h4></html>");
+        nameOfTiles.add("<html><h4>Community <br>Chest</h4></html>");
+        nameOfTiles.add("<html><h4>St. James <br>Place</h4></html>");
+        nameOfTiles.add("<html><h4>Pennsylvania <br>RR</h4></html>");
+        nameOfTiles.add("<html><h4>Virginia <br>Avenue</h4></html>");
+        nameOfTiles.add("<html><h4>States <br>Avenue</h4></html>");
+        nameOfTiles.add("<html><h4>Electricity <br>Company</h4></html>");
+        nameOfTiles.add("<html><h4>St. Charles <br>Place</h4></html>");
+        nameOfTiles.add("<html><h4>IN JAIL</h4></html>");
+
+        nameOfTiles.add("null");
+        nameOfTiles.add("<html><h4>Pacific <br>Avenue</h4></html>");
+        nameOfTiles.add("<html><h4>North Carolina <br>Avenue</h4></html>");
+        nameOfTiles.add("<html><h4>Community <br>Chest</h4></html>");
+        nameOfTiles.add("<html><h4>Pennsylvania <br>Avenue</h4></html>");
+        nameOfTiles.add("<html><h4>Short Line <br>Station</h4></html>");
+        nameOfTiles.add("<html><h4>Chance</h4></html>");
+        nameOfTiles.add("<html><h4>Park <br>Place</h4></html>");
+        nameOfTiles.add("<html><h4>SUPER <br>TAX</h4></html>");
+        nameOfTiles.add("<html><h4>Boardwalk</h4></html>");
+        nameOfTiles.add("<html><h4>GO!</h4></html>");
+
+        nameOfTiles.add("null");
+        nameOfTiles.add("<html><h4>Connecticut <br>Avenue</h4></html>"); 
+        nameOfTiles.add("<html><h4>Vermont <br>Avenue</h4></html>");
+        nameOfTiles.add("<html><h4>Chance</h4></html>");
+        nameOfTiles.add("<html><h4>Oriental <br>Avenue</h4></html>");
+        nameOfTiles.add("<html><h4>Reading <br>RailRoad</h4></html>");
+        nameOfTiles.add("<html><h4>Income <br>Tax</h4></html>");
+        nameOfTiles.add("<html><h4>Baltic <br>Avenue</h4></html>");
+        nameOfTiles.add("<html><h4>Community <br>Chest</h4></html>");
+        nameOfTiles.add("<html><h4>Mediterranean <br>Avenue</h4></html>");
+        nameOfTiles.add("null");
+
         //nameOfTiles.add("Free Parking (Just take a rest)");
         System.out.println(nameOfTiles.size());
         
@@ -83,35 +92,44 @@ public GridBagLayoutExample() {
         for (int j = 0; j < 4; j++) {
             for (int i = 0; i < 11; i++) {
                 JPanel tempPanel = new JPanel();
-                
+             	JLabel label = new JLabel();
+
                 switch(j)
                 {
                 case 0://Top Spaces
                     gridX = i;
                     gridY = 0;
-                 	JLabel label = new JLabel();
                     label.setText(nameOfTiles.get(flag));
                     //System.out.println(nameOfTiles.get(flag) + (j*10+i));
                     flag++;
                     
-                    add(label);
+                    tempPanel.add(label);
                     break;
                 case 1://Left Spaces
                     gridX = 0;
                     gridY = i;
-                    JLabel labell = new JLabel();
-                    labell.setText("WTF");
-                    add(labell);
+                    
+                    label.setText(nameOfTiles.get(flag));
+                    tempPanel.add(label);
+                    flag++;
 
                     
                     break;
                 case 2://Right Spaces
                     gridX = 10;
                     gridY = i;
+                    label.setText(nameOfTiles.get(flag));
+                    tempPanel.add(label);
+                    flag++;
                     break;
                 case 3://Bottom Spaces
                     gridX = i;
                     gridY = 10;
+                    
+                    label.setText(nameOfTiles.get(flag));
+                    tempPanel.add(label);
+                    flag++;
+                    
                     break;
                 }
                 getContentPane().add(tempPanel,
@@ -157,6 +175,7 @@ public GridBagLayoutExample() {
                             GridBagConstraints.CENTER,
                             GridBagConstraints.BOTH,
                             new Insets(0, 0, 0, 0), 0, 0));
+            
         }
         pack();
 
