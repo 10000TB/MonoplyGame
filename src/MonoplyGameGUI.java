@@ -70,7 +70,7 @@ public MonoplyGameGUI() {
 			String name = JOptionPane.showInputDialog("Please input the name of each player");
 			names.add(name);
 		}
-		
+		 
 	}
 	else{
 		JOptionPane.showMessageDialog(null, "FUCK YOU THE WRONG INPUT");
