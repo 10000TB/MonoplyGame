@@ -20,6 +20,11 @@ public class MonoplyGame {
 	MonoplyGame(int NumOfPlayer, boolean OnOffLine){
 		this.numOfPlayer = NumOfPlayer;
 		this.onOffLine = OnOffLine;
+		
+		this.activePlayers = new ArrayList<String>();
+		this.allPlayers = new HashMap<String,Player>();
+		this.cards = new ArrayList<Card>();
+		this.onOffLine = false;
 	}
 	
 	
