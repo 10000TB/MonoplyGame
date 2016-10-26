@@ -25,6 +25,7 @@ public class MonoplyGameGUI extends JFrame {
 
 	Board board = new Board();
 	int flag = 0;
+	Player currentPlayer;
 
 	public static void main(String[] args) {
 		new MonoplyGameGUI().setVisible(true);
@@ -281,11 +282,11 @@ public class MonoplyGameGUI extends JFrame {
 				System.out.println("**");
 
 				int gh = 0;
+				currentPlayer = allPlayers.get(MG.getactivePlayers().get(0));
 
 				while (MG.getactivePlayers().size() > 1 && gh < 10) {
 					
 
-					Player currentPlayer = allPlayers.get(MG.getactivePlayers().get(0));
 										
 					JPanel innerPanel = new JPanel();
 
@@ -369,9 +370,14 @@ public class MonoplyGameGUI extends JFrame {
 								
 
 							}
-							
-							JOptionPane.showMessageDialog(null, currentPlayer.getname()+"'s turn",
+							MG.getactivePlayers().remove(0);
+							//allPlayers.get(MG.getactivePlayers().get(1));
+							if (currentPlayer.getfinancialStatus()) {
+								MG.getactivePlayers().add(currentPlayer.getname());
+							}
+							JOptionPane.showMessageDialog(null, allPlayers.get(MG.getactivePlayers().get(0)).getname()+"'s turn",
 									"Warning", JOptionPane.PLAIN_MESSAGE);
+							currentPlayer = allPlayers.get(MG.getactivePlayers().get(0));
 
 						}
 						
@@ -408,10 +414,8 @@ public class MonoplyGameGUI extends JFrame {
 
 					innerPanel.setLayout(null);
 
-					MG.getactivePlayers().remove(0);
-					if (currentPlayer.getfinancialStatus()) {
-						MG.getactivePlayers().add(currentPlayer.getname());
-					}
+					
+					System.out.println(currentPlayer.getname());
 					gh++;
 
 				}
