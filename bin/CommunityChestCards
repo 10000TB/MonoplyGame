@@ -1,0 +1,17 @@
+"advance to Go (Collect $200)" FALSE FALSE 200 FALSE 0 0
+"Bank error in your favor – Collect $200" FALSE FALSE 200 FALSE 0 0
+"Doctor's fees – Pay $50" FALSE FALSE -50 FALSE 0 0
+"From sale of stock you get $50" FALSE FALSE 50 FALSE 0 0
+"Get Out of Jail Free {Get out of Jail, Free} – This card may be kept until needed or sold" FALSE TRUE 0 FALSE 0 0 
+"Go to Jail – Go directly to jail – Do not pass Go – Do not collect $200" TRUE FALSE 0 FALSE 0 0
+"Grand Opera Night – Collect $50 from every player for opening night seats" FALSE FALSE 50 TRUE 0 0 
+"Holiday Fund matures - Collect $100" FALSE FALSE 100 FALSE 0 0
+"Income tax refund – Collect $20" FALSE FALSE 20 FALSE 0 0
+"It is your birthday - Collect $10 from each player" FALSE FALSE 10 TRUE 0 0
+"Life insurance matures – Collect $100" FALSE FALSE 100 FALSE 0 0
+"Pay hospital fees of $100" FALSE FALSE 100 FALSE 0 0
+"Pay school fees of $150" FALSE FALSE -150 FALSE 0 0
+"Receive $25 consultancy fee" FALSE FALSE 25 FALSE 0 0
+"You are assessed for street repairs – $40 per house – $115 per hotel" FALSE FALSE 0 FALSE 40 115
+"You have won second prize in a beauty contest – Collect $10" FALSE FALSE 10 FALSE 0 0
+"You inherit $100" FALSE FALSE 100 FALSE 0 0

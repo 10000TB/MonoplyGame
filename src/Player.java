@@ -35,9 +35,13 @@ public class Player {
 		this.setposition(position);
 	}
 	
-	public void payRent(int rent){
-		this.setbalance(this.getbalance() - rent);
+	public void payMoney(int money){
+		this.setbalance(this.getbalance() - money);
 		
+	}
+	
+	public void getMoney(int money){
+		this.setbalance(this.getbalance() + money);
 	}
 	
 	/**

@@ -103,7 +103,6 @@ public class MonoplyGameGUI extends JFrame {
 			return;
 
 		}
-
 		try {
 			// Setup the Layout
 			setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -279,56 +278,124 @@ public class MonoplyGameGUI extends JFrame {
 			}
 
 			{// Main Inner Area Notice Starts at (1,1) and takes up 11x11
+				System.out.println("**");
 
-				while (MG.getactivePlayers().size() > 1) {
+				int gh = 0;
+
+				while (MG.getactivePlayers().size() > 1 && gh < 10) {
 					
+
 					Player currentPlayer = allPlayers.get(MG.getactivePlayers().get(0));
-					
-
+										
 					JPanel innerPanel = new JPanel();
 
 					getContentPane().add(innerPanel, new GridBagConstraints(11, 1, 10, 7, 2.0, 2.0,
 							GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
-					JButton diceButton = new JButton("Roll Dice");
+					JButton diceButton = new JButton(" Roll Dice");
 					diceButton.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							// GEIVE THE RANDOM NUMBER
-							Dice dice = new Dice();
 							int face1 = 0, face2 = 0;
+
 							while (face1 == face2) {
-								face1 = dice.randomNumberGenerator();
-								face2 = dice.randomNumberGenerator();
+								face1 = currentPlayer.throwDice()[0];
+								face2 = currentPlayer.throwDice()[1];
 								JOptionPane.showMessageDialog(null, "Face1:" + face1 + "\n" + "Face2: " + face2,
 										"Roll Dice", JOptionPane.PLAIN_MESSAGE);
+
+								currentPlayer.move(face1 + face2);
+
+								// if community chest
+								if (currentPlayer.getposition() == 2 || currentPlayer.getposition() == 17
+										|| currentPlayer.getposition() == 33) {
+									// need to be implemented
+								}
+
+								// if chance chest card
+								if (currentPlayer.getposition() == 7 || currentPlayer.getposition() == 22
+										|| currentPlayer.getposition() == 36) {
+									// need to be implemented
+								}
+								switch (currentPlayer.getposition()) {
+								case 4:
+									currentPlayer.payMoney(200);
+									;
+									break;
+								case 5:
+									currentPlayer.getMoney(200);
+									break;
+								case 12:
+									currentPlayer.getMoney(150);
+									break;
+								case 15:
+									currentPlayer.getMoney(200);
+									break;
+								case 25:
+									currentPlayer.getMoney(200);
+									break;
+								case 28:
+									currentPlayer.getMoney(150);
+									break;
+								case 35:
+									currentPlayer.getMoney(200);
+									break;
+								case 38:
+									currentPlayer.payMoney(60);
+									break;
+								case 20:
+									break;
+								}
+
+								if (board.getTile(currentPlayer.getposition()) instanceof Property) {
+
+									Property currentProperty = (Property) board.getTile(currentPlayer.getposition());
+
+									if (currentProperty.getOwner().isEmpty()) {
+										int dialogButton = JOptionPane.YES_NO_OPTION;
+										int dialogResult = JOptionPane.showConfirmDialog(null,
+												"Would you like to buy this property?", "Warning", dialogButton);
+										if (dialogResult == JOptionPane.YES_OPTION
+												&& currentPlayer.getbalance() >= currentProperty.getCost()) {
+
+											currentProperty.setOwner(currentPlayer.getname());
+											currentPlayer.payMoney(currentProperty.getCost());
+
+										} else {
+
+										}
+									}
+
+								}
+								
+
 							}
+							
+							JOptionPane.showMessageDialog(null, currentPlayer.getname()+"'s turn",
+									"Warning", JOptionPane.PLAIN_MESSAGE);
 
 						}
-					});
-					JButton takeTurnButton = new JButton("Take Turn");
-					takeTurnButton.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							// GEIVE THE RANDOM NUMBER
-							JOptionPane.showMessageDialog(null, "Take Turn", "Take Turn", JOptionPane.PLAIN_MESSAGE);
-
-						}
+						
 					});
 
 					JButton showCurrentBalance = new JButton("Show Status");
 					showCurrentBalance.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
-							// GEIVE THE RANDOM NUMBER
-							JOptionPane.showMessageDialog(null, "Show Balance", "Show Balance",
+
+							String output = "";
+							for (String name : allPlayers.keySet()) {
+								output += "Player: " + name + "       " + "current balance: "
+										+ allPlayers.get(name).getbalance() + "\n";
+							}
+							JOptionPane.showMessageDialog(null, output, "Show Balance",
 									JOptionPane.PLAIN_MESSAGE);
 
 						}
 					});
 
 					diceButton.setBounds(100, 100, 150, 50);
-					takeTurnButton.setBounds(100, 200, 150, 50);
 					showCurrentBalance.setBounds(100, 300, 150, 50);
 
 					innerPanel.add(diceButton);
-					innerPanel.add(takeTurnButton);
 					innerPanel.add(showCurrentBalance);
 
 					JTextArea textArea = new JTextArea("Roll the dice");
@@ -340,11 +407,13 @@ public class MonoplyGameGUI extends JFrame {
 					innerPanel.add(textArea);
 
 					innerPanel.setLayout(null);
-					
+
 					MG.getactivePlayers().remove(0);
-					if (currentPlayer.getfinancialStatus()){
-						
+					if (currentPlayer.getfinancialStatus()) {
+						MG.getactivePlayers().add(currentPlayer.getname());
 					}
+					gh++;
+
 				}
 
 			}
