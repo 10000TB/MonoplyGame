@@ -11,7 +11,7 @@ public class Property extends Tile{
    private int cost;       		// cost to build one house
    private int rent;
    private int rentData[];
-   private int purchasePrice;  	// cost to purchase one house
+   private int mortgagePrice;  	// cost to mortgage
    private int numOfHouses;
    private int numOfHotels;
    private String owner;
@@ -23,6 +23,7 @@ public class Property extends Tile{
 	   numOfHouses = 0;
 	   numOfHotels = 0;
 	   owner = "";
+	   mortgagePrice = 0;
 	   morgStatus = false;
 	   this.canBuild = true;
 	   this.rentData = rentData;
@@ -55,11 +56,15 @@ public class Property extends Tile{
 	   } else {
 		   rent = rentData[numOfHouses];
 	   }
+	   
+	   this.mortgagePrice = (int) (rent * 0.8);
+
    }
+   
    
    // get the price to purchase the property
    public int getPurchasePrice () {
-	   return purchasePrice;
+	   return mortgagePrice;
    }
    
    // get the number of houses on the tile
