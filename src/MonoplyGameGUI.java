@@ -28,7 +28,8 @@ public class MonoplyGameGUI extends JFrame {
 
 	// global game constraints
 	int gameMaxDuration = 10 * 60;// maximum game duration 10*60 seconds
-
+	ArrayList<JLabel> tileLabels = new ArrayList<JLabel>();
+	
 	// UI elements
 	// timer panel
 	JPanel timerPanel = new JPanel();
@@ -102,7 +103,7 @@ public class MonoplyGameGUI extends JFrame {
 		ArrayList<String> nameOfTiles = new ArrayList<String>();
 
 		nameOfTiles.add("<html><h4>GO!<br></h4></html>");
-		nameOfTiles.add("<html>David<br><h4>Mediterranean <br>Avenue<br><br><br>M60</h4></html>");
+		nameOfTiles.add("<html><h4>Mediterranean <br>Avenue<br><br><br>M60</h4></html>");
 		nameOfTiles.add("<html><h4>Community <br>Chest</h4></html>");
 		nameOfTiles.add("<html><h4>Baltic <br>Avenue<br><br><br>M60</h4></html>");
 		nameOfTiles.add("<html><h4>Income <br>Tax<br><br><br>PAY M200</h4></html>");
@@ -133,7 +134,7 @@ public class MonoplyGameGUI extends JFrame {
 		nameOfTiles.add("<html><h4> Indiana <br> Avenue<br><br><br>M220</h4></html>");
 		nameOfTiles.add("<html><h4> Illinois <br> Avenue<br><br><br>M240</h4></html>");
 		nameOfTiles.add("<html><h4> B&O Rail <br> Road<br><br><br>M200</h4></html>");
-		nameOfTiles.add("<html><h4> Atlantic <br> Avenue<br><br><br>M260</h4></html>");
+		nameOfTiles.add("<html><h4> Atlantic <br> Avenue<br><br><br><br>M260</h4></html>");
 		nameOfTiles.add("<html><h4> Ventnor <br> Avenue<br><br><br>M260</h4></html>");
 		nameOfTiles.add("<html><h4> Water <br> Works<br><br><br>M150</h4></html>");
 		nameOfTiles.add("<html><h4> Marvin <br> Gardens<br><br><br>M280</h4></html>");
@@ -156,6 +157,61 @@ public class MonoplyGameGUI extends JFrame {
 		return nameOfTiles;
 	}
 
+	private ArrayList<String> getactualNameOfTiles() {
+		ArrayList<String> nameOfTiles = new ArrayList<String>();
+
+		nameOfTiles.add("<html><h4>GO!<br></h4></html>");
+		nameOfTiles.add("<html>David<br><h4>Mediterranean <br>Avenue<br><br><br>M60</h4></html>");
+		nameOfTiles.add("<html><h4>Community <br>Chest</h4></html>");
+		nameOfTiles.add("<html><h4>Baltic <br>Avenue<br><br><br>M60</h4></html>");
+		nameOfTiles.add("<html><h4>Income <br>Tax<br><br><br>PAY M200</h4></html>");
+		nameOfTiles.add("<html><h4>Reading <br>RailRoad<br><br><br>M200</h4></html>");
+		nameOfTiles.add("<html><h4>Oriental <br>Avenue<br><br><br>M100</h4></html>");
+		nameOfTiles.add("<html><h4>Chance</h4></html>");
+		nameOfTiles.add("<html><h4>Vermont <br>Avenue<br><br><br>M100</h4></html>");
+		nameOfTiles.add("<html><h4>Connecticut <br>Avenue<br><br><br>M120</h4></html>");
+
+		nameOfTiles.add("<html><h4>IN JAIL</h4></html>");
+
+		nameOfTiles.add("<html><h4>St. Charles <br>Place<br><br><br>M140</h4></html>");
+		nameOfTiles.add("<html><h4>Electricity <br>Company<br><br><br>M150</h4></html>");
+		nameOfTiles.add("<html><h4>States <br>Avenue<br><br><br>M140</h4></html>");
+		nameOfTiles.add("<html><h4>Virginia <br>Avenue<br><br><br>M160</h4></html>");
+		nameOfTiles.add("<html><h4>Pennsylvania <br>RR<br><br><br>M200</h4></html>");
+		nameOfTiles.add("<html><h4>St. James <br>Place<br><br><br>M180</h4></html>");
+		nameOfTiles.add("<html><h4>Community <br>Chest</h4></html>");
+		nameOfTiles.add("<html><h4>Tennessee <br>Avenue<br><br><br>M180</h4></html>");
+		nameOfTiles.add("<html><h4>New York<br> Avenue<br><br><br>M200</h4></html>");
+
+		nameOfTiles.add("<html><h4> Free <br> Parking </h4></html>");
+
+		nameOfTiles.add("<html><h4> Kentucky <br> Avenue<br><br><br>M220</h4></html>");
+		nameOfTiles.add("<html><h4> Chance</h4></html>");
+		nameOfTiles.add("<html><h4> Indiana <br> Avenue<br><br><br>M220</h4></html>");
+		nameOfTiles.add("<html><h4> Illinois <br> Avenue<br><br><br>M240</h4></html>");
+		nameOfTiles.add("<html><h4> B&O Rail <br> Road<br><br><br>M200</h4></html>");
+		nameOfTiles.add("<html><h4> Atlantic <br> Avenue<br><br><br>M260</h4></html>");
+		nameOfTiles.add("<html><h4> Ventnor <br> Avenue<br><br><br>M260</h4></html>");
+		nameOfTiles.add("<html><h4> Water <br> Works<br><br><br>M150</h4></html>");
+		nameOfTiles.add("<html><h4> Marvin <br> Gardens<br><br><br>M280</h4></html>");
+		nameOfTiles.add("<html><h4> GO TO <br> JAIL </h4></html>");
+
+		nameOfTiles.add("<html><h4>Pacific <br>Avenue<br><br><br>M300</h4></html>");
+		nameOfTiles.add("<html><h4>North Carolina <br>Avenue<br><br><br>M300</h4></html>");
+		nameOfTiles.add("<html><h4>Community <br>Chest</h4></html>");
+		nameOfTiles.add("<html><h4>Pennsylvania <br>Avenue<br><br><br>M320</h4></html>");
+		nameOfTiles.add("<html><h4>Short Line <br>Station<br><br><br>M200</h4></html>");
+		nameOfTiles.add("<html><h4>Chance</h4></html>");
+		nameOfTiles.add("<html><h4>Park <br>Place<br><br><br>M350</h4></html>");
+		nameOfTiles.add("<html><h4>SUPER <br>TAX<br><br><br>PAY M60</h4></html>");
+		nameOfTiles.add("<html><h4>Boardwalk<br><br><br>M400</h4></html>");
+
+
+		// nameOfTiles.add("Free Parking (Just take a rest)");
+
+		return nameOfTiles;
+	}
+	
 	private void paintTiles(ArrayList<String> nameOfTiles) {
 		// Default Grid values
 		int gridX = 0;
@@ -186,8 +242,12 @@ public class MonoplyGameGUI extends JFrame {
 
 					}
 
+					if(nameOfTiles.get(flag)!="null"){
+						tileLabels.add(label);
+					}
+					
 					flag++;
-
+					
 					break;
 				case 1:// Left Spaces
 					gridX = 0;
@@ -207,8 +267,13 @@ public class MonoplyGameGUI extends JFrame {
 						setButton(tempPanel, flag, 1);
 
 					}
+					
+					if(nameOfTiles.get(flag)!="null"){
+						tileLabels.add(label);
+					}
+					
 					flag++;
-
+					
 					break;
 				case 3:// Right Spaces
 					gridX = 10;
@@ -226,8 +291,13 @@ public class MonoplyGameGUI extends JFrame {
 						setButton(tempPanel, flag, 3);
 
 					}
+					
+					if(nameOfTiles.get(flag)!="null"){
+						tileLabels.add(label);
+					}
+					
 					flag++;
-
+	
 					break;
 				case 0:// Bottom Spaces
 					gridX = i - 1;
@@ -246,8 +316,13 @@ public class MonoplyGameGUI extends JFrame {
 						setButton(tempPanel, flag, 0);
 
 					}
+					
+					if(nameOfTiles.get(flag)!="null"){
+						tileLabels.add(label);
+					}
+					
 					flag++;
-
+					
 					break;
 				}
 				getContentPane().add(tempPanel,
@@ -257,11 +332,9 @@ public class MonoplyGameGUI extends JFrame {
 								1, // YGridSpaces
 								0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, // Fill
 								new Insets(0, 0, 0, 0), 0, 0)
-
 				);
 
 				tempPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-
 			}
 		}
 
@@ -440,12 +513,54 @@ public class MonoplyGameGUI extends JFrame {
 
 	}
 
+	private String processTokenTileString(ArrayList<String> playerNames, String tileString){
+		String tokenizedTileString = "<html><h4>";
+	 
+		for (String str:playerNames){
+			tokenizedTileString+=str+",";
+		}
+		
+		tokenizedTileString+="<br>";
+		
+		tokenizedTileString+=tileString.substring(10, tileString.length());
+		
+		return tokenizedTileString;
+	}
+	
+	private void updateAllPlayerPositionToken(MonoplyGame MG){
+		ArrayList<String> nameOfTiles= new ArrayList<String>();
+		nameOfTiles = getactualNameOfTiles();
+		ArrayList<String> playersOnThisTile = new ArrayList<String>();
+		
+		//reset all tile string, and set active player on it
+		for(int i=0; i<40;i++){
+			String aTileText = nameOfTiles.get(i);
+			playersOnThisTile.clear();
+			
+			for (String playerName : MG.getactivePlayers()) {
+				HashMap<String,Player> allPlayers = MG.getallPlayers();
+				
+				System.out.println(allPlayers.toString());
+				
+				if (allPlayers.get(playerName).getposition() == i) {
+					playersOnThisTile.add(playerName);
+				}
+			}
+
+			String newTileString = processTokenTileString(playersOnThisTile,aTileText);
+			
+			tileLabels.get(i).setText(newTileString);
+		}
+			
+	}
+	
 	public MonoplyGameGUI() {
 
 		ArrayList<String> names = new ArrayList<String>();
 		String numOfPlayers = JOptionPane.showInputDialog("Please input the number of players(2-4)");
 		HashMap<String, Player> allPlayers = new HashMap<String, Player>();
 		MonoplyGame MG = new MonoplyGame(0, true);
+
 
 		if (isNumeric(numOfPlayers)) {
 			int n = Integer.parseInt(numOfPlayers);
@@ -467,25 +582,41 @@ public class MonoplyGameGUI extends JFrame {
 			JOptionPane.showMessageDialog(null, "Invalid Input");
 			return;
 		}
-
+		
+		MG.setallPlayers(allPlayers);
+		
 		// paint UI
 		try {
 			setUpGUI(MG, allPlayers);
+			
+			updateAllPlayerPositionToken(MG);
+			
 			diceButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 
 					Player currentPlayer = allPlayers.get(MG.getactivePlayers().get(0));
+					ArrayList<String> nameOfTiles = new ArrayList<String>();
+					nameOfTiles = getnameOfTiles();
+					
+					//init player position 
 
+					
 					int face1 = 0, face2 = 0;
-
+					
 					while (face1 == face2) {
 						face1 = currentPlayer.throwDice()[0];
 						face2 = currentPlayer.throwDice()[1];
 						JOptionPane.showMessageDialog(null, "Face1:" + face1 + "\n" + "Face2: " + face2, "Roll Dice",
 								JOptionPane.PLAIN_MESSAGE);
-
+						
+						//remove player from its previous tile
+						//<h5></h5>
+						//see if player previous tile has any other person
+//						System.out.println("all labees count:"+tileLabels.get(1).getText());						
 						currentPlayer.move(face1 + face2);
-
+						
+						updateAllPlayerPositionToken(MG);
+						
 						// if community chest
 						if (currentPlayer.getposition() == 2 || currentPlayer.getposition() == 17
 								|| currentPlayer.getposition() == 33) {
@@ -543,8 +674,10 @@ public class MonoplyGameGUI extends JFrame {
 
 									currentProperty.setOwner(currentPlayer.getname());
 									currentProperty.buildHouse();
+									ArrayList<Integer> arrP = new ArrayList<Integer>();
+									arrP.add(currentProperty.getPosition());
 									currentPlayer.payMoney(currentProperty.getCost());
-									currentPlayer.addproperty(currentProperty.getPosition());
+									currentPlayer.setproperty(arrP);
 
 								} else {
 									// Auction here
