@@ -32,7 +32,7 @@ public class Player {
 	}
 	
 	public void move(int position){
-		this.setposition(position);
+		this.setposition((this.position + position)%40);
 	}
 	
 	public void payMoney(int money){
