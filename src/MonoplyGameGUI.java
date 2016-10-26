@@ -406,6 +406,7 @@ public class MonoplyGameGUI extends JFrame {
 						new Insets(0, 0, 0, 0), 0, 0));
 
 		int player_cnt = 0;
+
 		for (String key : allPlayers.keySet()) {
 			player_cnt++;
 			switch (player_cnt) {
@@ -472,6 +473,7 @@ public class MonoplyGameGUI extends JFrame {
 			setUpGUI(MG, allPlayers);
 			diceButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					
 
 					Player currentPlayer = allPlayers.get(MG.getactivePlayers().get(0));
 
@@ -614,7 +616,35 @@ public class MonoplyGameGUI extends JFrame {
 							allPlayers.get(MG.getactivePlayers().get(0)).getname() + "'s turn", "Warning",
 							JOptionPane.PLAIN_MESSAGE);
 					currentPlayer = allPlayers.get(MG.getactivePlayers().get(0));
+					
+					
+					int player_cnt = 0;
 
+					for (String key : allPlayers.keySet()) {
+						player_cnt++;
+						switch (player_cnt) {
+						case 1:
+							player_one_label
+									.setText(allPlayers.get(key).getname() + ":" + allPlayers.get(key).getbalance() + "     ");
+							break;
+						case 2:
+							player_two_label
+									.setText(allPlayers.get(key).getname() + ":" + allPlayers.get(key).getbalance() + "     ");
+							break;
+						case 3:
+							player_three_label
+									.setText(allPlayers.get(key).getname() + ":" + allPlayers.get(key).getbalance() + "     ");
+							break;
+
+						case 4:
+							player_four_label
+									.setText(allPlayers.get(key).getname() + ":" + allPlayers.get(key).getbalance() + "     ");
+							break;
+
+						default:
+							break;
+						}
+					}
 				}
 
 			});
