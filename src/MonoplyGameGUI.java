@@ -473,7 +473,6 @@ public class MonoplyGameGUI extends JFrame {
 			setUpGUI(MG, allPlayers);
 			diceButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
 
 					Player currentPlayer = allPlayers.get(MG.getactivePlayers().get(0));
 
@@ -545,6 +544,7 @@ public class MonoplyGameGUI extends JFrame {
 									currentProperty.setOwner(currentPlayer.getname());
 									currentProperty.buildHouse();
 									currentPlayer.payMoney(currentProperty.getCost());
+									currentPlayer.addproperty(currentProperty.getPosition());
 
 								} else {
 									// Auction here
@@ -556,7 +556,7 @@ public class MonoplyGameGUI extends JFrame {
 											JOptionPane.showMessageDialog(null, "Invalid Price, give up this auction!");
 											givenMoney.put(0, MG.getactivePlayers().get(i));
 
-										} else if (Integer.parseInt(money) < allPlayers
+										} else if (Integer.parseInt(money) > allPlayers
 												.get(MG.getactivePlayers().get(i)).getbalance()) {
 											JOptionPane.showMessageDialog(null,
 													"Cannot afford the price, give up this auction!");
@@ -577,30 +577,65 @@ public class MonoplyGameGUI extends JFrame {
 									String newOwner = givenMoney.get(maxPrice);
 									allPlayers.get(newOwner).payMoney(maxPrice);
 									currentProperty.setOwner(newOwner);
-									currentProperty.buildHouse();
-									allPlayers.get(newOwner);
+									if (currentProperty.ifBuildable()) {
+										currentProperty.buildHouse();
+									}
+									allPlayers.get(newOwner).addproperty(currentProperty.getPosition());
 
 								}
 							}
 							// Owner is the current player
 							else if (currentProperty.getOwner().equals(currentPlayer.getname())) {
+
 								if (currentProperty.ifBuildable()) {
 									if (!currentProperty.isFullHouse()) {
 										int dialogButton = JOptionPane.YES_NO_OPTION;
 
 										int dialogResult = JOptionPane.showConfirmDialog(null,
-												"Would you like to build one more house?", "Warning",
-												dialogButton);
+												"Would you like to build one more house?", "Warning", dialogButton);
 										if (dialogResult == JOptionPane.YES_OPTION) {
-											currentPlayer.payMoney(currentProperty.getPurchasePrice());
+
+											if (currentPlayer.getbalance() > currentProperty.getCost()) {
+												currentPlayer.payMoney(currentProperty.getCost());
+												currentProperty.buildHouse();
+												currentPlayer.addproperty(currentProperty.getPosition());
+											} else {
+												JOptionPane.showMessageDialog(null,
+														"Cannot afford the price, give up building!");
+											}
 
 										}
+									} else {
+										int dialogButton = JOptionPane.YES_NO_OPTION;
+
+										int dialogResult = JOptionPane.showConfirmDialog(null,
+												"Would you like to build a hotel?", "Warning", dialogButton);
+										if (dialogResult == JOptionPane.YES_OPTION) {
+											if (currentPlayer.getbalance() > currentProperty.getCost()) {
+												currentPlayer.payMoney(currentProperty.getCost());
+												currentProperty.buildHouse();
+												currentPlayer.addproperty(currentProperty.getPosition());
+											}
+											else{
+												JOptionPane.showMessageDialog(null,
+														"Cannot afford the price, give up upgrading!");
+											}
+
+										}
+
 									}
 								}
 
 							}
 							// Owner is others
 							else {
+								String thisOwner = currentProperty.getOwner();
+								allPlayers.get(thisOwner).getMoney(currentProperty.getRent());
+								currentPlayer.payMoney(currentProperty.getRent());
+								
+								if (currentPlayer.getbalance() < 0){
+									
+								}
 
 							}
 
@@ -616,29 +651,28 @@ public class MonoplyGameGUI extends JFrame {
 							allPlayers.get(MG.getactivePlayers().get(0)).getname() + "'s turn", "Warning",
 							JOptionPane.PLAIN_MESSAGE);
 					currentPlayer = allPlayers.get(MG.getactivePlayers().get(0));
-					
-					
+
 					int player_cnt = 0;
 
 					for (String key : allPlayers.keySet()) {
 						player_cnt++;
 						switch (player_cnt) {
 						case 1:
-							player_one_label
-									.setText(allPlayers.get(key).getname() + ":" + allPlayers.get(key).getbalance() + "     ");
+							player_one_label.setText(
+									allPlayers.get(key).getname() + ":" + allPlayers.get(key).getbalance() + "     ");
 							break;
 						case 2:
-							player_two_label
-									.setText(allPlayers.get(key).getname() + ":" + allPlayers.get(key).getbalance() + "     ");
+							player_two_label.setText(
+									allPlayers.get(key).getname() + ":" + allPlayers.get(key).getbalance() + "     ");
 							break;
 						case 3:
-							player_three_label
-									.setText(allPlayers.get(key).getname() + ":" + allPlayers.get(key).getbalance() + "     ");
+							player_three_label.setText(
+									allPlayers.get(key).getname() + ":" + allPlayers.get(key).getbalance() + "     ");
 							break;
 
 						case 4:
-							player_four_label
-									.setText(allPlayers.get(key).getname() + ":" + allPlayers.get(key).getbalance() + "     ");
+							player_four_label.setText(
+									allPlayers.get(key).getname() + ":" + allPlayers.get(key).getbalance() + "     ");
 							break;
 
 						default:
