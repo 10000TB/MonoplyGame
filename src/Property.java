@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /*
  * Questions for Property:
  * 
@@ -16,7 +18,6 @@ public class Property extends Tile{
    private int numOfHotels;
    private String owner;
    private boolean morgStatus;
-   private boolean canBuild;
 
    public Property (int position, String desc, int rentData[]) {
 	   cost = rentData[0];
@@ -25,18 +26,13 @@ public class Property extends Tile{
 	   owner = "";
 	   mortgagePrice = 0;
 	   morgStatus = false;
-	   this.canBuild = true;
 	   this.rentData = rentData;
 	   super.setPosition (position);
 	   super.setDesc (desc);
 	   super.setType ("property");
    }
    
-   // used for electricity tile
-   public Property (int position, String desc, int rentData[], boolean canBuild) {
-	   this (position, desc, rentData);
-	   this.canBuild = canBuild;
-   }
+
   
 
 // get the cost to build house/hotel on the tile
@@ -99,9 +95,7 @@ public class Property extends Tile{
    }
    
    // return false for electricity tile
-   public boolean ifBuildable () {
-	   return canBuild;
-   }
+
    
    // check if player can buy hotel at the property (4 being the legitimate number).
    public boolean isFullHouse () {
@@ -127,6 +121,15 @@ public class Property extends Tile{
 	   owner = "";
 	   morgStatus = false;
    }
+   
+   public int getMorgagePrice(){
+	   return mortgagePrice;
+   }
+
+   
+//   public String toString(){
+//	   return this.getDescription();
+//   }
    
    
    

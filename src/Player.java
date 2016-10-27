@@ -7,10 +7,11 @@ public class Player {
 	private int position;
 	private boolean jailStatus;
 	private int numOutOfJailCard;
-	private ArrayList<Integer> property = new ArrayList<Integer>();
+	private ArrayList<Property> property;
+	private ArrayList<String> allDes = new ArrayList<String>();
 
 	Player(String name, int balance, boolean financialStatus, int position, boolean jailStatus, int numOutOfJailCard,
-			ArrayList<Integer> property) {
+			ArrayList<Property> property) {
 		this.name = name;
 		this.balance = balance;
 		this.financialStatus = financialStatus;
@@ -18,6 +19,11 @@ public class Player {
 		this.jailStatus = jailStatus;
 		this.numOutOfJailCard = numOutOfJailCard;
 		this.property = property;
+		if (property != null && !property.isEmpty()) {
+			for (Property p : property) {
+				allDes.add(p.getDescription());
+			}
+		}
 	}
 
 	public int[] throwDice() {
@@ -96,25 +102,36 @@ public class Player {
 		this.numOutOfJailCard = numOutOfJailCard;
 	}
 
-	public ArrayList<Integer> getproperty() {
+	public ArrayList<Property> getproperty() {
 		return this.property;
 	}
 
-	public void setproperty(ArrayList<Integer> property) {
+	public void setproperty(ArrayList<Property> property) {
 		this.property = property;
+		for (Property p : property) {
+			System.out.println(p.getDescription());
+			System.out.println(allDes.size());
+			allDes.add(p.getDescription());
+		}
 	}
 
-	public void addproperty(int newProperty) {
+	public void addproperty(Property newProperty) {
 		this.property.add(newProperty);
+		allDes.add(newProperty.getDescription());
 	}
 
-	public void removeproperty(int oldProperty) {
+	public void removeproperty(Property oldProperty) {
 		for (int i = 0; i < this.property.size(); i++) {
-			if (this.property.get(i) == oldProperty) {
+			if (this.property.get(i).equals(oldProperty)) {
 				this.property.remove(i);
+				allDes.remove(oldProperty.getDescription());
 				break;
 			}
 		}
+	}
+
+	public ArrayList<String> getAllDescriptions() {
+		return allDes;
 	}
 
 }
