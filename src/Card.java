@@ -5,11 +5,18 @@ public abstract class Card {
 	private boolean goToJail;
 	private boolean getOutOfJail;
 	private boolean isUsed;
-	private int amountChange;
-	private boolean influenceOthers;
-	private int houseCost;
-	private int hotelCost;
+//	private int amountChange;
+//	private boolean influenceOthers;
+//	private int houseCost;
+//	private int hotelCost;
 	
+//	public Card(String description, boolean goToJail, boolean getOutOfJail){
+//		this.description = description;
+//		this.isUsed = false;
+//		this.goToJail = goToJail;
+//		this.getOutOfJail = getOutOfJail;
+//	}
+		
 	public String getDescription() {
 		return description;
 	}
@@ -25,6 +32,10 @@ public abstract class Card {
 	public void setGoToJail(boolean goToJail) {
 		this.goToJail = goToJail;
 	}
+	
+	public void setNotUsed(){
+		this.isUsed = false;
+	}
 
 	public boolean isGetOutOfJail() {
 		return getOutOfJail;
@@ -37,41 +48,9 @@ public abstract class Card {
 	public boolean isUsed() {
 		return isUsed;
 	}
-
-	public void setUsed(boolean isUsed) {
-		this.isUsed = isUsed;
-	}
-
-	public int getAmountChange() {
-		return amountChange;
-	}
-
-	public void setAmountChange(int amountChange) {
-		this.amountChange = amountChange;
-	}
-
-	public boolean isInfluenceOthers() {
-		return influenceOthers;
-	}
-
-	public void setInfluenceOthers(boolean influenceOthers) {
-		this.influenceOthers = influenceOthers;
-	}
-
-	public int getHouseCost() {
-		return houseCost;
-	}
-
-	public void setHouseCost(int houseCost) {
-		this.houseCost = houseCost;
-	}
-
-	public int getHotelCost() {
-		return hotelCost;
-	}
-
-	public void setHotelCost(int hotelCost) {
-		this.hotelCost = hotelCost;
+	
+	public void setUsed(){
+		this.isUsed = true;
 	}
 	
 

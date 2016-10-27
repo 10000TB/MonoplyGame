@@ -73,6 +73,42 @@ public class MonoplyGameGUI extends JFrame {
 		return true;
 	}
 
+	private void bankcrupt(Player currentPlayer) {
+		int dialogButton = JOptionPane.YES_NO_OPTION;
+
+		int dialogResult = JOptionPane.showConfirmDialog(null,
+				"You are going to bankcrupt are going to sell your properties?", "Warning", dialogButton);
+		if (dialogResult == JOptionPane.YES_OPTION) {
+			String[] choice = currentPlayer.getAllDescriptions()
+					.toArray(new String[currentPlayer.getAllDescriptions().size()]);
+
+			String inpu = (String) JOptionPane.showInputDialog(null, "Choose now...", "The Choice of a Lifetime",
+					JOptionPane.QUESTION_MESSAGE, null, // Use
+														// default
+														// icon
+					choice, // Array of choices
+					null); // Initial choice
+			for (int i = 0; i < 39; i++) {
+				Property p = (Property) board.getTile(i);
+				if (inpu.equals(p.getDescription())) {
+					p.clearAll();
+					currentPlayer.removeproperty(p);
+					currentPlayer.getMoney(p.getMorgagePrice());
+				}
+			}
+
+			if (inpu == null) {
+				JOptionPane.showMessageDialog(null, "GET OUT OF THE GAME!");
+				currentPlayer.setfinancialStatus(false);
+			}
+
+		} else {
+			JOptionPane.showMessageDialog(null, "GET OUT OF THE GAME!");
+			currentPlayer.setfinancialStatus(false);
+		}
+
+	}
+
 	Image bg = new ImageIcon("/s/bach/j/under/ykzhu/Downloads/question-mark_318-52837.jpg").getImage();
 
 	public void paintComponent(Graphics g) {
@@ -641,7 +677,11 @@ public class MonoplyGameGUI extends JFrame {
 
 						case 4:
 							currentPlayer.payMoney(200);
-							;
+							if (currentPlayer.getbalance() < 0) {
+								bankcrupt(currentPlayer);
+
+							}
+
 							break;
 						case 5:
 							currentPlayer.getMoney(200);
@@ -663,8 +703,17 @@ public class MonoplyGameGUI extends JFrame {
 							break;
 						case 38:
 							currentPlayer.payMoney(60);
+							if (currentPlayer.getbalance() < 0) {
+								bankcrupt(currentPlayer);
+							}
 							break;
 						case 20:
+							break;
+						case 2:
+							break;
+						case 17:
+							break;
+						case 33:
 							break;
 						}
 
@@ -769,40 +818,7 @@ public class MonoplyGameGUI extends JFrame {
 								currentPlayer.payMoney(currentProperty.getRent());
 
 								if (currentPlayer.getbalance() < 0) {
-									int dialogButton = JOptionPane.YES_NO_OPTION;
-
-									int dialogResult = JOptionPane.showConfirmDialog(null,
-											"You are going to bankcrupt are going to sell your properties?", "Warning",
-											dialogButton);
-									if (dialogResult == JOptionPane.YES_OPTION) {
-										String[] choice = currentPlayer.getAllDescriptions()
-												.toArray(new String[currentPlayer.getAllDescriptions().size()]);
-
-										String inpu = (String) JOptionPane.showInputDialog(null, "Choose now...",
-												"The Choice of a Lifetime", JOptionPane.QUESTION_MESSAGE, null, // Use
-																												// default
-																												// icon
-												choice, // Array of choices
-												null); // Initial choice
-										for (int i = 0; i < 39; i++) {
-											Property p = (Property)board.getTile(i);
-											if (inpu.equals(p.getDescription())) {
-												p.clearAll();
-												currentPlayer.removeproperty(p);
-												currentPlayer.getMoney(p.getMorgagePrice());
-											}
-										}
-
-										if (inpu == null) {
-											JOptionPane.showMessageDialog(null, "GET OUT OF THE GAME!");
-											currentPlayer.setfinancialStatus(false);
-										}
-
-									} else {
-										JOptionPane.showMessageDialog(null, "GET OUT OF THE GAME!");
-										currentPlayer.setfinancialStatus(false);
-									}
-
+									bankcrupt(currentPlayer);
 								}
 
 							}
@@ -814,11 +830,10 @@ public class MonoplyGameGUI extends JFrame {
 					// allPlayers.get(MG.getactivePlayers().get(1));
 					if (currentPlayer.getfinancialStatus()) {
 						MG.getactivePlayers().add(currentPlayer.getname());
-						
-					}
-					else{
+
+					} else {
 						for (int i = 0; i < 39; i++) {
-							Property p = (Property)board.getTile(i);
+							Property p = (Property) board.getTile(i);
 							if (currentPlayer.getproperty().contains(p)) {
 								p.clearAll();
 								currentPlayer.removeproperty(p);
