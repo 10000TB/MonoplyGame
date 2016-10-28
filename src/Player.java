@@ -9,6 +9,7 @@ public class Player {
 	private int numOutOfJailCard;
 	private ArrayList<Property> property;
 	private ArrayList<String> allDes = new ArrayList<String>();
+	private SetOfCards SOC = new SetOfCards();
 
 	Player(String name, int balance, boolean financialStatus, int position, boolean jailStatus, int numOutOfJailCard,
 			ArrayList<Property> property) {
@@ -25,7 +26,31 @@ public class Player {
 			}
 		}
 	}
-
+	
+	public String drawCommunityCard(){
+		CommunityChestCard currentCard = SOC.drawCommunityChestCard();
+		if (currentCard.isGoToJail()){
+			
+			this.setjailStatus(true);
+			this.setposition(10);
+		}
+		else if (currentCard.isGetOutOfJail()){
+			this.setnumOutOfJailCard(this.getnumOutOfJailCard()+1);
+			
+		}
+		else{
+			if (currentCard.ifMove){
+				this.move(currentCard.getposMove());
+			}
+			else{
+				this.setposition(currentCard.getJump());
+				
+			}
+		}
+		
+		return currentCard.getDescription();
+	}
+	
 	public int[] throwDice() {
 		int[] nums = new int[2];
 
@@ -109,8 +134,6 @@ public class Player {
 	public void setproperty(ArrayList<Property> property) {
 		this.property = property;
 		for (Property p : property) {
-			System.out.println(p.getDescription());
-			System.out.println(allDes.size());
 			allDes.add(p.getDescription());
 		}
 	}

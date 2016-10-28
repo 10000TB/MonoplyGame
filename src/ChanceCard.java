@@ -18,10 +18,12 @@ public class ChanceCard extends Card {
 	}
 
 	public int getAmountChange() {
+		
 		return amountChange;
 	}
 
 	public void setAmountChange(int amountChange) {
+		System.out.println(amountChange);
 		this.amountChange = amountChange;
 	}
 	
