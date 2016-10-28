@@ -2,8 +2,8 @@ package Game;
 import java.util.ArrayList;
 
 public class SetOfCards {
-	ArrayList<ChanceCard> chanceCards;
-	ArrayList<CommunityChestCard> communityChestCards;
+	private ArrayList<ChanceCard> chanceCards;
+	private ArrayList<CommunityChestCard> communityChestCards;
 
 	public SetOfCards() {
 
@@ -64,8 +64,14 @@ public class SetOfCards {
 	
 	public CommunityChestCard drawCommunityChestCard(){
 		return this.communityChestCards.get((int)(Math.random()*15+1));
-
-		
+	}
+	
+	public ChanceCard getChanceCard (int index) {
+		return chanceCards.get(index);
+	}
+	
+	public CommunityChestCard getCommunityChestCards (int index) {
+		return communityChestCards.get(index);
 	}
 
 }
