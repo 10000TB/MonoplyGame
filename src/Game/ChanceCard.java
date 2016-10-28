@@ -2,10 +2,8 @@ package Game;
 
 public class ChanceCard extends Card {
 
-
 	private int amountChange;
 	private boolean influenceOthers;
-
 
 	public ChanceCard(String Des, boolean isGoToJail, boolean isGetOutOfJail, int amountChange, boolean affectOthers) {
 
@@ -19,7 +17,7 @@ public class ChanceCard extends Card {
 	}
 
 	public int getAmountChange() {
-		
+
 		return amountChange;
 	}
 
@@ -27,10 +25,9 @@ public class ChanceCard extends Card {
 		System.out.println(amountChange);
 		this.amountChange = amountChange;
 	}
-	
-	public boolean getInfluenceOthers(){
+
+	public boolean getInfluenceOthers() {
 		return influenceOthers;
 	}
-	
 
 }

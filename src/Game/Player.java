@@ -1,4 +1,5 @@
 package Game;
+
 import java.util.*;
 
 public class Player {
@@ -12,8 +13,8 @@ public class Player {
 	private ArrayList<String> allDes = new ArrayList<String>();
 	private SetOfCards SOC = new SetOfCards();
 
-	public Player(String name, int balance, boolean financialStatus, int position, boolean jailStatus, int numOutOfJailCard,
-			ArrayList<Property> property) {
+	public Player(String name, int balance, boolean financialStatus, int position, boolean jailStatus,
+			int numOutOfJailCard, ArrayList<Property> property) {
 		this.name = name;
 		this.balance = balance;
 		this.financialStatus = financialStatus;
@@ -27,31 +28,28 @@ public class Player {
 			}
 		}
 	}
-	
-	public String drawCommunityCard(){
+
+	public String drawCommunityCard() {
 		CommunityChestCard currentCard = SOC.drawCommunityChestCard();
-		if (currentCard.isGoToJail()){
-			
+		if (currentCard.isGoToJail()) {
+
 			this.setjailStatus(true);
 			this.setposition(10);
-		}
-		else if (currentCard.isGetOutOfJail()){
-			this.setnumOutOfJailCard(this.getnumOutOfJailCard()+1);
-			
-		}
-		else{
-			if (currentCard.ifMove){
+		} else if (currentCard.isGetOutOfJail()) {
+			this.setnumOutOfJailCard(this.getnumOutOfJailCard() + 1);
+
+		} else {
+			if (currentCard.ifMove) {
 				this.move(currentCard.getposMove());
-			}
-			else{
+			} else {
 				this.setposition(currentCard.getJump());
-				
+
 			}
 		}
-		
+
 		return currentCard.getDescription();
 	}
-	
+
 	public int[] throwDice() {
 		int[] nums = new int[2];
 
