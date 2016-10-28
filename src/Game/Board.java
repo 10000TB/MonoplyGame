@@ -133,25 +133,4 @@ public class Board {
    }
    
    
-   public void info() {
-   
-      for (int i = 0; i < tiles.size(); i++ ){
-      
-         System.out.print ("Position:  " + i + "   ");
-      
-         if (tiles.get(i).getType().equals("property")){
-            Property p = (Property) tiles.get(i);
-            System.out.println (p.getDescription() + "   " + p.getCost());
-         } else {
-         
-            SpecialTile s = (SpecialTile) tiles.get(i);
-            System.out.println(s.getDescription());
-            
-         }
-      
-      }
-   
-   }
-   
-   
 }

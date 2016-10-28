@@ -1,24 +1,17 @@
+package JunitTest;
+
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
 import Game.Board;
-import Game.Property;
+import Game.Tile;
 
-public class BoardTest {
+public class TileTest {
 
-	
-	// Test if board initialized correctly
-	@Test
-	public void boardInitTest() {
-		Board b = new Board();
-		assertEquals (40, b.getSize());
-	}
-	
-	
 	// Test if tile type is stored correctly and getType()
 	@Test
-	public void tileTypeTest () {
+	public void getTypeTest () {
 		Board b = new Board();
 		int propertyIndex [] = {1, 3, 6, 8, 9, 11, 13, 14, 16, 18, 19, 21,
 								23, 24, 26, 27, 29, 31, 32, 34, 37, 39};
@@ -32,7 +25,6 @@ public class BoardTest {
 			assertEquals ("special", b.getTile(specialIndex[i]).getType());
 		}
 	}
-	
 	
 	
 	// Test getDescription() and names of tiles
@@ -58,25 +50,48 @@ public class BoardTest {
 		}
 	}
 	
-	
-	// Test cost for property and getCost()7y
+	// Test getPosition().
 	@Test
-	public void getCostTest () {
+	public void getPositionTest () {
 		Board b = new Board ();
 		
-		int cost [] = {0, 60, 0, 60, 0, 0, 100, 0, 100, 120,
-					   0, 140, 0, 140, 160, 0, 180, 0, 180, 200,
-					   0, 220, 0, 220, 240, 0, 260, 260, 0, 280,
-					   0, 300, 300, 0, 320, 0, 0, 350, 0, 400};
+		for (int i = 0; i < b.getSize(); i++) {
+			Tile t = b.getTile(i);
+			assertEquals (i, t.getPosition());
+		}	
+	}
+	
+	// Test setPosition()
+	@Test
+	public void setPositionTest () {
+		Board b = new Board ();
+		for (int i = 0; i < b.getSize(); i++) {
+			Tile t = b.getTile(i);
+			t.setPosition(10);
+			assertEquals (10, t.getPosition());	
+		}	
+	}
+	
+	// Test setType()
+	@Test
+	public void setTypeTest () {
+		Board b = new Board();
 		
-		for (int i = 0; i < cost.length; i++) {
-			if (cost[i] != 0) {
-				Property p = (Property) b.getTile(i);
-				assertEquals (cost[i], p.getCost());
-			}
+		for (int i = 0; i < b.getSize(); i++) {
+			Tile t = b.getTile(i);
+			t.setType("TYPE");		
+			assertEquals ("TYPE", t.getType());			
 		}
 		
 	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 
 }

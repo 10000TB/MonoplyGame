@@ -48,7 +48,7 @@ public class Property extends Tile{
    // update rent according to the property status
    public void updateRent() {
 	   if (numOfHotels == 1) {
-		   rent = rentData[4];
+		   rent = rentData[5];
 	   } else {
 		   rent = rentData[numOfHouses];
 	   }
@@ -87,6 +87,7 @@ public class Property extends Tile{
    // property announce morg
    public void setMorg() {
 	   morgStatus = true;
+	   updateRent();
    }
    
    // get morg status
@@ -112,6 +113,7 @@ public class Property extends Tile{
    public void buildHotel () {
 	   numOfHouses = 0;
 	   numOfHotels = 1;
+	   updateRent();
    }
    
    // destroy all houses / hotel on the property tile when bankrupt or so.
@@ -125,16 +127,6 @@ public class Property extends Tile{
    public int getMorgagePrice(){
 	   return mortgagePrice;
    }
-
-   
-//   public String toString(){
-//	   return this.getDescription();
-//   }
-   
-   
-   
-   
-   
 
 
 }
