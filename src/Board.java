@@ -41,7 +41,7 @@ public class Board {
 	   // purple
 	   tiles.add(new Property (11, "St. Charles Place", new int[] {140, 50, 150, 450, 625, 750}));
 	   // electricity tile ---- rent set to flat 40
-	   tiles.add(new Property(12, "Electricity Company", new int[] {150, 40}, false));
+	   tiles.add(new SpecialTile(12, "Electricity "));
 	   
 	   tiles.add(new Property (13, "States Avenue", new int[] {140, 50, 150, 450, 625, 750}));
 	   tiles.add(new Property (14, "Virginia Avenue", new int[] {160, 60, 180, 500, 700, 900}));
@@ -85,7 +85,7 @@ public class Board {
 	   tiles.add(new Property (27, "Ventnor Avenue", new int[] {260, 110, 300, 800, 975, 1150}));
 	   
 	   // water works	--> rent set to flat 40
-	   tiles.add(new Property (28, "Water Works", new int[]{150, 40}, false));
+	   tiles.add(new SpecialTile(28, "Water Works"));
 	   
 	   tiles.add(new Property (29, "Marvin Gardens", new int[] {280, 120, 360, 850, 1025, 1200}));
 	   
