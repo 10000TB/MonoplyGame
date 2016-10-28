@@ -1,4 +1,5 @@
 package Game;
+
 import java.util.ArrayList;
 
 public class SetOfCards {
@@ -9,7 +10,8 @@ public class SetOfCards {
 
 		chanceCards = new ArrayList<ChanceCard>();
 		communityChestCards = new ArrayList<CommunityChestCard>();
-		// ---------------------------------- ChanceCards------------------------------------------
+		// ----------------------------------
+		// ChanceCards------------------------------------------
 
 		chanceCards.add(new ChanceCard("Advance to Go (Collect $200)", false, false, 200, false));
 		chanceCards.add(new ChanceCard("Advance to Illinois Ave(Collect $200).", false, false, 200, false));
@@ -29,7 +31,8 @@ public class SetOfCards {
 		chanceCards.add(new ChanceCard("you give each player $200", false, false, -200, true));
 		chanceCards.add(new ChanceCard("you give each player $300", false, false, -300, true));
 
-		// ---------------------------------- CommunityChestCards------------------------------------------
+		// ----------------------------------
+		// CommunityChestCards------------------------------------------
 
 		communityChestCards.add(new CommunityChestCard("Move forward 3", false, false, 3, true, 0));
 		communityChestCards.add(new CommunityChestCard("Move forward 4", false, false, 4, true, 0));
@@ -57,20 +60,20 @@ public class SetOfCards {
 		communityChestCards.add(new CommunityChestCard("Visiting Jail", false, false, 0, false, 10));
 
 	}
-	
-	public ChanceCard drawChanceCard(){
-		return this.chanceCards.get((int)(Math.random()*15+1));
+
+	public ChanceCard drawChanceCard() {
+		return this.chanceCards.get((int) (Math.random() * 15 + 1));
 	}
-	
-	public CommunityChestCard drawCommunityChestCard(){
-		return this.communityChestCards.get((int)(Math.random()*15+1));
+
+	public CommunityChestCard drawCommunityChestCard() {
+		return this.communityChestCards.get((int) (Math.random() * 15 + 1));
 	}
-	
-	public ChanceCard getChanceCard (int index) {
+
+	public ChanceCard getChanceCard(int index) {
 		return chanceCards.get(index);
 	}
-	
-	public CommunityChestCard getCommunityChestCards (int index) {
+
+	public CommunityChestCard getCommunityChestCards(int index) {
 		return communityChestCards.get(index);
 	}
 
