@@ -180,54 +180,54 @@ public class MonoplyGameGUI extends JFrame {
 	private ArrayList<String> getnameOfTiles() {
 		ArrayList<String> nameOfTiles = new ArrayList<String>();
 
-		nameOfTiles.add("<html><h4>GO!<br></h4></html>");
-		nameOfTiles.add("<html><h4>Mediterranean <br>Avenue<br><br><br>M60</h4></html>");
-		nameOfTiles.add("<html><h4>Community <br>Chest</h4></html>");
-		nameOfTiles.add("<html><h4>Baltic <br>Avenue<br><br><br>M60</h4></html>");
-		nameOfTiles.add("<html><h4>Income <br>Tax<br><br><br>PAY M200</h4></html>");
-		nameOfTiles.add("<html><h4>Reading <br>RailRoad<br><br><br>M200</h4></html>");
-		nameOfTiles.add("<html><h4>Oriental <br>Avenue<br><br><br>M100</h4></html>");
-		nameOfTiles.add("<html><h4>Chance</h4></html>");
-		nameOfTiles.add("<html><h4>Vermont <br>Avenue<br><br><br>M100</h4></html>");
-		nameOfTiles.add("<html><h4>Connecticut <br>Avenue<br><br><br>M120</h4></html>");
+		nameOfTiles.add("<html><h4>GO!<br><br></h4></html>");
+		nameOfTiles.add("<html><h4>Mediterranean <br>Avenue<br><br>M60<br><br></h4></html>");
+		nameOfTiles.add("<html><h4>Community <br>Chest<br></h4></html>");
+		nameOfTiles.add("<html><h4>Baltic <br>Avenue<br><br>M60<br><br></h4></html>");
+		nameOfTiles.add("<html><h4>Income <br>Tax<br><br>PAY M200<br><br></h4></html>");
+		nameOfTiles.add("<html><h4>Reading <br>RailRoad<br><br>M200<br><br></h4></html>");
+		nameOfTiles.add("<html><h4>Oriental <br>Avenue<br><br>M100<br><br></h4></html>");
+		nameOfTiles.add("<html><h4>Chance<br></h4></html>");
+		nameOfTiles.add("<html><h4>Vermont <br>Avenue<br><br>M100<br><br></h4></html>");
+		nameOfTiles.add("<html><h4>Connecticut <br>Avenue<br><br>M120<br><br></h4></html>");
 
-		nameOfTiles.add("<html><h4>IN JAIL</h4></html>");
+		nameOfTiles.add("<html><h4>IN JAIL<br></h4></html>");
 		nameOfTiles.add("null");
 
-		nameOfTiles.add("<html><h4>St. Charles <br>Place<br><br><br>M140</h4></html>");
-		nameOfTiles.add("<html><h4>Electricity <br>Company<br><br><br>M150</h4></html>");
-		nameOfTiles.add("<html><h4>States <br>Avenue<br><br><br>M140</h4></html>");
-		nameOfTiles.add("<html><h4>Virginia <br>Avenue<br><br><br>M160</h4></html>");
-		nameOfTiles.add("<html><h4>Pennsylvania <br>RR<br><br><br>M200</h4></html>");
-		nameOfTiles.add("<html><h4>St. James <br>Place<br><br><br>M180</h4></html>");
-		nameOfTiles.add("<html><h4>Community <br>Chest</h4></html>");
-		nameOfTiles.add("<html><h4>Tennessee <br>Avenue<br><br><br>M180</h4></html>");
-		nameOfTiles.add("<html><h4>New York<br> Avenue<br><br><br>M200</h4></html>");
+		nameOfTiles.add("<html><h4>St. Charles <br>Place<br><br>M140<br><br></h4></html>");
+		nameOfTiles.add("<html><h4>Electricity <br>Company<br><br>M150<br><br></h4></html>");
+		nameOfTiles.add("<html><h4>States <br>Avenue<br><br>M140<br><br></h4></html>");
+		nameOfTiles.add("<html><h4>Virginia <br>Avenue<br><br>M160<br><br></h4></html>");
+		nameOfTiles.add("<html><h4>Pennsylvania <br>RR<br><br>M200<br><br></h4></html>");
+		nameOfTiles.add("<html><h4>St. James <br>Place<br><br>M180<br><br></h4></html>");
+		nameOfTiles.add("<html><h4>Community <br>Chest<br></h4></html>");
+		nameOfTiles.add("<html><h4>Tennessee <br>Avenue<br><br>M180<br><br></h4></html>");
+		nameOfTiles.add("<html><h4>New York<br> Avenue<br><br>M200<br><br></h4></html>");
 
-		nameOfTiles.add("<html><h4> Free <br> Parking </h4></html>");
+		nameOfTiles.add("<html><h4> Free <br> Parking <br></h4></html>");
 		nameOfTiles.add("null");
 
-		nameOfTiles.add("<html><h4> Kentucky <br> Avenue<br><br><br>M220</h4></html>");
+		nameOfTiles.add("<html><h4> Kentucky <br> Avenue<br><br>M220<br><br></h4></html>");
 		nameOfTiles.add("<html><h4> Chance</h4></html>");
-		nameOfTiles.add("<html><h4> Indiana <br> Avenue<br><br><br>M220</h4></html>");
-		nameOfTiles.add("<html><h4> Illinois <br> Avenue<br><br><br>M240</h4></html>");
-		nameOfTiles.add("<html><h4> B&O Rail <br> Road<br><br><br>M200</h4></html>");
-		nameOfTiles.add("<html><h4> Atlantic <br> Avenue<br><br><br><br>M260</h4></html>");
-		nameOfTiles.add("<html><h4> Ventnor <br> Avenue<br><br><br>M260</h4></html>");
-		nameOfTiles.add("<html><h4> Water <br> Works<br><br><br>M150</h4></html>");
-		nameOfTiles.add("<html><h4> Marvin <br> Gardens<br><br><br>M280</h4></html>");
-		nameOfTiles.add("<html><h4> GO TO <br> JAIL </h4></html>");
+		nameOfTiles.add("<html><h4> Indiana <br> Avenue<br><br>M220<br><br></h4></html>");
+		nameOfTiles.add("<html><h4> Illinois <br> Avenue<br><br>M240<br><br></h4></html>");
+		nameOfTiles.add("<html><h4> B&O Rail <br> Road<br><br>M200<br><br></h4></html>");
+		nameOfTiles.add("<html><h4> Atlantic <br> Avenue<br><br><br>M260<br><br></h4></html>");
+		nameOfTiles.add("<html><h4> Ventnor <br> Avenue<br><br>M260<br><br></h4></html>");
+		nameOfTiles.add("<html><h4> Water <br> Works<br><br>M150<br><br></h4></html>");
+		nameOfTiles.add("<html><h4> Marvin <br> Gardens<br><br>M280<br><br></h4></html>");
+		nameOfTiles.add("<html><h4> GO TO <br> JAIL <br></h4></html>");
 		nameOfTiles.add("null");
 
-		nameOfTiles.add("<html><h4>Pacific <br>Avenue<br><br><br>M300</h4></html>");
-		nameOfTiles.add("<html><h4>North Carolina <br>Avenue<br><br><br>M300</h4></html>");
-		nameOfTiles.add("<html><h4>Community <br>Chest</h4></html>");
-		nameOfTiles.add("<html><h4>Pennsylvania <br>Avenue<br><br><br>M320</h4></html>");
-		nameOfTiles.add("<html><h4>Short Line <br>Station<br><br><br>M200</h4></html>");
-		nameOfTiles.add("<html><h4>Chance</h4></html>");
-		nameOfTiles.add("<html><h4>Park <br>Place<br><br><br>M350</h4></html>");
-		nameOfTiles.add("<html><h4>SUPER <br>TAX<br><br><br>PAY M60</h4></html>");
-		nameOfTiles.add("<html><h4>Boardwalk<br><br><br>M400</h4></html>");
+		nameOfTiles.add("<html><h4>Pacific <br>Avenue<br><br>M300<br><br></h4></html>");
+		nameOfTiles.add("<html><h4>North Carolina <br>Avenue<br><br>M300<br><br></h4></html>");
+		nameOfTiles.add("<html><h4>Community <br>Chest<br></h4></html>");
+		nameOfTiles.add("<html><h4>Pennsylvania <br>Avenue<br><br>M320<br><br></h4></html>");
+		nameOfTiles.add("<html><h4>Short Line <br>Station<br><br>M200<br><br></h4></html>");
+		nameOfTiles.add("<html><h4>Chance<br></h4></html>");
+		nameOfTiles.add("<html><h4>Park <br>Place<br><br>M350<br><br></h4></html>");
+		nameOfTiles.add("<html><h4>SUPER <br>TAX<br><br><br>PAY M60<br></h4></html>");
+		nameOfTiles.add("<html><h4>Boardwalk<br><br>M400<br><br></h4></html>");
 
 		nameOfTiles.add("null");
 		// nameOfTiles.add("Free Parking (Just take a rest)");
@@ -238,54 +238,53 @@ public class MonoplyGameGUI extends JFrame {
 	private ArrayList<String> getactualNameOfTiles() {
 		ArrayList<String> nameOfTiles = new ArrayList<String>();
 
-		nameOfTiles.add("<html><h4>GO!<br></h4></html>");
-		nameOfTiles.add("<html><h4>Mediterranean <br>Avenue<br><br><br>M60</h4></html>");
-		nameOfTiles.add("<html><h4>Community <br>Chest</h4></html>");
-		nameOfTiles.add("<html><h4>Baltic <br>Avenue<br><br><br>M60</h4></html>");
-		nameOfTiles.add("<html><h4>Income <br>Tax<br><br><br>PAY M200</h4></html>");
-		nameOfTiles.add("<html><h4>Reading <br>RailRoad<br><br><br>M200</h4></html>");
-		nameOfTiles.add("<html><h4>Oriental <br>Avenue<br><br><br>M100</h4></html>");
-		nameOfTiles.add("<html><h4>Chance</h4></html>");
-		nameOfTiles.add("<html><h4>Vermont <br>Avenue<br><br><br>M100</h4></html>");
-		nameOfTiles.add("<html><h4>Connecticut <br>Avenue<br><br><br>M120</h4></html>");
+		nameOfTiles.add("<html><h4>GO!<br><br></h4></html>");
+		nameOfTiles.add("<html><h4>Mediterranean <br>Avenue<br><br>M60<br><br></h4></html>");
+		nameOfTiles.add("<html><h4>Community <br>Chest<br></h4></html>");
+		nameOfTiles.add("<html><h4>Baltic <br>Avenue<br><br>M60<br><br></h4></html>");
+		nameOfTiles.add("<html><h4>Income <br>Tax<br><br>PAY M200<br><br></h4></html>");
+		nameOfTiles.add("<html><h4>Reading <br>RailRoad<br><br>M200<br><br></h4></html>");
+		nameOfTiles.add("<html><h4>Oriental <br>Avenue<br><br>M100<br><br></h4></html>");
+		nameOfTiles.add("<html><h4>Chance<br></h4></html>");
+		nameOfTiles.add("<html><h4>Vermont <br>Avenue<br><br>M100<br><br></h4></html>");
+		nameOfTiles.add("<html><h4>Connecticut <br>Avenue<br><br>M120<br><br></h4></html>");
 
-		nameOfTiles.add("<html><h4>IN JAIL</h4></html>");
+		nameOfTiles.add("<html><h4>IN JAIL<br></h4></html>");
 
-		nameOfTiles.add("<html><h4>St. Charles <br>Place<br><br><br>M140</h4></html>");
-		nameOfTiles.add("<html><h4>Electricity <br>Company<br><br><br>M150</h4></html>");
-		nameOfTiles.add("<html><h4>States <br>Avenue<br><br><br>M140</h4></html>");
-		nameOfTiles.add("<html><h4>Virginia <br>Avenue<br><br><br>M160</h4></html>");
-		nameOfTiles.add("<html><h4>Pennsylvania <br>RR<br><br><br>M200</h4></html>");
-		nameOfTiles.add("<html><h4>St. James <br>Place<br><br><br>M180</h4></html>");
-		nameOfTiles.add("<html><h4>Community <br>Chest</h4></html>");
-		nameOfTiles.add("<html><h4>Tennessee <br>Avenue<br><br><br>M180</h4></html>");
-		nameOfTiles.add("<html><h4>New York<br> Avenue<br><br><br>M200</h4></html>");
+		nameOfTiles.add("<html><h4>St. Charles <br>Place<br><br>M140<br><br></h4></html>");
+		nameOfTiles.add("<html><h4>Electricity <br>Company<br><br>M150<br><br></h4></html>");
+		nameOfTiles.add("<html><h4>States <br>Avenue<br><br>M140<br><br></h4></html>");
+		nameOfTiles.add("<html><h4>Virginia <br>Avenue<br><br>M160<br><br></h4></html>");
+		nameOfTiles.add("<html><h4>Pennsylvania <br>RR<br><br>M200<br><br></h4></html>");
+		nameOfTiles.add("<html><h4>St. James <br>Place<br><br>M180<br><br></h4></html>");
+		nameOfTiles.add("<html><h4>Community <br>Chest<br></h4></html>");
+		nameOfTiles.add("<html><h4>Tennessee <br>Avenue<br><br>M180<br><br></h4></html>");
+		nameOfTiles.add("<html><h4>New York<br> Avenue<br><br>M200<br><br></h4></html>");
 
-		nameOfTiles.add("<html><h4> Free <br> Parking </h4></html>");
+		nameOfTiles.add("<html><h4> Free <br> Parking <br></h4></html>");
 
-		nameOfTiles.add("<html><h4> Kentucky <br> Avenue<br><br><br>M220</h4></html>");
+		nameOfTiles.add("<html><h4> Kentucky <br> Avenue<br><br>M220<br><br></h4></html>");
 		nameOfTiles.add("<html><h4> Chance</h4></html>");
-		nameOfTiles.add("<html><h4> Indiana <br> Avenue<br><br><br>M220</h4></html>");
-		nameOfTiles.add("<html><h4> Illinois <br> Avenue<br><br><br>M240</h4></html>");
-		nameOfTiles.add("<html><h4> B&O Rail <br> Road<br><br><br>M200</h4></html>");
-		nameOfTiles.add("<html><h4> Atlantic <br> Avenue<br><br><br>M260</h4></html>");
-		nameOfTiles.add("<html><h4> Ventnor <br> Avenue<br><br><br>M260</h4></html>");
-		nameOfTiles.add("<html><h4> Water <br> Works<br><br><br>M150</h4></html>");
-		nameOfTiles.add("<html><h4> Marvin <br> Gardens<br><br><br>M280</h4></html>");
-		nameOfTiles.add("<html><h4> GO TO <br> JAIL </h4></html>");
+		nameOfTiles.add("<html><h4> Indiana <br> Avenue<br><br>M220<br><br></h4></html>");
+		nameOfTiles.add("<html><h4> Illinois <br> Avenue<br><br>M240<br><br></h4></html>");
+		nameOfTiles.add("<html><h4> B&O Rail <br> Road<br><br>M200<br><br></h4></html>");
+		nameOfTiles.add("<html><h4> Atlantic <br> Avenue<br><br><br>M260<br><br></h4></html>");
+		nameOfTiles.add("<html><h4> Ventnor <br> Avenue<br><br>M260<br><br></h4></html>");
+		nameOfTiles.add("<html><h4> Water <br> Works<br><br>M150<br><br></h4></html>");
+		nameOfTiles.add("<html><h4> Marvin <br> Gardens<br><br>M280<br><br></h4></html>");
+		nameOfTiles.add("<html><h4> GO TO <br> JAIL <br></h4></html>");
 
-		nameOfTiles.add("<html><h4>Pacific <br>Avenue<br><br><br>M300</h4></html>");
-		nameOfTiles.add("<html><h4>North Carolina <br>Avenue<br><br><br>M300</h4></html>");
-		nameOfTiles.add("<html><h4>Community <br>Chest</h4></html>");
-		nameOfTiles.add("<html><h4>Pennsylvania <br>Avenue<br><br><br>M320</h4></html>");
-		nameOfTiles.add("<html><h4>Short Line <br>Station<br><br><br>M200</h4></html>");
-		nameOfTiles.add("<html><h4>Chance</h4></html>");
-		nameOfTiles.add("<html><h4>Park <br>Place<br><br><br>M350</h4></html>");
-		nameOfTiles.add("<html><h4>SUPER <br>TAX<br><br><br>PAY M60</h4></html>");
-		nameOfTiles.add("<html><h4>Boardwalk<br><br><br>M400</h4></html>");
+		nameOfTiles.add("<html><h4>Pacific <br>Avenue<br><br>M300<br><br></h4></html>");
+		nameOfTiles.add("<html><h4>North Carolina <br>Avenue<br><br>M300<br><br></h4></html>");
+		nameOfTiles.add("<html><h4>Community <br>Chest<br></h4></html>");
+		nameOfTiles.add("<html><h4>Pennsylvania <br>Avenue<br><br>M320<br><br></h4></html>");
+		nameOfTiles.add("<html><h4>Short Line <br>Station<br><br>M200<br><br></h4></html>");
+		nameOfTiles.add("<html><h4>Chance<br></h4></html>");
+		nameOfTiles.add("<html><h4>Park <br>Place<br><br>M350<br><br></h4></html>");
+		nameOfTiles.add("<html><h4>SUPER <br>TAX<br><br><br>PAY M60<br></h4></html>");
+		nameOfTiles.add("<html><h4>Boardwalk<br><br>M400<br><br></h4></html>");
 
 		// nameOfTiles.add("Free Parking (Just take a rest)");
-
 		return nameOfTiles;
 	}
 
@@ -578,23 +577,30 @@ public class MonoplyGameGUI extends JFrame {
 		ArrayList<String> nameOfTiles = new ArrayList<String>();
 		nameOfTiles = getactualNameOfTiles();
 		ArrayList<String> playersOnThisTile = new ArrayList<String>();
-
+		boolean isNoPlayerOnTile;
+		
 		// reset all tile string, and set active player on it
 		for (int i = 0; i < 40; i++) {
 			String aTileText = nameOfTiles.get(i);
 			playersOnThisTile.clear();
-
+			isNoPlayerOnTile = true;
+			
 			for (String playerName : MG.getactivePlayers()) {
 				HashMap<String, Player> allPlayers = MG.getallPlayers();
 
 				if (allPlayers.get(playerName).getposition() == i) {
 					playersOnThisTile.add(playerName);
+					isNoPlayerOnTile = false;
 				}
 			}
 
 			String newTileString = processTokenTileString(playersOnThisTile, aTileText);
 
-			tileLabels.get(i).setText(newTileString);
+			if(isNoPlayerOnTile){
+				tileLabels.get(i).setText(aTileText);
+			}else{
+				tileLabels.get(i).setText(newTileString);
+			}
 		}
 
 	}

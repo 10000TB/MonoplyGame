@@ -124,7 +124,7 @@ public class Board {
    }
    
    public Tile getTile (int index) {
-	   return tiles.get(index);
+	   return  index >=0 && index < tiles.size() ? tiles.get(index) : null;
    }
    
    
