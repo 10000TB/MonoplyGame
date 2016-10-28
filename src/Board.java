@@ -41,7 +41,7 @@ public class Board {
 	   // purple
 	   tiles.add(new Property (11, "St. Charles Place", new int[] {140, 50, 150, 450, 625, 750}));
 	   // electricity tile ---- rent set to flat 40
-	   tiles.add(new SpecialTile(12, "Electricity "));
+	   tiles.add(new SpecialTile(12, "Electricity Company"));
 	   
 	   tiles.add(new Property (13, "States Avenue", new int[] {140, 50, 150, 450, 625, 750}));
 	   tiles.add(new Property (14, "Virginia Avenue", new int[] {160, 60, 180, 500, 700, 900}));
@@ -127,6 +127,9 @@ public class Board {
 	   return  index >=0 && index < tiles.size() ? tiles.get(index) : null;
    }
    
+   public int getSize() {
+	   return tiles.size();
+   }
    
    
    public void info() {
