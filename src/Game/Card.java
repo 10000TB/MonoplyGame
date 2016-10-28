@@ -6,16 +6,17 @@ public abstract class Card {
 	private boolean goToJail;
 	private boolean getOutOfJail;
 	private boolean isUsed;
+
 //	private int amountChange;
 //	private boolean influenceOthers;
 //	private int houseCost;
 //	private int hotelCost;
-	
+//	
 //	public Card(String description, boolean goToJail, boolean getOutOfJail){
-//		this.description = description;
-//		this.isUsed = false;
-//		this.goToJail = goToJail;
-//		this.getOutOfJail = getOutOfJail;
+////		this.description = description;
+////		this.isUsed = false;
+////		this.goToJail = goToJail;
+////		this.getOutOfJail = getOutOfJail;
 //	}
 		
 	public String getDescription() {

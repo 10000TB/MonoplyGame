@@ -15,10 +15,10 @@ public class MonoplyGame {
 	private ArrayList<String> activePlayers;
 	private HashMap<String,Player> allPlayers;
 	private Board board;
-	private ArrayList<Card> cards;
+	private ArrayList<Card> cards;  
 	private boolean onOffLine;
 	
-	MonoplyGame(int NumOfPlayer, boolean OnOffLine){
+	public MonoplyGame(int NumOfPlayer, boolean OnOffLine){
 		this.numOfPlayer = NumOfPlayer;
 		this.onOffLine = OnOffLine;
 		
@@ -27,17 +27,6 @@ public class MonoplyGame {
 		this.cards = new ArrayList<Card>();
 		this.onOffLine = false;
 	}
-	
-	
-	public void propertyAudition(){
-		
-	}
-	
-	public void removePlayer(String name){
-		
-		
-	}
-	
 	
 	/**
 	 * Class Essentials
