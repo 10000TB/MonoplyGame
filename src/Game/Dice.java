@@ -2,7 +2,7 @@ package Game;
 
 public class Dice {
 
-	Dice(){
+	public Dice(){
 		
 	}
 	

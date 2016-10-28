@@ -12,7 +12,7 @@ public class Player {
 	private ArrayList<String> allDes = new ArrayList<String>();
 	private SetOfCards SOC = new SetOfCards();
 
-	Player(String name, int balance, boolean financialStatus, int position, boolean jailStatus, int numOutOfJailCard,
+	public Player(String name, int balance, boolean financialStatus, int position, boolean jailStatus, int numOutOfJailCard,
 			ArrayList<Property> property) {
 		this.name = name;
 		this.balance = balance;
@@ -70,7 +70,6 @@ public class Player {
 
 	public void payMoney(int money) {
 		this.setbalance(this.getbalance() - money);
-
 	}
 
 	public void getMoney(int money) {
