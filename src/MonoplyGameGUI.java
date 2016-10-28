@@ -1,5 +1,4 @@
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -18,11 +17,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
 
 public class MonoplyGameGUI extends JFrame {
@@ -30,6 +26,7 @@ public class MonoplyGameGUI extends JFrame {
 	// global game constraints
 	int gameMaxDuration = 10 * 60;// maximum game duration 10*60 seconds
 	ArrayList<JLabel> tileLabels = new ArrayList<JLabel>();
+	HashMap<String, Player> allPlayers = new HashMap<String, Player>();
 
 	// UI elements
 	// timer panel
@@ -72,9 +69,46 @@ public class MonoplyGameGUI extends JFrame {
 		}
 		return true;
 	}
+	
+	private void showStatus(){
+		int player_cnt = 0;
 
-	private void bankcrupt(Player currentPlayer) {
+		for (String key : allPlayers.keySet()) {
+			player_cnt++;
+			switch (player_cnt) {
+			case 1:
+				player_one_label.setText(allPlayers.get(key).getname() + ":"
+						+ allPlayers.get(key).getbalance() + "     ");
+				break;
+			case 2:
+				player_two_label.setText(allPlayers.get(key).getname() + ":"
+						+ allPlayers.get(key).getbalance() + "     ");
+				break;
+			case 3:
+				player_three_label.setText(allPlayers.get(key).getname() + ":"
+						+ allPlayers.get(key).getbalance() + "     ");
+				break;
+
+			case 4:
+				player_four_label.setText(allPlayers.get(key).getname() + ":"
+						+ allPlayers.get(key).getbalance() + "     ");
+				break;
+
+			default:
+				break;
+			}
+		}
+	}
+
+	private boolean bankcrupt(Player currentPlayer, int moneyNeedToPay) {
+		int moneyOwed = moneyNeedToPay;
+		
+		if(moneyOwed < 0){
+			return true;
+		}
+		
 		int dialogButton = JOptionPane.YES_NO_OPTION;
+
 
 		int dialogResult = JOptionPane.showConfirmDialog(null,
 				"You are going to bankcrupt are going to sell your properties?", "Information", dialogButton);
@@ -88,26 +122,31 @@ public class MonoplyGameGUI extends JFrame {
 														// icon
 					choice, // Array of choices
 					null); // Initial choice
-			for (int i = 0; i < 39; i++) {
-				if (board.getTile(i) instanceof Property) {
-					Property p = (Property) board.getTile(i);
-					if (inpu.equals(p.getDescription())) {
-						p.clearAll();
-						currentPlayer.removeproperty(p);
-						currentPlayer.getMoney(p.getMorgagePrice());
-					}
-				}
+			for (Property soldProperty:currentPlayer.getproperty()){
+				if (soldProperty.getDescription().equals(inpu)){
+					moneyOwed = moneyOwed - soldProperty.getMorgagePrice();
+					soldProperty.clearAll();
+					currentPlayer.removeproperty(soldProperty);
+					currentPlayer.getMoney(soldProperty.getMorgagePrice());
+					break;
+
+				}			
 			}
 
 			if (inpu == null) {
 				JOptionPane.showMessageDialog(null, "GET OUT OF THE GAME!");
 				currentPlayer.setfinancialStatus(false);
 			}
+			
+			
 
 		} else {
 			JOptionPane.showMessageDialog(null, "GET OUT OF THE GAME!");
 			currentPlayer.setfinancialStatus(false);
+			return false;
 		}
+		
+		return bankcrupt(currentPlayer, moneyOwed);
 
 	}
 
@@ -512,33 +551,7 @@ public class MonoplyGameGUI extends JFrame {
 						0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, // Fill
 						new Insets(0, 0, 0, 0), 0, 0));
 
-		int player_cnt = 0;
-
-		for (String key : allPlayers.keySet()) {
-			player_cnt++;
-			switch (player_cnt) {
-			case 1:
-				player_one_label
-						.setText(allPlayers.get(key).getname() + ":" + allPlayers.get(key).getbalance() + "     ");
-				break;
-			case 2:
-				player_two_label
-						.setText(allPlayers.get(key).getname() + ":" + allPlayers.get(key).getbalance() + "     ");
-				break;
-			case 3:
-				player_three_label
-						.setText(allPlayers.get(key).getname() + ":" + allPlayers.get(key).getbalance() + "     ");
-				break;
-
-			case 4:
-				player_four_label
-						.setText(allPlayers.get(key).getname() + ":" + allPlayers.get(key).getbalance() + "     ");
-				break;
-
-			default:
-				break;
-			}
-		}
+		showStatus();
 
 		pack();
 
@@ -592,7 +605,6 @@ public class MonoplyGameGUI extends JFrame {
 		String numOfPlayers = JOptionPane.showInputDialog("Please input the number of players(2-4)");
 		MonoplyGame MG = new MonoplyGame(0, true);
 		SetOfCards SOC = new SetOfCards();
-		HashMap<String, Player> allPlayers = new HashMap<String, Player>();
 
 		if (isNumeric(numOfPlayers)) {
 			int n = Integer.parseInt(numOfPlayers);
@@ -678,7 +690,7 @@ public class MonoplyGameGUI extends JFrame {
 							String[] choices = currentPlayer.getAllDescriptions()
 									.toArray(new String[currentPlayer.getAllDescriptions().size()]);
 
-							String input = (String) JOptionPane.showInputDialog(null, "Player: " + currentPlayer.getname(),
+							JOptionPane.showInputDialog(null, "Player: " + currentPlayer.getname(),
 									"Information" + currentPlayer.getname() + "'s properties",
 									JOptionPane.QUESTION_MESSAGE, null, // Use
 									// default
@@ -705,6 +717,8 @@ public class MonoplyGameGUI extends JFrame {
 									|| currentPlayer.getposition() == 22 | currentPlayer.getposition() == 36) {
 								if (currentCard.isGoToJail()) {
 									if (currentPlayer.getnumOutOfJailCard() > 0) {
+										currentPlayer.setposition(10);
+
 										int dialogButton = JOptionPane.YES_NO_OPTION;
 										int dialogResult = JOptionPane.showConfirmDialog(null,
 												"Is" + currentPlayer.getname()
@@ -717,12 +731,14 @@ public class MonoplyGameGUI extends JFrame {
 										} else {
 											JOptionPane.showMessageDialog(null,
 													"What's wrong with you, you m***** f*****!");
+											currentPlayer.setjailStatus(true);
+
 
 										}
 
 									} else {
-										currentPlayer.setposition(10);
 										currentPlayer.setjailStatus(true);
+										
 									}
 
 								} else if (currentCard.isGetOutOfJail()) {
@@ -737,13 +753,13 @@ public class MonoplyGameGUI extends JFrame {
 
 												currentPlayer.getMoney(currentCard.getAmountChange());
 												if (allPlayers.get(Name).getbalance() < 0) {
-													bankcrupt(allPlayers.get(Name));
+													bankcrupt(allPlayers.get(Name),-(allPlayers.get(Name).getbalance()));
 												}
 
 											}
 											
 											if (currentPlayer.getbalance() < 0){
-												bankcrupt(currentPlayer);
+												bankcrupt(currentPlayer,-currentPlayer.getbalance());
 											}
 											
 
@@ -757,12 +773,15 @@ public class MonoplyGameGUI extends JFrame {
 								}
 
 								JOptionPane.showMessageDialog(null, currentCard.getDescription());
+								showStatus();
 
 							}
 							else if (currentPlayer.getposition() == 2 || currentPlayer.getposition() == 17
 									|| currentPlayer.getposition() == 13) {
 								if (currentCard2.isGoToJail()){
 									if (currentPlayer.getnumOutOfJailCard() > 0) {
+										currentPlayer.setposition(10);
+
 										int dialogButton = JOptionPane.YES_NO_OPTION;
 										int dialogResult = JOptionPane.showConfirmDialog(null,
 												"Is" + currentPlayer.getname()
@@ -775,11 +794,12 @@ public class MonoplyGameGUI extends JFrame {
 										} else {
 											JOptionPane.showMessageDialog(null,
 													"What's wrong with you, you m***** f*****!");
+											currentPlayer.setjailStatus(true);
+
 
 										}
 
 									} else {
-										currentPlayer.setposition(10);
 										currentPlayer.setjailStatus(true);
 									}
 
@@ -797,7 +817,7 @@ public class MonoplyGameGUI extends JFrame {
 										
 									}
 								}
-								
+								showStatus();
 							}
 
 							
@@ -808,7 +828,7 @@ public class MonoplyGameGUI extends JFrame {
 							case 4:
 								currentPlayer.payMoney(200);
 								if (currentPlayer.getbalance() < 0) {
-									bankcrupt(currentPlayer);
+									bankcrupt(currentPlayer,-currentPlayer.getbalance());
 
 								}
 
@@ -834,7 +854,7 @@ public class MonoplyGameGUI extends JFrame {
 							case 38:
 								currentPlayer.payMoney(60);
 								if (currentPlayer.getbalance() < 0) {
-									bankcrupt(currentPlayer);
+									bankcrupt(currentPlayer,-currentPlayer.getbalance());
 								}
 								break;
 							case 20:
@@ -892,16 +912,18 @@ public class MonoplyGameGUI extends JFrame {
 												maxPrice = currentPrice;
 											}
 										}
-										JOptionPane.showMessageDialog(null, givenMoney.get(maxPrice)
-												+ " is the new owner of " + currentProperty.getDescription());
+
 
 										String newOwner = givenMoney.get(maxPrice);
 										allPlayers.get(newOwner).payMoney(maxPrice);
 										currentProperty.setOwner(newOwner);
 
 										allPlayers.get(newOwner).addproperty(currentProperty);
+										JOptionPane.showMessageDialog(null, newOwner
+												+ " is the new owner of " + currentProperty.getDescription());
 
 									}
+									showStatus();
 								}
 								// Owner is the current player
 								else if (currentProperty.getOwner().equals(currentPlayer.getname())) {
@@ -941,7 +963,7 @@ public class MonoplyGameGUI extends JFrame {
 										}
 
 									}
-
+									showStatus();
 								}
 								// Owner is others
 								else {
@@ -953,9 +975,9 @@ public class MonoplyGameGUI extends JFrame {
 											+ " pay rent to Player: " + currentProperty.getOwner());
 
 									if (currentPlayer.getbalance() < 0) {
-										bankcrupt(currentPlayer);
+										bankcrupt(currentPlayer,-currentPlayer.getbalance());
 									}
-
+									showStatus();
 								}
 
 							}
@@ -987,33 +1009,7 @@ public class MonoplyGameGUI extends JFrame {
 								JOptionPane.PLAIN_MESSAGE);
 						currentPlayer = allPlayers.get(MG.getactivePlayers().get(0));
 
-						int player_cnt = 0;
 
-						for (String key : allPlayers.keySet()) {
-							player_cnt++;
-							switch (player_cnt) {
-							case 1:
-								player_one_label.setText(allPlayers.get(key).getname() + ":"
-										+ allPlayers.get(key).getbalance() + "     ");
-								break;
-							case 2:
-								player_two_label.setText(allPlayers.get(key).getname() + ":"
-										+ allPlayers.get(key).getbalance() + "     ");
-								break;
-							case 3:
-								player_three_label.setText(allPlayers.get(key).getname() + ":"
-										+ allPlayers.get(key).getbalance() + "     ");
-								break;
-
-							case 4:
-								player_four_label.setText(allPlayers.get(key).getname() + ":"
-										+ allPlayers.get(key).getbalance() + "     ");
-								break;
-
-							default:
-								break;
-							}
-						}
 					}
 
 				}

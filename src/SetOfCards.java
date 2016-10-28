@@ -22,8 +22,8 @@ public class SetOfCards {
 				.add(new ChanceCard("Get out of Jail free this card may be kept until needed", false, true, 0, false));
 		chanceCards.add(new ChanceCard("Go to jail you m***** f*****", false, true, 0, false));
 		chanceCards.add(new ChanceCard("Other player give you $100", false, false, 100, true));
-		chanceCards.add(new ChanceCard("Other player give you $200", false, false, 100, true));
-		chanceCards.add(new ChanceCard("Other player give you $300", false, false, 100, true));
+		chanceCards.add(new ChanceCard("Other player give you $200", false, false, 200, true));
+		chanceCards.add(new ChanceCard("Other player give you $300", false, false, 300, true));
 		chanceCards.add(new ChanceCard("you give each player $100", false, false, -100, true));
 		chanceCards.add(new ChanceCard("you give each player $200", false, false, -200, true));
 		chanceCards.add(new ChanceCard("you give each player $300", false, false, -300, true));
