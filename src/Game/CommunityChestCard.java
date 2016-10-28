@@ -1,3 +1,4 @@
+package Game;
 
 public class CommunityChestCard extends Card {
 

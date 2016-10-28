@@ -1,9 +1,9 @@
+package JunitTest;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import Game.Board;
-import Game.Property;
+import Game.*;
 
 public class BoardTest {
 
@@ -80,3 +80,4 @@ public class BoardTest {
 	
 
 }
+	

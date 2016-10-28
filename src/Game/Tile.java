@@ -1,3 +1,4 @@
+package Game;
 public abstract class Tile {
 
    private String type;
