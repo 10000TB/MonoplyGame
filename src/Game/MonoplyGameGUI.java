@@ -603,10 +603,17 @@ public class MonoplyGameGUI extends JFrame {
 		}
 
 	}
+   
+   private boolean addAI () {
+      int decision = JOptionPane.showConfirmDialog(null, "Enable AI in this game?", "", JOptionPane.YES_NO_OPTION);
+      return decision == JOptionPane.YES_OPTION;
+   }
 
-	public MonoplyGameGUI() {
+	public MonoplyGameGUI() { 
 
 		ArrayList<String> names = new ArrayList<String>();
+      boolean AI = addAI();
+      System.out.println(AI);
 		String numOfPlayers = JOptionPane.showInputDialog("Please input the number of players(2-4)");
 		MonoplyGame MG = new MonoplyGame(0, true);
 		SetOfCards SOC = new SetOfCards();
@@ -615,7 +622,7 @@ public class MonoplyGameGUI extends JFrame {
 			int n = Integer.parseInt(numOfPlayers);
 
 			if (n < 2 || n > 4) {
-				JOptionPane.showMessageDialog(null, "Invalid number of players");
+				JOptionPane.showMessageDialog(null, "Invalid number of players! Restart the Game!");
 				return;
 			}
 
