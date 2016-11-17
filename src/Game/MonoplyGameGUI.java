@@ -39,20 +39,22 @@ public class MonoplyGameGUI extends JFrame {
 	JPanel playerPanel2 = new JPanel();
 	JPanel playerPanel3 = new JPanel();
 	JPanel playerPanel4 = new JPanel();
+   JPanel computerPanel = new JPanel();
 
 	JLabel player_one_label = new JLabel();
 	JLabel player_two_label = new JLabel();
 	JLabel player_three_label = new JLabel();
 	JLabel player_four_label = new JLabel();
+   JLabel computerLabel     = new JLabel();
 
 	JPanel turnPanel = new JPanel();
 	JLabel turnLabel = new JLabel();
 
 	// player panel
-	JPanel player_one_panel = new JPanel();
-	JPanel player_two_panel = new JPanel();
-	JPanel player_three_panel = new JPanel();
-	JPanel player_four_panel = new JPanel();
+// 	JPanel player_one_panel = new JPanel();
+// 	JPanel player_two_panel = new JPanel();
+// 	JPanel player_three_panel = new JPanel();
+// 	JPanel player_four_panel = new JPanel();
 
 	// rollDice panel
 	JPanel rollDice = new JPanel();
@@ -506,6 +508,7 @@ public class MonoplyGameGUI extends JFrame {
 		player_two_label.setText("");
 		player_three_label.setText("");
 		player_four_label.setText("");
+      
 
 		playerPanel1.add(player_one_label);
 		playerPanel2.add(player_two_label);
@@ -625,6 +628,7 @@ public class MonoplyGameGUI extends JFrame {
 				JOptionPane.showMessageDialog(null, "Invalid number of players! Restart the Game!");
 				return;
 			}
+         
 
 			for (int i = 0; i < Integer.parseInt(numOfPlayers); i++) {
 				String name = JOptionPane.showInputDialog("Please input the name the " + (i + 1) + " player");
@@ -633,6 +637,13 @@ public class MonoplyGameGUI extends JFrame {
 				allPlayers.put(name, player);
 				MG.setnumOfPlayer(n);
 			}
+         // Create AI if AI is enabled
+         if (AI) {
+            Player computer = new Player ("Computer", 1500, true, 0, false, 0, null);
+            names.add("Computer");
+            allPlayers.put ("Computer", computer);  
+            MG.setnumOfPlayer(n+1);
+         }
 			MG.setactivePlayers(names);
 		} else {
 			JOptionPane.showMessageDialog(null, "Invalid Input");
