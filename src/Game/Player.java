@@ -12,6 +12,8 @@ public class Player {
 	private ArrayList<Property> property;
 	private ArrayList<String> allDes = new ArrayList<String>();
 	private SetOfCards SOC = new SetOfCards();
+	private ArrayList<Property> mortgageProperty;
+	private ArrayList<String> allMorDes;
 
 	public Player(String name, int balance, boolean financialStatus, int position, boolean jailStatus,
 			int numOutOfJailCard, ArrayList<Property> property) {
@@ -22,11 +24,34 @@ public class Player {
 		this.jailStatus = jailStatus;
 		this.numOutOfJailCard = numOutOfJailCard;
 		this.property = property;
+		this.mortgageProperty = new ArrayList<Property>();
+		this.allMorDes = new ArrayList<String>();
 		if (property != null && !property.isEmpty()) {
 			for (Property p : property) {
 				allDes.add(p.getDescription());
 			}
 		}
+	}
+	
+	public void addMortgageProperty(Property mortgageP){
+		mortgageProperty.add(mortgageP);
+		allMorDes.add(mortgageP.getDescription());
+	}
+	
+	public void removeMortgageProperty(Property mortgageP){
+	
+		for (int i = 0; i < mortgageProperty.size(); i++){
+			if (mortgageProperty.get(i).equals(mortgageP)){
+				mortgageProperty.remove(i);
+				allMorDes.remove(i);
+				break;
+			}
+		}
+		
+	}
+	
+	public ArrayList<String> getMorDes(){
+		return allMorDes;
 	}
 
 	public String drawCommunityCard() {

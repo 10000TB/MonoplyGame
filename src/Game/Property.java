@@ -40,16 +40,27 @@ public class Property extends Tile {
 	public int getRent() {
 		return rent;
 	}
+	
+	public void cancelMor(){
+		this.morgStatus = false;
+		updateRent();
+	}
+
 
 	// update rent according to the property status
 	public void updateRent() {
-		if (numOfHotels == 1) {
-			rent = rentData[5];
-		} else {
-			rent = rentData[numOfHouses];
-		}
 
-		this.mortgagePrice = (int) (rent * 0.8);
+			if (numOfHotels == 1) {
+				rent = rentData[5];
+			} else {
+				rent = rentData[numOfHouses];
+			}
+
+			this.mortgagePrice = (int) (rent * 0.8);
+			
+			if (this.morgStatus == true) {
+				rent = 0;
+			} 
 
 	}
 
