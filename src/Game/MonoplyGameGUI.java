@@ -151,45 +151,57 @@ public class MonoplyGameGUI extends JFrame {
 		if (moneyOwed < 0) {
 			return true;
 		}
+      
+      // AI bankrupts and sells property
+      if (currentPlayer.getname().equals("Computer")) {
+         Property soldProperty = currentPlayer.getproperty().get(currentPlayer.getproperty().size()-1);
+         moneyOwed = moneyOwed - soldProperty.getMorgagePrice();
+   		soldProperty.setOwner("");
+ 			currentPlayer.getMoney(soldProperty.getMorgagePrice());
+         currentPlayer.removeproperty(soldProperty);
+         JOptionPane.showMessageDialog(null, "I just sold " + soldProperty.getDescription());
+      } else { // Human bankrupts and sells property
 
-		int dialogButton = JOptionPane.YES_NO_OPTION;
-
-		int dialogResult = JOptionPane.showConfirmDialog(null,
-				"You are going to bankcrupt are going to sell your properties?", "Information", dialogButton);
-		if (dialogResult == JOptionPane.YES_OPTION) {
-			String[] choice = currentPlayer.getAllDescriptions()
-					.toArray(new String[currentPlayer.getAllDescriptions().size()]);
-
-			String inpu = (String) JOptionPane.showInputDialog(null, "Choose now...", "The Choice of a Lifetime",
-					JOptionPane.QUESTION_MESSAGE, null, // Use
-														// default
-														// icon
-					choice, // Array of choices
-					null); // Initial choice
-			for (Property soldProperty : currentPlayer.getproperty()) {
-
-				if (soldProperty.getDescription().equals(inpu)) {
-					moneyOwed = moneyOwed - soldProperty.getMorgagePrice();
-					soldProperty.setMorg();
-					currentPlayer.addMortgageProperty(soldProperty);
-					currentPlayer.getMoney(soldProperty.getMorgagePrice());
-					break;
-
-				}
-			}
-
-			if (inpu == null) {
-				JOptionPane.showMessageDialog(null, "GET OUT OF THE GAME!");
-				currentPlayer.setfinancialStatus(false);
-				return false;
-			}
-
-		} else {
-			JOptionPane.showMessageDialog(null, "GET OUT OF THE GAME!");
-			currentPlayer.setfinancialStatus(false);
-			return false;
-		}
-
+   		int dialogButton = JOptionPane.YES_NO_OPTION;
+   
+   		int dialogResult = JOptionPane.showConfirmDialog(null,
+   				"You are going to bankcrupt are going to sell your properties?", "Information", dialogButton);
+   		if (dialogResult == JOptionPane.YES_OPTION) {
+   			String[] choice = currentPlayer.getAllDescriptions()
+   					.toArray(new String[currentPlayer.getAllDescriptions().size()]);
+   
+   			String inpu = (String) JOptionPane.showInputDialog(null, "Choose now...", "The Choice of a Lifetime",
+   					JOptionPane.QUESTION_MESSAGE, null, // Use
+   														// default
+   														// icon
+   					choice, // Array of choices
+   					null); // Initial choice
+   			for (Property soldProperty : currentPlayer.getproperty()) {
+   
+   				if (soldProperty.getDescription().equals(inpu)) {
+   					moneyOwed = moneyOwed - soldProperty.getMorgagePrice();
+   					soldProperty.setMorg();
+   					currentPlayer.addMortgageProperty(soldProperty);
+   					currentPlayer.getMoney(soldProperty.getMorgagePrice());
+   					break;
+   
+   				}
+   			}
+   
+   			if (inpu == null) {
+   				JOptionPane.showMessageDialog(null, "GET OUT OF THE GAME!");
+   				currentPlayer.setfinancialStatus(false);
+               MG.deActivate(currentPlayer.getname());
+   				return false;
+   			}
+   
+   		} else {
+   			JOptionPane.showMessageDialog(null, "GET OUT OF THE GAME!");
+   			currentPlayer.setfinancialStatus(false);
+            MG.deActivate(currentPlayer.getname());
+   			return false;
+   		}
+      }
 		return bankcrupt(MG, currentPlayer, moneyOwed);
 	}
 
@@ -219,6 +231,7 @@ public class MonoplyGameGUI extends JFrame {
 				JOptionPane.showMessageDialog(null,
 						currentPlayer.getname() + "GET A FINE OF $200 and cannot move this turn");
 				currentPlayer.payMoney(200);
+            showStatus();
 
 				if (currentPlayer.getbalance() < 0) {
 					bankcrupt(MG, currentPlayer, -1 * currentPlayer.getbalance());
@@ -443,6 +456,8 @@ public class MonoplyGameGUI extends JFrame {
 
 			JOptionPane.showMessageDialog(null,
 					"Player: " + currentPlayer.getname() + " pay rent to Player: " + currentProperty.getOwner());
+               
+         showStatus();
 
 			if (currentPlayer.getbalance() < 0) {
 				bankcrupt (MG, currentPlayer, -currentPlayer.getbalance());
@@ -1002,7 +1017,7 @@ public class MonoplyGameGUI extends JFrame {
 			}
          
 			if (AI) {
-				Player computer = new Player("Computer", 10, true, 0, false, 0, new ArrayList<Property>());
+				Player computer = new Player("Computer", 500, true, 0, false, 0, new ArrayList<Property>());
 				names.add("Computer");
 				allPlayers.put("Computer", computer);
 				MG.setnumOfPlayer(n + 1);
