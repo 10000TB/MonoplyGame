@@ -23,6 +23,14 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
+import model.Board;
+import model.ChanceCard;
+import model.CommunityChestCard;
+import model.MonoplyGame;
+import model.Player;
+import model.Property;
+import model.SetOfCards;
+
 public class MonoplyGameGUI extends JFrame {
 
 	// global game constraints

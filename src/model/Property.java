@@ -1,4 +1,4 @@
-package Game;
+package model;
 
 /*
  * Questions for Property:

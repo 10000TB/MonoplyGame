@@ -1,4 +1,4 @@
-package Game;
+package model;
 
 public class Dice {
 

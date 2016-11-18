@@ -5,6 +5,9 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 import Game.*;
+import model.ChanceCard;
+import model.CommunityChestCard;
+import model.SetOfCards;
 
 public class SetOfCardsTest {
 

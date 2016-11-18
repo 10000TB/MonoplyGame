@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 import Game.*;
+import model.Player;
+import model.Property;
 
 public class PlayerTest {
 
