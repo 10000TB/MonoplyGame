@@ -318,19 +318,33 @@ public class MonoplyGameGUI extends JFrame {
 				// Auction here
 				Hashtable<Integer, String> givenMoney = new Hashtable<Integer, String>();
 				for (int i = 0; i < MG.getactivePlayers().size(); i++) {
-					String money = JOptionPane.showInputDialog(null,
-							"What's " + MG.getactivePlayers().get(i) + " price?");
-					if (!isNumeric(money)) {
-						JOptionPane.showMessageDialog(null, "Invalid Price, give up this auction!");
-						givenMoney.put(0, MG.getactivePlayers().get(i));
-
-					} else if (Integer.parseInt(money) > allPlayers.get(MG.getactivePlayers().get(i)).getbalance()) {
-						JOptionPane.showMessageDialog(null,
-								currentPlayer.getname() + " cannot afford the price, give up this auction!");
-						givenMoney.put(0, MG.getactivePlayers().get(i));
-					} else {
-						givenMoney.put(Integer.parseInt(money), MG.getactivePlayers().get(i));
-					}
+               // AI provides auction price
+               if (MG.getactivePlayers().get(i).equals("Computer")) {
+                  if (allPlayers.get(MG.getactivePlayers().get(i)).getbalance() > 0.5*currentProperty.getCost()) {
+                     JOptionPane.showMessageDialog(null, "AI provides a price of " + 0.5*currentProperty.getCost());
+                     givenMoney.put((int)(0.5*currentProperty.getCost()), MG.getactivePlayers().get(i));
+                     // ************* TEST *****************
+                     //System.out.println((int)(0.5*currentProperty.getCost())+ " " + MG.getactivePlayers().get(i));
+                  } else {
+                     JOptionPane.showMessageDialog(null, "AI provides a price of " + allPlayers.get(MG.getactivePlayers().get(i)).getbalance()/3);
+                     givenMoney.put(allPlayers.get(MG.getactivePlayers().get(i)).getbalance()/3, MG.getactivePlayers().get(i));
+                  }
+               } else {
+               // Human provides auction price
+   					String money = JOptionPane.showInputDialog(null,
+   							"What's " + MG.getactivePlayers().get(i) + " price?");
+   					if (!isNumeric(money)) {
+   						JOptionPane.showMessageDialog(null, "Invalid Price, give up this auction!");
+   						givenMoney.put(0, MG.getactivePlayers().get(i));
+   
+   					} else if (Integer.parseInt(money) > allPlayers.get(MG.getactivePlayers().get(i)).getbalance()) {
+   						JOptionPane.showMessageDialog(null,
+   								currentPlayer.getname() + " cannot afford the price, give up this auction!");
+   						givenMoney.put(0, MG.getactivePlayers().get(i));
+   					} else {
+   						givenMoney.put(Integer.parseInt(money), MG.getactivePlayers().get(i));
+   					}
+               }
 
 				}
 
@@ -340,8 +354,13 @@ public class MonoplyGameGUI extends JFrame {
 						maxPrice = currentPrice;
 					}
 				}
+            
+
 
 				String newOwner = givenMoney.get(maxPrice);
+            // *************** TEST *******************            
+            //System.out.println (maxPrice + " " + newOwner);
+            
 				allPlayers.get(newOwner).payMoney(maxPrice);
 				currentProperty.setOwner(newOwner);
 
