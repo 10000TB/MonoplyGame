@@ -39,22 +39,22 @@ public class MonoplyGameGUI extends JFrame {
 	JPanel playerPanel2 = new JPanel();
 	JPanel playerPanel3 = new JPanel();
 	JPanel playerPanel4 = new JPanel();
-   JPanel computerPanel = new JPanel();
+	JPanel computerPanel = new JPanel();
 
 	JLabel player_one_label = new JLabel();
 	JLabel player_two_label = new JLabel();
 	JLabel player_three_label = new JLabel();
 	JLabel player_four_label = new JLabel();
-   JLabel computerLabel     = new JLabel();
+	JLabel computerLabel = new JLabel();
 
 	JPanel turnPanel = new JPanel();
 	JLabel turnLabel = new JLabel();
 
 	// player panel
-// 	JPanel player_one_panel = new JPanel();
-// 	JPanel player_two_panel = new JPanel();
-// 	JPanel player_three_panel = new JPanel();
-// 	JPanel player_four_panel = new JPanel();
+	// JPanel player_one_panel = new JPanel();
+	// JPanel player_two_panel = new JPanel();
+	// JPanel player_three_panel = new JPanel();
+	// JPanel player_four_panel = new JPanel();
 
 	// rollDice panel
 	JPanel rollDice = new JPanel();
@@ -262,52 +262,51 @@ public class MonoplyGameGUI extends JFrame {
 
 	private void propertyTile(Player currentPlayer, MonoplyGame MG) {
 		Property currentProperty = (Property) board.getTile(currentPlayer.getposition());
-      boolean auction = false;
+		boolean auction = false;
 
 		// If the property does not have a owner
 		if (currentProperty.getOwner().isEmpty()) {
-      
-         // AI encounters an ownerless property
-         if (currentPlayer.getname().equals("Computer")) {
-            if (currentPlayer.getbalance() >= currentProperty.getCost()) {
-               currentProperty.setOwner(currentPlayer.getname());
-   				currentProperty.buildHouse();
-   				ArrayList<Property> arrP = new ArrayList<Property>();
-   				arrP.add(currentProperty);
-   				currentPlayer.payMoney(currentProperty.getCost());
-   				if (currentPlayer.getproperty() == null) {
-   					currentPlayer.setproperty(arrP);
-   				} else {
-   					currentPlayer.addproperty(currentProperty);
-   				}
-               JOptionPane.showMessageDialog(null, "I bought this Property!");
-            } else {
-               auction = true;
-               JOptionPane.showMessageDialog(null, "I can't afford this..");
-            }
-         } else { // human player 
-   			int dialogButton = JOptionPane.YES_NO_OPTION;
-   			int dialogResult = JOptionPane.showConfirmDialog(null, "Would you like to buy this property?",
-   					"Information", dialogButton);
-   			if (dialogResult == JOptionPane.YES_OPTION && currentPlayer.getbalance() >= currentProperty.getCost()) {
-   
-   				currentProperty.setOwner(currentPlayer.getname());
-   				currentProperty.buildHouse();
-   				ArrayList<Property> arrP = new ArrayList<Property>();
-   				arrP.add(currentProperty);
-   				currentPlayer.payMoney(currentProperty.getCost());
-   				if (currentPlayer.getproperty() == null) {
-   					currentPlayer.setproperty(arrP);
-   				} else {
-   					currentPlayer.addproperty(currentProperty);
-   				}
-   			} else {
-               auction = true;      // player cannot afford property
-            }
-         } 
-         
-         
-         if (auction) {
+
+			// AI encounters an ownerless property
+			if (currentPlayer.getname().equals("Computer")) {
+				if (currentPlayer.getbalance() >= currentProperty.getCost()) {
+					currentProperty.setOwner(currentPlayer.getname());
+					currentProperty.buildHouse();
+					ArrayList<Property> arrP = new ArrayList<Property>();
+					arrP.add(currentProperty);
+					currentPlayer.payMoney(currentProperty.getCost());
+					if (currentPlayer.getproperty() == null) {
+						currentPlayer.setproperty(arrP);
+					} else {
+						currentPlayer.addproperty(currentProperty);
+					}
+					JOptionPane.showMessageDialog(null, "I bought this Property!");
+				} else {
+					auction = true;
+					JOptionPane.showMessageDialog(null, "I can't afford this..");
+				}
+			} else { // human player
+				int dialogButton = JOptionPane.YES_NO_OPTION;
+				int dialogResult = JOptionPane.showConfirmDialog(null, "Would you like to buy this property?",
+						"Information", dialogButton);
+				if (dialogResult == JOptionPane.YES_OPTION && currentPlayer.getbalance() >= currentProperty.getCost()) {
+
+					currentProperty.setOwner(currentPlayer.getname());
+					currentProperty.buildHouse();
+					ArrayList<Property> arrP = new ArrayList<Property>();
+					arrP.add(currentProperty);
+					currentPlayer.payMoney(currentProperty.getCost());
+					if (currentPlayer.getproperty() == null) {
+						currentPlayer.setproperty(arrP);
+					} else {
+						currentPlayer.addproperty(currentProperty);
+					}
+				} else {
+					auction = true; // player cannot afford property
+				}
+			}
+
+			if (auction) {
 				// Auction here
 				Hashtable<Integer, String> givenMoney = new Hashtable<Integer, String>();
 				for (int i = 0; i < MG.getactivePlayers().size(); i++) {
@@ -347,42 +346,44 @@ public class MonoplyGameGUI extends JFrame {
 		}
 		// Owner is the current player
 		else if (currentProperty.getOwner().equals(currentPlayer.getname())) {
+			if (checkDaLao(currentProperty, currentPlayer)) {
+				if (!currentProperty.isFullHouse()) {
+					int dialogButton = JOptionPane.YES_NO_OPTION;
 
-			if (!currentProperty.isFullHouse()) {
-				int dialogButton = JOptionPane.YES_NO_OPTION;
+					int dialogResult = JOptionPane.showConfirmDialog(null,
+							"Would" + currentPlayer.getname() + " like to build one more house?", "Information",
+							dialogButton);
+					if (dialogResult == JOptionPane.YES_OPTION) {
 
-				int dialogResult = JOptionPane.showConfirmDialog(null,
-						"Would" + currentPlayer.getname() + " like to build one more house?", "Information",
-						dialogButton);
-				if (dialogResult == JOptionPane.YES_OPTION) {
+						if (currentPlayer.getbalance() > currentProperty.getCost()) {
+							currentPlayer.payMoney(currentProperty.getCost());
+							currentProperty.buildHouse();
+						} else {
+							JOptionPane.showMessageDialog(null,
+									currentPlayer.getname() + " cannot afford the price, give up building!");
+						}
 
-					if (currentPlayer.getbalance() > currentProperty.getCost()) {
-						currentPlayer.payMoney(currentProperty.getCost());
-						currentProperty.buildHouse();
-					} else {
-						JOptionPane.showMessageDialog(null,
-								currentPlayer.getname() + " cannot afford the price, give up building!");
+					}
+				} else {
+					int dialogButton = JOptionPane.YES_NO_OPTION;
+
+					int dialogResult = JOptionPane.showConfirmDialog(null,
+							"Would" + currentPlayer.getname() + " like to build a hotel?", "Information", dialogButton);
+					if (dialogResult == JOptionPane.YES_OPTION) {
+						if (currentPlayer.getbalance() > currentProperty.getCost()) {
+							currentPlayer.payMoney(currentProperty.getCost());
+							currentProperty.buildHouse();
+						} else {
+							JOptionPane.showMessageDialog(null,
+									currentPlayer.getname() + " cannot afford the price, give up upgrading!");
+						}
+
 					}
 
 				}
-			} else {
-				int dialogButton = JOptionPane.YES_NO_OPTION;
-
-				int dialogResult = JOptionPane.showConfirmDialog(null,
-						"Would" + currentPlayer.getname() + " like to build a hotel?", "Information", dialogButton);
-				if (dialogResult == JOptionPane.YES_OPTION) {
-					if (currentPlayer.getbalance() > currentProperty.getCost()) {
-						currentPlayer.payMoney(currentProperty.getCost());
-						currentProperty.buildHouse();
-					} else {
-						JOptionPane.showMessageDialog(null,
-								currentPlayer.getname() + " cannot afford the price, give up upgrading!");
-					}
-
-				}
-
 			}
 			showStatus();
+
 		}
 		// Owner is others
 		else {
@@ -398,6 +399,64 @@ public class MonoplyGameGUI extends JFrame {
 			}
 			showStatus();
 		}
+	}
+
+	private boolean ownverCheck(Player currPlayer, int a, int b) {
+		Property p1 = (Property) board.getTile(a);
+		Property p2 = (Property) board.getTile(b);
+		if (p1.getOwner() == p2.getOwner() && p1.getOwner() == currPlayer.getname()) {
+			return true;
+		}
+		return false;
+	}
+
+	private boolean ownverCheck(Player currPlayer, int a, int b, int c) {
+		Property p1 = (Property) board.getTile(a);
+		Property p2 = (Property) board.getTile(b);
+		Property p3 = (Property) board.getTile(c);
+		if (p1.getOwner() == p2.getOwner() && p3.getOwner() == p2.getOwner() && p1.getOwner() == currPlayer.getname()) {
+			return true;
+		}
+		return false;
+	}
+
+	private boolean checkDaLao(Property currentProperty, Player currPlayer) {
+		int pos = currentProperty.getPosition();
+		if (pos == 1 || pos == 3) {
+			return ownverCheck(currPlayer, 1, 3);
+
+		} else if (pos == 6 || pos == 8 || pos == 9) {
+			return ownverCheck(currPlayer, 6, 8, 9);
+
+		} else if (pos == 11 || pos == 13 || pos == 14) {
+			return ownverCheck(currPlayer, 11, 13, 14);
+
+		}
+
+		else if (pos == 16 || pos == 18 || pos == 19) {
+			return ownverCheck(currPlayer, 16, 18, 19);
+
+		}
+
+		else if (pos == 21 || pos == 23 || pos == 24) {
+			return ownverCheck(currPlayer, 21, 23, 24);
+
+		}
+
+		else if (pos == 26 || pos == 27 || pos == 29) {
+			return ownverCheck(currPlayer, 26, 27, 29);
+
+		}
+
+		else if (pos == 31 || pos == 32 || pos == 34) {
+			return ownverCheck(currPlayer, 31, 32, 34);
+
+		} else if (pos == 37 || pos == 39) {
+			return ownverCheck(currPlayer, 37, 39);
+
+		}
+
+		return false;
 	}
 
 	private void setButton(JPanel tempPanel, int flag, int minus) {
@@ -846,12 +905,11 @@ public class MonoplyGameGUI extends JFrame {
 		}
 
 	}
-   
-   
-   private boolean addAI () {
-      int decision = JOptionPane.showConfirmDialog(null, "Enable AI in this game?", "", JOptionPane.YES_NO_OPTION);
-      return decision == JOptionPane.YES_OPTION;
-   }
+
+	private boolean addAI() {
+		int decision = JOptionPane.showConfirmDialog(null, "Enable AI in this game?", "", JOptionPane.YES_NO_OPTION);
+		return decision == JOptionPane.YES_OPTION;
+	}
 
 	public MonoplyGameGUI() {
 
@@ -865,9 +923,9 @@ public class MonoplyGameGUI extends JFrame {
 			JOptionPane.showInputDialog("illegal input");
 			return;
 		}
-      
-      boolean AI = addAI();
-      
+
+		boolean AI = addAI();
+
 		String numOfPlayers = JOptionPane.showInputDialog("Please input the number of players(2-4)");
 		MonoplyGame MG = new MonoplyGame(0, true);
 		SetOfCards SOC = new SetOfCards();
@@ -882,22 +940,22 @@ public class MonoplyGameGUI extends JFrame {
 
 			for (int i = 0; i < Integer.parseInt(numOfPlayers); i++) {
 				String name = JOptionPane.showInputDialog("Please input the name of the " + (i + 1) + " player");
-            if (!names.contains(name) && !name.toLowerCase().equals("computer")) {
-   				names.add(name);
-   				Player player = new Player(name, 1000, true, 0, false, 0, null);
-   				allPlayers.put(name, player);
-   				MG.setnumOfPlayer(n);
-            } else {
-               JOptionPane.showMessageDialog(null, "Invalid Input! Enter another name!");
-               i --;
-            }
+				if (!names.contains(name) && !name.toLowerCase().equals("computer")) {
+					names.add(name);
+					Player player = new Player(name, 1000, true, 0, false, 0, null);
+					allPlayers.put(name, player);
+					MG.setnumOfPlayer(n);
+				} else {
+					JOptionPane.showMessageDialog(null, "Invalid Input! Enter another name!");
+					i--;
+				}
 			}
-         if (AI) {
-            Player computer = new Player ("Computer", 1500, true, 0, false, 0, null);
-            names.add("Computer");
-            allPlayers.put ("Computer", computer);  
-            MG.setnumOfPlayer(n+1);
-         }
+			if (AI) {
+				Player computer = new Player("Computer", 1500, true, 0, false, 0, null);
+				names.add("Computer");
+				allPlayers.put("Computer", computer);
+				MG.setnumOfPlayer(n + 1);
+			}
 			MG.setactivePlayers(names);
 		} else {
 			JOptionPane.showMessageDialog(null, "Invalid Input");
@@ -934,8 +992,8 @@ public class MonoplyGameGUI extends JFrame {
 					} else {
 
 						while (face1 == face2) {
-                     
-                     // mortgate
+
+							// mortgate
 							if (currentPlayer.getMorDes() != null && !currentPlayer.getMorDes().isEmpty()) {
 
 								int dialogButton = JOptionPane.YES_NO_OPTION;
@@ -973,44 +1031,49 @@ public class MonoplyGameGUI extends JFrame {
 
 							String[] choices = currentPlayer.getAllDescriptions()
 									.toArray(new String[currentPlayer.getAllDescriptions().size()]);
-                     
-                     // Computer starts to roll dice
-                     if (currentPlayer.getname().equals("Computer")) {
-                        String properties = "";
-                        if (choices.length == 0) {
-                           JOptionPane.showMessageDialog(null, "I do not have a property yet!", "AI's property",
-                           JOptionPane.PLAIN_MESSAGE);
-                        } else {
-                           for (int i = 0; i < choices.length; i++) {
-                              properties += choices[i]+'\n';
-                           }
-                           JOptionPane.showMessageDialog(null, "My properties:\n" + properties, "AI's property",
-                           JOptionPane.PLAIN_MESSAGE);
-                        }
-                     } else {    // Human rolls dice
-   							JOptionPane.showInputDialog(null, "Player: " + currentPlayer.getname(),
-   									"Information" + currentPlayer.getname() + "'s properties",
-   									JOptionPane.QUESTION_MESSAGE, null, // Use
-   									// default
-   									// icon
-   									choices, // Array of choices
-   									null); // Initial choice
-                     }
+
+							// Computer starts to roll dice
+							if (currentPlayer.getname().equals("Computer")) {
+								String properties = "";
+								if (choices.length == 0) {
+									JOptionPane.showMessageDialog(null, "I do not have a property yet!",
+											"AI's property", JOptionPane.PLAIN_MESSAGE);
+								} else {
+									for (int i = 0; i < choices.length; i++) {
+										properties += choices[i] + '\n';
+									}
+									JOptionPane.showMessageDialog(null, "My properties:\n" + properties,
+											"AI's property", JOptionPane.PLAIN_MESSAGE);
+								}
+							} else { // Human rolls dice
+								JOptionPane.showInputDialog(null, "Player: " + currentPlayer.getname(),
+										"Information" + currentPlayer.getname() + "'s properties",
+										JOptionPane.QUESTION_MESSAGE, null, // Use
+										// default
+										// icon
+										choices, // Array of choices
+										null); // Initial choice
+							}
 							face1 = currentPlayer.throwDice()[0];
 							face2 = currentPlayer.throwDice()[1];
-                     if (currentPlayer.getname().equals("Computer")) {
-                        JOptionPane.showMessageDialog(null, "I Rolled\n"+"dice1: " + face1 + "\n"+"dice2: " + face2,
-                        "Roll Dice", JOptionPane.PLAIN_MESSAGE);
-                     } else {
-							   JOptionPane.showMessageDialog(null, "Face1:" + face1 + "\n" + "Face2: " + face2,
-									"Roll Dice", JOptionPane.PLAIN_MESSAGE);
-                     }
-                     
+							if (currentPlayer.getname().equals("Computer")) {
+								JOptionPane.showMessageDialog(null,
+										"I Rolled\n" + "dice1: " + face1 + "\n" + "dice2: " + face2, "Roll Dice",
+										JOptionPane.PLAIN_MESSAGE);
+							} else {
+								JOptionPane.showMessageDialog(null, "Face1:" + face1 + "\n" + "Face2: " + face2,
+										"Roll Dice", JOptionPane.PLAIN_MESSAGE);
+							}
+
 							// remove player from its previous tile
 							// <h5></h5>
 							// see if player previous tile has any other person
 							// System.out.println("all labees
 							// count:"+tileLabels.get(1).getText());
+							if (currentPlayer.getposition() + face1 + face2 >= 40){
+								JOptionPane.showMessageDialog(null, "Passed the starting point, get $200 reward");
+								currentPlayer.getMoney(200);
+							}
 
 							currentPlayer.move(face1 + face2);
 
