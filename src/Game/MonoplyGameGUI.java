@@ -138,12 +138,13 @@ public class MonoplyGameGUI extends JFrame {
 
 	}
 
-	private boolean bankcrupt(Player currentPlayer, int moneyNeedToPay) {
+	private boolean bankcrupt(MonoplyGame MG, Player currentPlayer, int moneyNeedToPay) {
 		int moneyOwed = moneyNeedToPay;
 
 		if (currentPlayer.getproperty() == null) {
 			JOptionPane.showMessageDialog(null, "GET OUT OF THE GAME!");
 			currentPlayer.setfinancialStatus(false);
+         MG.deActivate(currentPlayer.getname());
 			return false;
 		}
 
@@ -189,7 +190,7 @@ public class MonoplyGameGUI extends JFrame {
 			return false;
 		}
 
-		return bankcrupt(currentPlayer, moneyOwed);
+		return bankcrupt(MG, currentPlayer, moneyOwed);
 	}
 
 	private void jailStatus(Player currentPlayer, MonoplyGame MG) {
@@ -220,7 +221,7 @@ public class MonoplyGameGUI extends JFrame {
 				currentPlayer.payMoney(200);
 
 				if (currentPlayer.getbalance() < 0) {
-					bankcrupt(currentPlayer, -1 * currentPlayer.getbalance());
+					bankcrupt(MG, currentPlayer, -1 * currentPlayer.getbalance());
 				}
 
 			}
@@ -327,7 +328,9 @@ public class MonoplyGameGUI extends JFrame {
                      //System.out.println((int)(0.5*currentProperty.getCost())+ " " + MG.getactivePlayers().get(i));
                   } else {
                      JOptionPane.showMessageDialog(null, "AI provides a price of " + allPlayers.get(MG.getactivePlayers().get(i)).getbalance()/3);
-                     givenMoney.put(allPlayers.get(MG.getactivePlayers().get(i)).getbalance()/3, MG.getactivePlayers().get(i));
+                     givenMoney.put((int)(allPlayers.get(MG.getactivePlayers().get(i)).getbalance()/3), MG.getactivePlayers().get(i));
+                     // ************* TEST *****************
+                     //System.out.println((int)(allPlayers.get(MG.getactivePlayers().get(i)).getbalance()/3)+ " " + MG.getactivePlayers().get(i));
                   }
                } else {
                // Human provides auction price
@@ -363,7 +366,10 @@ public class MonoplyGameGUI extends JFrame {
             
 				allPlayers.get(newOwner).payMoney(maxPrice);
 				currentProperty.setOwner(newOwner);
-
+            
+            // *************** TEST *******************
+            //System.out.println(allPlayers.get(newOwner).getname());
+            
 				allPlayers.get(newOwner).addproperty(currentProperty);
 				JOptionPane.showMessageDialog(null,
 						newOwner + " is the new owner of " + currentProperty.getDescription());
@@ -375,38 +381,55 @@ public class MonoplyGameGUI extends JFrame {
 		else if (currentProperty.getOwner().equals(currentPlayer.getname())) {
 			if (checkDaLao(currentProperty, currentPlayer)) {
 				if (!currentProperty.isFullHouse()) {
-					int dialogButton = JOptionPane.YES_NO_OPTION;
-
-					int dialogResult = JOptionPane.showConfirmDialog(null,
-							"Would" + currentPlayer.getname() + " like to build one more house?", "Information",
-							dialogButton);
-					if (dialogResult == JOptionPane.YES_OPTION) {
-
-						if (currentPlayer.getbalance() > currentProperty.getCost()) {
-							currentPlayer.payMoney(currentProperty.getCost());
-							currentProperty.buildHouse();
-						} else {
-							JOptionPane.showMessageDialog(null,
-									currentPlayer.getname() + " cannot afford the price, give up building!");
-						}
-
-					}
+               // AI player builds house            
+               if (currentPlayer.getname().equals("Computer")) {
+                  if (currentPlayer.getbalance() > currentProperty.getCost()) {
+                     currentPlayer.payMoney(currentProperty.getCost());
+   						currentProperty.buildHouse();
+                     JOptionPane.showMessageDialog(null, "I just built another house");
+                  }
+               } else { // human player builds house
+   					int dialogButton = JOptionPane.YES_NO_OPTION;
+   
+   					int dialogResult = JOptionPane.showConfirmDialog(null,
+   							"Would" + currentPlayer.getname() + " like to build one more house?", "Information",
+   							dialogButton);
+   					if (dialogResult == JOptionPane.YES_OPTION) {
+   
+   						if (currentPlayer.getbalance() > currentProperty.getCost()) {
+   							currentPlayer.payMoney(currentProperty.getCost());
+   							currentProperty.buildHouse();
+   						} else {
+   							JOptionPane.showMessageDialog(null,
+   									currentPlayer.getname() + " cannot afford the price, give up building!");
+   						}
+   
+   					}
+               }
 				} else {
-					int dialogButton = JOptionPane.YES_NO_OPTION;
-
-					int dialogResult = JOptionPane.showConfirmDialog(null,
-							"Would" + currentPlayer.getname() + " like to build a hotel?", "Information", dialogButton);
-					if (dialogResult == JOptionPane.YES_OPTION) {
-						if (currentPlayer.getbalance() > currentProperty.getCost()) {
-							currentPlayer.payMoney(currentProperty.getCost());
-							currentProperty.buildHouse();
-						} else {
-							JOptionPane.showMessageDialog(null,
-									currentPlayer.getname() + " cannot afford the price, give up upgrading!");
-						}
-
-					}
-
+               // AI player builds hotel
+               if (currentPlayer.getname().equals("Computer")) {
+                  if (currentPlayer.getbalance() > currentProperty.getCost()) {
+                     currentPlayer.payMoney(currentProperty.getCost());
+   						currentProperty.buildHouse();
+                     JOptionPane.showMessageDialog(null, "I just built a hotel!");
+                  }
+               } else {
+   					int dialogButton = JOptionPane.YES_NO_OPTION;
+   
+   					int dialogResult = JOptionPane.showConfirmDialog(null,
+   							"Would" + currentPlayer.getname() + " like to build a hotel?", "Information", dialogButton);
+   					if (dialogResult == JOptionPane.YES_OPTION) {
+   						if (currentPlayer.getbalance() > currentProperty.getCost()) {
+   							currentPlayer.payMoney(currentProperty.getCost());
+   							currentProperty.buildHouse();
+   						} else {
+   							JOptionPane.showMessageDialog(null,
+   									currentPlayer.getname() + " cannot afford the price, give up upgrading!");
+   						}
+   
+   					}
+               }
 				}
 			}
 			showStatus();
@@ -422,7 +445,7 @@ public class MonoplyGameGUI extends JFrame {
 					"Player: " + currentPlayer.getname() + " pay rent to Player: " + currentProperty.getOwner());
 
 			if (currentPlayer.getbalance() < 0) {
-				bankcrupt(currentPlayer, -currentPlayer.getbalance());
+				bankcrupt (MG, currentPlayer, -currentPlayer.getbalance());
 			}
 			showStatus();
 		}
@@ -969,7 +992,7 @@ public class MonoplyGameGUI extends JFrame {
 				String name = JOptionPane.showInputDialog("Please input the name of the " + (i + 1) + " player");
 				if (!names.contains(name) && !name.toLowerCase().equals("computer")) {
 					names.add(name);
-					Player player = new Player(name, 1000, true, 0, false, 0, null);
+					Player player = new Player(name, 1000, true, 0, false, 0, new ArrayList<Property>());
 					allPlayers.put(name, player);
 					MG.setnumOfPlayer(n);
 				} else {
@@ -977,8 +1000,9 @@ public class MonoplyGameGUI extends JFrame {
 					i--;
 				}
 			}
+         
 			if (AI) {
-				Player computer = new Player("Computer", 1500, true, 0, false, 0, null);
+				Player computer = new Player("Computer", 10, true, 0, false, 0, new ArrayList<Property>());
 				names.add("Computer");
 				allPlayers.put("Computer", computer);
 				MG.setnumOfPlayer(n + 1);
@@ -1134,7 +1158,7 @@ public class MonoplyGameGUI extends JFrame {
 
 												currentPlayer.getMoney(currentCard.getAmountChange());
 												if (allPlayers.get(Name).getbalance() < 0) {
-													bankcrupt(allPlayers.get(Name),
+													bankcrupt(MG, allPlayers.get(Name),
 															-(allPlayers.get(Name).getbalance()));
 
 												}
@@ -1142,7 +1166,7 @@ public class MonoplyGameGUI extends JFrame {
 											}
 
 											if (currentPlayer.getbalance() < 0) {
-												bankcrupt(currentPlayer, -currentPlayer.getbalance());
+												bankcrupt(MG, currentPlayer, -currentPlayer.getbalance());
 											}
 
 										}
@@ -1184,7 +1208,7 @@ public class MonoplyGameGUI extends JFrame {
 							case 4:
 								currentPlayer.payMoney(200);
 								if (currentPlayer.getbalance() < 0) {
-									bankcrupt(currentPlayer, -currentPlayer.getbalance());
+									bankcrupt(MG, currentPlayer, -currentPlayer.getbalance());
 
 								}
 
@@ -1210,7 +1234,7 @@ public class MonoplyGameGUI extends JFrame {
 							case 38:
 								currentPlayer.payMoney(60);
 								if (currentPlayer.getbalance() < 0) {
-									bankcrupt(currentPlayer, -currentPlayer.getbalance());
+									bankcrupt(MG, currentPlayer, -currentPlayer.getbalance());
 								}
 								break;
 							case 20:
