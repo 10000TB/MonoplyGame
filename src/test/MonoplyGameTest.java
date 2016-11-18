@@ -1,4 +1,4 @@
-package JunitTest;
+package test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -8,7 +8,6 @@ import java.util.HashMap;
 
 import org.junit.Test;
 
-import Game.*;
 import model.Board;
 import model.Card;
 import model.MonoplyGame;

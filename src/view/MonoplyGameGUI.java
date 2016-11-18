@@ -1,4 +1,4 @@
-package Game;
+package view;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -60,18 +60,11 @@ public class MonoplyGameGUI extends JFrame {
 	JPanel turnPanel = new JPanel();
 	JLabel turnLabel = new JLabel();
 
-	// player panel
-	// JPanel player_one_panel = new JPanel();
-	// JPanel player_two_panel = new JPanel();
-	// JPanel player_three_panel = new JPanel();
-	// JPanel player_four_panel = new JPanel();
-
 	// rollDice panel
 	JPanel rollDice = new JPanel();
 	JButton diceButton = new JButton("Rolling Dice");
 	// JButton player_one_info = new JButton("player 1 Info");
 
-	//
 	Board board = new Board();
 	int flag = 0;
 
@@ -986,7 +979,7 @@ public class MonoplyGameGUI extends JFrame {
 		MonoplyGame MG = new MonoplyGame(0, true);
 		SetOfCards SOC = new SetOfCards();
 		//Monopoly Game Controller
-		mgVC = new MonoplyGameController(MG, allPlayers);
+		mgVC = new MonoplyGameController(MG, allPlayers,board);
 		
 		
 		if (isNumeric(time)) {
@@ -1168,15 +1161,11 @@ public class MonoplyGameGUI extends JFrame {
 												if (allPlayers.get(Name).getbalance() < 0) {
 													bankcrupt(MG, allPlayers.get(Name),
 															-(allPlayers.get(Name).getbalance()));
-
 												}
-
 											}
-
 											if (currentPlayer.getbalance() < 0) {
 												bankcrupt(MG, currentPlayer, -currentPlayer.getbalance());
 											}
-
 										}
 
 									} else {
@@ -1201,7 +1190,6 @@ public class MonoplyGameGUI extends JFrame {
 										currentPlayer.move(currentCard2.getposMove());
 									} else {
 										currentPlayer.setposition(currentCard2.getJump());
-
 									}
 								}
 								testEnding(MG);
@@ -1217,9 +1205,7 @@ public class MonoplyGameGUI extends JFrame {
 								currentPlayer.payMoney(200);
 								if (currentPlayer.getbalance() < 0) {
 									bankcrupt(MG, currentPlayer, -currentPlayer.getbalance());
-
 								}
-
 								break;
 							case 5:
 								currentPlayer.getMoney(200);
@@ -1261,24 +1247,23 @@ public class MonoplyGameGUI extends JFrame {
 
 						}
 
-						nextPerson(currentPlayer, MG);
+//						nextPerson(currentPlayer, MG);
+						mgVC.nextPerson();
 						updateAllPlayerPositionToken(MG);
 
 						testEnding(MG);
 
 						JOptionPane.showMessageDialog(null,
-								allPlayers.get(MG.getactivePlayers().get(0)).getname() + "'s turn", "Information",
+								mgVC.getallPlayers().get(MG.getactivePlayers().get(0)).getname() + "'s turn", "Information",
 								JOptionPane.PLAIN_MESSAGE);
-						currentPlayer = allPlayers.get(MG.getactivePlayers().get(0));
-
+//						currentPlayer = allPlayers.get(MG.getactivePlayers().get(0));
+						currentPlayer = mgVC.getActivePlayer();
 					}
-
 				}
 			});
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	public static void main(String[] args) {
