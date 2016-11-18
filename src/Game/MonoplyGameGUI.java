@@ -39,20 +39,22 @@ public class MonoplyGameGUI extends JFrame {
 	JPanel playerPanel2 = new JPanel();
 	JPanel playerPanel3 = new JPanel();
 	JPanel playerPanel4 = new JPanel();
+   JPanel computerPanel = new JPanel();
 
 	JLabel player_one_label = new JLabel();
 	JLabel player_two_label = new JLabel();
 	JLabel player_three_label = new JLabel();
 	JLabel player_four_label = new JLabel();
+   JLabel computerLabel     = new JLabel();
 
 	JPanel turnPanel = new JPanel();
 	JLabel turnLabel = new JLabel();
 
 	// player panel
-	JPanel player_one_panel = new JPanel();
-	JPanel player_two_panel = new JPanel();
-	JPanel player_three_panel = new JPanel();
-	JPanel player_four_panel = new JPanel();
+// 	JPanel player_one_panel = new JPanel();
+// 	JPanel player_two_panel = new JPanel();
+// 	JPanel player_three_panel = new JPanel();
+// 	JPanel player_four_panel = new JPanel();
 
 	// rollDice panel
 	JPanel rollDice = new JPanel();
@@ -818,6 +820,12 @@ public class MonoplyGameGUI extends JFrame {
 		}
 
 	}
+   
+   
+   private boolean addAI () {
+      int decision = JOptionPane.showConfirmDialog(null, "Enable AI in this game?", "", JOptionPane.YES_NO_OPTION);
+      return decision == JOptionPane.YES_OPTION;
+   }
 
 	public MonoplyGameGUI() {
 
@@ -831,6 +839,9 @@ public class MonoplyGameGUI extends JFrame {
 			JOptionPane.showInputDialog("illegal input");
 			return;
 		}
+      
+      boolean AI = addAI();
+      
 		String numOfPlayers = JOptionPane.showInputDialog("Please input the number of players(2-4)");
 		MonoplyGame MG = new MonoplyGame(0, true);
 		SetOfCards SOC = new SetOfCards();
@@ -850,6 +861,12 @@ public class MonoplyGameGUI extends JFrame {
 				allPlayers.put(name, player);
 				MG.setnumOfPlayer(n);
 			}
+         if (AI) {
+            Player computer = new Player ("Computer", 1500, true, 0, false, 0, null);
+            names.add("Computer");
+            allPlayers.put ("Computer", computer);  
+            MG.setnumOfPlayer(n+1);
+         }
 			MG.setactivePlayers(names);
 		} else {
 			JOptionPane.showMessageDialog(null, "Invalid Input");
