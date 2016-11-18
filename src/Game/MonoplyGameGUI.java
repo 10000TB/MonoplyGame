@@ -380,38 +380,55 @@ public class MonoplyGameGUI extends JFrame {
 		else if (currentProperty.getOwner().equals(currentPlayer.getname())) {
 			if (checkDaLao(currentProperty, currentPlayer)) {
 				if (!currentProperty.isFullHouse()) {
-					int dialogButton = JOptionPane.YES_NO_OPTION;
-
-					int dialogResult = JOptionPane.showConfirmDialog(null,
-							"Would" + currentPlayer.getname() + " like to build one more house?", "Information",
-							dialogButton);
-					if (dialogResult == JOptionPane.YES_OPTION) {
-
-						if (currentPlayer.getbalance() > currentProperty.getCost()) {
-							currentPlayer.payMoney(currentProperty.getCost());
-							currentProperty.buildHouse();
-						} else {
-							JOptionPane.showMessageDialog(null,
-									currentPlayer.getname() + " cannot afford the price, give up building!");
-						}
-
-					}
+               // AI player builds house            
+               if (currentPlayer.getname().equals("Computer")) {
+                  if (currentPlayer.getbalance() > currentProperty.getCost()) {
+                     currentPlayer.payMoney(currentProperty.getCost());
+   						currentProperty.buildHouse();
+                     JOptionPane.showMessageDialog(null, "I just built another house");
+                  }
+               } else { // human player builds house
+   					int dialogButton = JOptionPane.YES_NO_OPTION;
+   
+   					int dialogResult = JOptionPane.showConfirmDialog(null,
+   							"Would" + currentPlayer.getname() + " like to build one more house?", "Information",
+   							dialogButton);
+   					if (dialogResult == JOptionPane.YES_OPTION) {
+   
+   						if (currentPlayer.getbalance() > currentProperty.getCost()) {
+   							currentPlayer.payMoney(currentProperty.getCost());
+   							currentProperty.buildHouse();
+   						} else {
+   							JOptionPane.showMessageDialog(null,
+   									currentPlayer.getname() + " cannot afford the price, give up building!");
+   						}
+   
+   					}
+               }
 				} else {
-					int dialogButton = JOptionPane.YES_NO_OPTION;
-
-					int dialogResult = JOptionPane.showConfirmDialog(null,
-							"Would" + currentPlayer.getname() + " like to build a hotel?", "Information", dialogButton);
-					if (dialogResult == JOptionPane.YES_OPTION) {
-						if (currentPlayer.getbalance() > currentProperty.getCost()) {
-							currentPlayer.payMoney(currentProperty.getCost());
-							currentProperty.buildHouse();
-						} else {
-							JOptionPane.showMessageDialog(null,
-									currentPlayer.getname() + " cannot afford the price, give up upgrading!");
-						}
-
-					}
-
+               // AI player builds hotel
+               if (currentPlayer.getname().equals("Computer")) {
+                  if (currentPlayer.getbalance() > currentProperty.getCost()) {
+                     currentPlayer.payMoney(currentProperty.getCost());
+   						currentProperty.buildHouse();
+                     JOptionPane.showMessageDialog(null, "I just built a hotel!");
+                  }
+               } else {
+   					int dialogButton = JOptionPane.YES_NO_OPTION;
+   
+   					int dialogResult = JOptionPane.showConfirmDialog(null,
+   							"Would" + currentPlayer.getname() + " like to build a hotel?", "Information", dialogButton);
+   					if (dialogResult == JOptionPane.YES_OPTION) {
+   						if (currentPlayer.getbalance() > currentProperty.getCost()) {
+   							currentPlayer.payMoney(currentProperty.getCost());
+   							currentProperty.buildHouse();
+   						} else {
+   							JOptionPane.showMessageDialog(null,
+   									currentPlayer.getname() + " cannot afford the price, give up upgrading!");
+   						}
+   
+   					}
+               }
 				}
 			}
 			showStatus();
