@@ -3,7 +3,8 @@ package JunitTest;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
-import Game.Dice;
+
+import model.Dice;
 
 public class DiceTest {
 

@@ -8,9 +8,12 @@ import java.util.HashMap;
 
 import org.junit.Test;
 
-import Game.Player;
-import Game.Property;
 import Game.*;
+import model.Board;
+import model.Card;
+import model.MonoplyGame;
+import model.Player;
+import model.Property;
 
 public class MonoplyGameTest {
 

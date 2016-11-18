@@ -4,8 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import Game.Board;
-import Game.Tile;
+import model.Board;
+import model.Tile;
 
 public class TileTest {
 

@@ -1,9 +1,9 @@
-package Game;
+package model;
 
 public class CommunityChestCard extends Card {
 
 	private int posMove;
-	protected boolean ifMove;
+	public boolean ifMove;
 	private int posJump;
 
 	public CommunityChestCard(String Des, boolean isGoToJail, boolean isGetOutOfJail, int posMove, boolean ifMove,

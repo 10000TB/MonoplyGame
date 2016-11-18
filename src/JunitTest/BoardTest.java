@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import Game.*;
+import model.Board;
 
 public class BoardTest {
 
