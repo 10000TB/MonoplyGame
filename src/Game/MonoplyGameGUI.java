@@ -30,6 +30,7 @@ public class MonoplyGameGUI extends JFrame {
 	ArrayList<JLabel> tileLabels = new ArrayList<JLabel>();
 	HashMap<String, Player> allPlayers = new HashMap<String, Player>();
 
+
 	// UI elements
 	// timer panel
 	JPanel timerPanel = new JPanel();
@@ -62,7 +63,43 @@ public class MonoplyGameGUI extends JFrame {
 	//
 	Board board = new Board();
 	int flag = 0;
+	
+	private void showStatus() {
+		int player_cnt = 0;
 
+		for (String key : allPlayers.keySet()) {
+			player_cnt++;
+			String balance;
+			if (allPlayers.get(key).getfinancialStatus() == false){
+				balance = "gg";
+			}
+			else{
+				balance = Integer.toString(allPlayers.get(key).getbalance());
+			}
+			switch (player_cnt) {
+			case 1:
+				player_one_label
+						.setText(allPlayers.get(key).getname() + ":" + balance + "     ");
+				break;
+			case 2:
+				player_two_label
+						.setText(allPlayers.get(key).getname() + ":" + balance + "     ");
+				break;
+			case 3:
+				player_three_label
+						.setText(allPlayers.get(key).getname() + ":" + balance + "     ");
+				break;
+
+			case 4:
+				player_four_label
+						.setText(allPlayers.get(key).getname() + ":" + balance + "     ");
+				break;
+
+			default:
+				break;
+			}
+		}
+	}
 	public static boolean isNumeric(String str) {
 		try {
 			double d = Double.parseDouble(str);
@@ -71,39 +108,39 @@ public class MonoplyGameGUI extends JFrame {
 		}
 		return true;
 	}
+	
+	private void nextPerson(Player currentPlayer, MonoplyGame MG){
+		MG.getactivePlayers().remove(0);
+		// allPlayers.get(MG.getactivePlayers().get(1));
+		if (currentPlayer.getfinancialStatus()) {
+			MG.getactivePlayers().add(currentPlayer.getname());
 
-	private void showStatus() {
-		int player_cnt = 0;
-
-		for (String key : allPlayers.keySet()) {
-			player_cnt++;
-			switch (player_cnt) {
-			case 1:
-				player_one_label
-						.setText(allPlayers.get(key).getname() + ":" + allPlayers.get(key).getbalance() + "     ");
-				break;
-			case 2:
-				player_two_label
-						.setText(allPlayers.get(key).getname() + ":" + allPlayers.get(key).getbalance() + "     ");
-				break;
-			case 3:
-				player_three_label
-						.setText(allPlayers.get(key).getname() + ":" + allPlayers.get(key).getbalance() + "     ");
-				break;
-
-			case 4:
-				player_four_label
-						.setText(allPlayers.get(key).getname() + ":" + allPlayers.get(key).getbalance() + "     ");
-				break;
-
-			default:
-				break;
+		} else {
+			for (int i = 0; i < 39; i++) {
+				if (currentPlayer.getproperty() == null){
+					break;
+				}
+				if (board.getTile(i) instanceof Property){
+				Property p = (Property) board.getTile(i);
+				if (currentPlayer.getproperty().contains(p)) {
+					p.clearAll();
+					currentPlayer.removeproperty(p);
+					currentPlayer.getMoney(p.getMorgagePrice());
+				}
+				}
 			}
 		}
+		
 	}
-
-	private boolean bankcrupt(Player currentPlayer, int moneyNeedToPay) {
+	
+	private boolean bankcrupt(Player currentPlayer, int moneyNeedToPay){
 		int moneyOwed = moneyNeedToPay;
+		
+		if (currentPlayer.getproperty() == null){
+			JOptionPane.showMessageDialog(null, "GET OUT OF THE GAME!");
+			currentPlayer.setfinancialStatus(false);
+			return false;
+		}
 
 		if (moneyOwed < 0) {
 			return true;
@@ -124,11 +161,14 @@ public class MonoplyGameGUI extends JFrame {
 					choice, // Array of choices
 					null); // Initial choice
 			for (Property soldProperty : currentPlayer.getproperty()) {
+				System.out.println(inpu);
+				System.out.println(soldProperty.getDescription());
 				if (soldProperty.getDescription().equals(inpu)) {
 					moneyOwed = moneyOwed - soldProperty.getMorgagePrice();
 					soldProperty.clearAll();
 					currentPlayer.removeproperty(soldProperty);
 					currentPlayer.getMoney(soldProperty.getMorgagePrice());
+					System.out.println(currentPlayer.getname() + currentPlayer.getbalance());
 					break;
 
 				}
@@ -137,6 +177,7 @@ public class MonoplyGameGUI extends JFrame {
 			if (inpu == null) {
 				JOptionPane.showMessageDialog(null, "GET OUT OF THE GAME!");
 				currentPlayer.setfinancialStatus(false);
+				return false;
 			}
 
 		} else {
@@ -146,13 +187,204 @@ public class MonoplyGameGUI extends JFrame {
 		}
 
 		return bankcrupt(currentPlayer, moneyOwed);
-
 	}
+	
+	private void jailStatus(Player currentPlayer, MonoplyGame MG){
+		if (currentPlayer.getnumOutOfJailCard() > 0) {
+			int dialogButton = JOptionPane.YES_NO_OPTION;
+			int dialogResult = JOptionPane.showConfirmDialog(null,
+					"Is" + currentPlayer.getname() + " going to use the Get Out Of Jail card?",
+					"Information", dialogButton);
+			if (dialogResult == JOptionPane.YES_OPTION) {
+				currentPlayer.setjailStatus(false);
+				currentPlayer.setnumOutOfJailCard(currentPlayer.getnumOutOfJailCard() - 1);
 
-	Image bg = new ImageIcon("/s/bach/j/under/ykzhu/Downloads/question-mark_318-52837.jpg").getImage();
+			}
 
-	public void paintComponent(Graphics g) {
-		g.drawImage(bg, 0, 0, getWidth(), getHeight(), this);
+		} else {
+			JOptionPane.showMessageDialog(null, "Let's try " + currentPlayer.getname()
+					+ "'s luckness! Number over than 80, you will get free");
+			int luckness = (int) (Math.random() * 99 + 1);
+			JOptionPane.showMessageDialog(null, "your number: " + luckness);
+
+			if (luckness > 80) {
+				JOptionPane.showMessageDialog(null,
+						currentPlayer.getname() + "is so luck! Get out of here!");
+				currentPlayer.setjailStatus(false);
+			} else {
+				JOptionPane.showMessageDialog(null, "Oh man! DO NOT TRY TO PRISON BREAK");
+				JOptionPane.showMessageDialog(null,
+						currentPlayer.getname() + "GET A FINE OF $200 and cannot move this turn");
+				currentPlayer.payMoney(200);
+
+				if (currentPlayer.getbalance() < 0) {
+					 bankcrupt(currentPlayer, -1 * currentPlayer.getbalance());
+				}
+
+			}
+
+		}
+
+		nextPerson(currentPlayer, MG);
+		updateAllPlayerPositionToken(MG);
+
+		if (MG.getactivePlayers().size() < 2) {
+			// end of game
+			JOptionPane.showMessageDialog(null, "WINNER IS " + MG.getactivePlayers().get(0) + "!");
+			dispose();
+			return;
+		}
+		JOptionPane.showMessageDialog(null,
+				allPlayers.get(MG.getactivePlayers().get(0)).getname() + "'s turn", "Information",
+				JOptionPane.PLAIN_MESSAGE);
+		currentPlayer = allPlayers.get(MG.getactivePlayers().get(0));
+	}
+	
+	private void goToJailCard(Player currentPlayer, MonoplyGame MG){
+		currentPlayer.setposition(10);
+		updateAllPlayerPositionToken(MG);
+
+		if (currentPlayer.getnumOutOfJailCard() > 0) {
+			currentPlayer.setposition(10);
+
+			int dialogButton = JOptionPane.YES_NO_OPTION;
+			int dialogResult = JOptionPane.showConfirmDialog(null,
+					"Is" + currentPlayer.getname()
+							+ " going to use the Get Out Of Jail card?",
+					"Information", dialogButton);
+			if (dialogResult == JOptionPane.YES_OPTION) {
+				currentPlayer.setjailStatus(false);
+				currentPlayer.setnumOutOfJailCard(currentPlayer.getnumOutOfJailCard() - 1);
+
+			} else {
+				JOptionPane.showMessageDialog(null,
+						"What's wrong with you, you m***** f*****!");
+				currentPlayer.setjailStatus(true);
+
+			}
+
+		} else {
+			currentPlayer.setjailStatus(true);
+
+		}
+	}
+	
+	private void propertyTile(Player currentPlayer, MonoplyGame MG){
+		Property currentProperty = (Property) board.getTile(currentPlayer.getposition());
+
+		// If the property does not have a owner
+		if (currentProperty.getOwner().isEmpty()) {
+			int dialogButton = JOptionPane.YES_NO_OPTION;
+			int dialogResult = JOptionPane.showConfirmDialog(null,
+					"Would you like to buy this property?", "Information", dialogButton);
+			if (dialogResult == JOptionPane.YES_OPTION
+					&& currentPlayer.getbalance() >= currentProperty.getCost()) {
+
+				currentProperty.setOwner(currentPlayer.getname());
+				currentProperty.buildHouse();
+				ArrayList<Property> arrP = new ArrayList<Property>();
+				arrP.add(currentProperty);
+				currentPlayer.payMoney(currentProperty.getCost());
+				if (currentPlayer.getproperty() == null) {
+					currentPlayer.setproperty(arrP);
+				} else {
+					currentPlayer.addproperty(currentProperty);
+				}
+
+			} else {
+				// Auction here
+				Hashtable<Integer, String> givenMoney = new Hashtable<Integer, String>();
+				for (int i = 0; i < MG.getactivePlayers().size(); i++) {
+					String money = JOptionPane.showInputDialog(null,
+							"What's " + MG.getactivePlayers().get(i) + " price?");
+					if (!isNumeric(money)) {
+						JOptionPane.showMessageDialog(null,
+								"Invalid Price, give up this auction!");
+						givenMoney.put(0, MG.getactivePlayers().get(i));
+
+					} else if (Integer.parseInt(money) > allPlayers
+							.get(MG.getactivePlayers().get(i)).getbalance()) {
+						JOptionPane.showMessageDialog(null, currentPlayer.getname()
+								+ " cannot afford the price, give up this auction!");
+						givenMoney.put(0, MG.getactivePlayers().get(i));
+					} else {
+						givenMoney.put(Integer.parseInt(money), MG.getactivePlayers().get(i));
+					}
+
+				}
+
+				int maxPrice = 0;
+				for (Integer currentPrice : givenMoney.keySet()) {
+					if (maxPrice < currentPrice) {
+						maxPrice = currentPrice;
+					}
+				}
+
+				String newOwner = givenMoney.get(maxPrice);
+				allPlayers.get(newOwner).payMoney(maxPrice);
+				currentProperty.setOwner(newOwner);
+
+				allPlayers.get(newOwner).addproperty(currentProperty);
+				JOptionPane.showMessageDialog(null,
+						newOwner + " is the new owner of " + currentProperty.getDescription());
+
+			}
+			showStatus();
+		}
+		// Owner is the current player
+		else if (currentProperty.getOwner().equals(currentPlayer.getname())) {
+
+			if (!currentProperty.isFullHouse()) {
+				int dialogButton = JOptionPane.YES_NO_OPTION;
+
+				int dialogResult = JOptionPane.showConfirmDialog(null,
+						"Would" + currentPlayer.getname() + " like to build one more house?",
+						"Information", dialogButton);
+				if (dialogResult == JOptionPane.YES_OPTION) {
+
+					if (currentPlayer.getbalance() > currentProperty.getCost()) {
+						currentPlayer.payMoney(currentProperty.getCost());
+						currentProperty.buildHouse();
+					} else {
+						JOptionPane.showMessageDialog(null, currentPlayer.getname()
+								+ " cannot afford the price, give up building!");
+					}
+
+				}
+			} else {
+				int dialogButton = JOptionPane.YES_NO_OPTION;
+
+				int dialogResult = JOptionPane.showConfirmDialog(null,
+						"Would" + currentPlayer.getname() + " like to build a hotel?",
+						"Information", dialogButton);
+				if (dialogResult == JOptionPane.YES_OPTION) {
+					if (currentPlayer.getbalance() > currentProperty.getCost()) {
+						currentPlayer.payMoney(currentProperty.getCost());
+						currentProperty.buildHouse();
+					} else {
+						JOptionPane.showMessageDialog(null, currentPlayer.getname()
+								+ " cannot afford the price, give up upgrading!");
+					}
+
+				}
+
+			}
+			showStatus();
+		}
+		// Owner is others
+		else {
+			String thisOwner = currentProperty.getOwner();
+			allPlayers.get(thisOwner).getMoney(currentProperty.getRent());
+			currentPlayer.payMoney(currentProperty.getRent());
+
+			JOptionPane.showMessageDialog(null, "Player: " + currentPlayer.getname()
+					+ " pay rent to Player: " + currentProperty.getOwner());
+
+			if (currentPlayer.getbalance() < 0) {
+				bankcrupt(currentPlayer, -currentPlayer.getbalance());
+			}
+			showStatus();
+		}
 	}
 
 	private void setButton(JPanel tempPanel, int flag, int minus) {
@@ -622,7 +854,7 @@ public class MonoplyGameGUI extends JFrame {
 			for (int i = 0; i < Integer.parseInt(numOfPlayers); i++) {
 				String name = JOptionPane.showInputDialog("Please input the name the " + (i + 1) + " player");
 				names.add(name);
-				Player player = new Player(name, 1500, true, 0, false, 0, null);
+				Player player = new Player(name, 1000, true, 0, false, 0, null);
 				allPlayers.put(name, player);
 				MG.setnumOfPlayer(n);
 			}
@@ -657,36 +889,7 @@ public class MonoplyGameGUI extends JFrame {
 					int face1 = 0, face2 = 0;
 
 					if (currentPlayer.getjailStatus() == true) {
-						if (currentPlayer.getnumOutOfJailCard() > 0) {
-							int dialogButton = JOptionPane.YES_NO_OPTION;
-							int dialogResult = JOptionPane.showConfirmDialog(null,
-									"Is" + currentPlayer.getname() + " going to use the Get Out Of Jail card?",
-									"Information", dialogButton);
-							if (dialogResult == JOptionPane.YES_OPTION) {
-								currentPlayer.setjailStatus(false);
-								currentPlayer.setnumOutOfJailCard(currentPlayer.getnumOutOfJailCard() - 1);
-
-							}
-
-						} else {
-							JOptionPane.showMessageDialog(null, "Let's try " + currentPlayer.getname()
-									+ "'s luckness! Number over than 80, you will get free");
-							int luckness = (int) (Math.random() * 99 + 1);
-							JOptionPane.showMessageDialog(null, "your number: " + luckness);
-
-							if (luckness > 80) {
-								JOptionPane.showMessageDialog(null,
-										currentPlayer.getname() + "is so luck! Get out of here!");
-								currentPlayer.setjailStatus(false);
-							} else {
-								JOptionPane.showMessageDialog(null, "Oh man! DO NOT TRY TO PRISON BREAK");
-
-							}
-							JOptionPane.showMessageDialog(null,
-									currentPlayer.getname() + "GET A FINE OF $200 and cannot move this turn");
-							currentPlayer.payMoney(200);
-
-						}
+						jailStatus(currentPlayer, MG);
 
 					} else {
 
@@ -718,32 +921,22 @@ public class MonoplyGameGUI extends JFrame {
 
 							updateAllPlayerPositionToken(MG);
 
+							if (currentPlayer.getposition() == 30) {
+								JOptionPane.showMessageDialog(null, "You theif! Go to jail!", "Warning",
+										JOptionPane.PLAIN_MESSAGE);
+								currentPlayer.setposition(10);
+								currentPlayer.setjailStatus(true);
+								break;
+							}
+
+							updateAllPlayerPositionToken(MG);
+
 							if (currentPlayer.getposition() == 7
 									|| currentPlayer.getposition() == 22 | currentPlayer.getposition() == 36) {
 								if (currentCard.isGoToJail()) {
-									if (currentPlayer.getnumOutOfJailCard() > 0) {
-										currentPlayer.setposition(10);
+									
+									goToJailCard(currentPlayer, MG);
 
-										int dialogButton = JOptionPane.YES_NO_OPTION;
-										int dialogResult = JOptionPane.showConfirmDialog(null,
-												"Is" + currentPlayer.getname()
-														+ " going to use the Get Out Of Jail card?",
-												"Information", dialogButton);
-										if (dialogResult == JOptionPane.YES_OPTION) {
-											currentPlayer.setjailStatus(false);
-											currentPlayer.setnumOutOfJailCard(currentPlayer.getnumOutOfJailCard() - 1);
-
-										} else {
-											JOptionPane.showMessageDialog(null,
-													"What's wrong with you, you m***** f*****!");
-											currentPlayer.setjailStatus(true);
-
-										}
-
-									} else {
-										currentPlayer.setjailStatus(true);
-
-									}
 
 								} else if (currentCard.isGetOutOfJail()) {
 									currentPlayer.setnumOutOfJailCard(currentPlayer.getnumOutOfJailCard() + 1);
@@ -757,14 +950,15 @@ public class MonoplyGameGUI extends JFrame {
 
 												currentPlayer.getMoney(currentCard.getAmountChange());
 												if (allPlayers.get(Name).getbalance() < 0) {
-													bankcrupt(allPlayers.get(Name),
+													 bankcrupt(allPlayers.get(Name),
 															-(allPlayers.get(Name).getbalance()));
+
 												}
 
 											}
 
 											if (currentPlayer.getbalance() < 0) {
-												bankcrupt(currentPlayer, -currentPlayer.getbalance());
+												 bankcrupt(currentPlayer, -currentPlayer.getbalance());
 											}
 
 										}
@@ -780,28 +974,7 @@ public class MonoplyGameGUI extends JFrame {
 							} else if (currentPlayer.getposition() == 2 || currentPlayer.getposition() == 17
 									|| currentPlayer.getposition() == 13) {
 								if (currentCard2.isGoToJail()) {
-									if (currentPlayer.getnumOutOfJailCard() > 0) {
-										currentPlayer.setposition(10);
-
-										int dialogButton = JOptionPane.YES_NO_OPTION;
-										int dialogResult = JOptionPane.showConfirmDialog(null,
-												"Is" + currentPlayer.getname()
-														+ " going to use the Get Out Of Jail card?",
-												"Information", dialogButton);
-										if (dialogResult == JOptionPane.YES_OPTION) {
-											currentPlayer.setjailStatus(false);
-											currentPlayer.setnumOutOfJailCard(currentPlayer.getnumOutOfJailCard() - 1);
-
-										} else {
-											JOptionPane.showMessageDialog(null,
-													"What's wrong with you, you m***** f*****!");
-											currentPlayer.setjailStatus(true);
-
-										}
-
-									} else {
-										currentPlayer.setjailStatus(true);
-									}
+									goToJailCard(currentPlayer, MG);
 
 								} else if (currentCard2.isGetOutOfJail()) {
 									currentPlayer.setnumOutOfJailCard(currentPlayer.getnumOutOfJailCard() + 1);
@@ -814,8 +987,8 @@ public class MonoplyGameGUI extends JFrame {
 
 									}
 								}
-								showStatus();
 							}
+							showStatus();
 
 							updateAllPlayerPositionToken(MG);
 
@@ -824,7 +997,7 @@ public class MonoplyGameGUI extends JFrame {
 							case 4:
 								currentPlayer.payMoney(200);
 								if (currentPlayer.getbalance() < 0) {
-									bankcrupt(currentPlayer, -currentPlayer.getbalance());
+									 bankcrupt(currentPlayer, -currentPlayer.getbalance());
 
 								}
 
@@ -850,7 +1023,7 @@ public class MonoplyGameGUI extends JFrame {
 							case 38:
 								currentPlayer.payMoney(60);
 								if (currentPlayer.getbalance() < 0) {
-									bankcrupt(currentPlayer, -currentPlayer.getbalance());
+									 bankcrupt(currentPlayer, -currentPlayer.getbalance());
 								}
 								break;
 							case 20:
@@ -858,145 +1031,24 @@ public class MonoplyGameGUI extends JFrame {
 
 							}
 							updateAllPlayerPositionToken(MG);
+							showStatus();
 
 							// If the current tile is property
-							System.out.println(currentPlayer.getposition());
 							if (board.getTile(currentPlayer.getposition()) instanceof Property) {
+								propertyTile(currentPlayer, MG);
 
-								Property currentProperty = (Property) board.getTile(currentPlayer.getposition());
-
-								// If the property does not have a owner
-								if (currentProperty.getOwner().isEmpty()) {
-									int dialogButton = JOptionPane.YES_NO_OPTION;
-									int dialogResult = JOptionPane.showConfirmDialog(null,
-											"Would you like to buy this property?", "Information", dialogButton);
-									if (dialogResult == JOptionPane.YES_OPTION
-											&& currentPlayer.getbalance() >= currentProperty.getCost()) {
-
-										currentProperty.setOwner(currentPlayer.getname());
-										currentProperty.buildHouse();
-										ArrayList<Property> arrP = new ArrayList<Property>();
-										arrP.add(currentProperty);
-										currentPlayer.payMoney(currentProperty.getCost());
-										currentPlayer.setproperty(arrP);
-
-									} else {
-										// Auction here
-										Hashtable<Integer, String> givenMoney = new Hashtable<Integer, String>();
-										for (int i = 0; i < MG.getactivePlayers().size(); i++) {
-											String money = JOptionPane.showInputDialog(null,
-													"What's " + MG.getactivePlayers().get(i) + " price?");
-											if (!isNumeric(money)) {
-												JOptionPane.showMessageDialog(null,
-														"Invalid Price, give up this auction!");
-												givenMoney.put(0, MG.getactivePlayers().get(i));
-
-											} else if (Integer.parseInt(money) > allPlayers
-													.get(MG.getactivePlayers().get(i)).getbalance()) {
-												JOptionPane.showMessageDialog(null, currentPlayer
-														+ " cannot afford the price, give up this auction!");
-												givenMoney.put(0, MG.getactivePlayers().get(i));
-											} else {
-												givenMoney.put(Integer.parseInt(money), MG.getactivePlayers().get(i));
-											}
-
-										}
-
-										int maxPrice = 0;
-										for (Integer currentPrice : givenMoney.keySet()) {
-											if (maxPrice < currentPrice) {
-												maxPrice = currentPrice;
-											}
-										}
-
-										String newOwner = givenMoney.get(maxPrice);
-										allPlayers.get(newOwner).payMoney(maxPrice);
-										currentProperty.setOwner(newOwner);
-
-										allPlayers.get(newOwner).addproperty(currentProperty);
-										JOptionPane.showMessageDialog(null,
-												newOwner + " is the new owner of " + currentProperty.getDescription());
-
-									}
-									showStatus();
-								}
-								// Owner is the current player
-								else if (currentProperty.getOwner().equals(currentPlayer.getname())) {
-
-									if (!currentProperty.isFullHouse()) {
-										int dialogButton = JOptionPane.YES_NO_OPTION;
-
-										int dialogResult = JOptionPane.showConfirmDialog(null,
-												"Would" + currentPlayer.getname() + " like to build one more house?",
-												"Information", dialogButton);
-										if (dialogResult == JOptionPane.YES_OPTION) {
-
-											if (currentPlayer.getbalance() > currentProperty.getCost()) {
-												currentPlayer.payMoney(currentProperty.getCost());
-												currentProperty.buildHouse();
-											} else {
-												JOptionPane.showMessageDialog(null, currentPlayer.getname()
-														+ " cannot afford the price, give up building!");
-											}
-
-										}
-									} else {
-										int dialogButton = JOptionPane.YES_NO_OPTION;
-
-										int dialogResult = JOptionPane.showConfirmDialog(null,
-												"Would" + currentPlayer.getname() + " like to build a hotel?",
-												"Information", dialogButton);
-										if (dialogResult == JOptionPane.YES_OPTION) {
-											if (currentPlayer.getbalance() > currentProperty.getCost()) {
-												currentPlayer.payMoney(currentProperty.getCost());
-												currentProperty.buildHouse();
-											} else {
-												JOptionPane.showMessageDialog(null, currentPlayer.getname()
-														+ " cannot afford the price, give up upgrading!");
-											}
-
-										}
-
-									}
-									showStatus();
-								}
-								// Owner is others
-								else {
-									String thisOwner = currentProperty.getOwner();
-									allPlayers.get(thisOwner).getMoney(currentProperty.getRent());
-									currentPlayer.payMoney(currentProperty.getRent());
-
-									JOptionPane.showMessageDialog(null, "Player: " + currentPlayer.getname()
-											+ " pay rent to Player: " + currentProperty.getOwner());
-
-									if (currentPlayer.getbalance() < 0) {
-										bankcrupt(currentPlayer, -currentPlayer.getbalance());
-									}
-									showStatus();
-								}
 
 							}
 
 						}
-						MG.getactivePlayers().remove(0);
-						// allPlayers.get(MG.getactivePlayers().get(1));
-						if (currentPlayer.getfinancialStatus()) {
-							MG.getactivePlayers().add(currentPlayer.getname());
 
-						} else {
-							for (int i = 0; i < 39; i++) {
-								Property p = (Property) board.getTile(i);
-								if (currentPlayer.getproperty().contains(p)) {
-									p.clearAll();
-									currentPlayer.removeproperty(p);
-									currentPlayer.getMoney(p.getMorgagePrice());
-								}
-							}
-						}
+						nextPerson(currentPlayer, MG);
+						updateAllPlayerPositionToken(MG);
 
 						if (MG.getactivePlayers().size() < 2) {
 							// end of game
 							JOptionPane.showMessageDialog(null, "WINNER IS " + MG.getactivePlayers().get(0) + "!");
+							dispose();
 							return;
 						}
 						JOptionPane.showMessageDialog(null,
