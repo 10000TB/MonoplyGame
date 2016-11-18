@@ -23,6 +23,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
+import controller.MonoplyGameController;
 import model.Board;
 import model.ChanceCard;
 import model.CommunityChestCard;
@@ -37,7 +38,8 @@ public class MonoplyGameGUI extends JFrame {
 	int gameMaxDuration = 10 * 60;// maximum game duration 10*60 seconds
 	ArrayList<JLabel> tileLabels = new ArrayList<JLabel>();
 	HashMap<String, Player> allPlayers = new HashMap<String, Player>();
-
+	MonoplyGameController mgVC;
+	
 	// UI elements
 	// timer panel
 	JPanel timerPanel = new JPanel();
@@ -977,24 +979,23 @@ public class MonoplyGameGUI extends JFrame {
 	}
 
 	public MonoplyGameGUI() {
-
-		ArrayList<String> names = new ArrayList<String>();
-
+		//helper variables
 		String time = JOptionPane.showInputDialog("Please input the game time(minute)");
-
+		boolean AI = addAI();
+		String numOfPlayers = JOptionPane.showInputDialog("Please input the number of players(2-4)");
+		MonoplyGame MG = new MonoplyGame(0, true);
+		SetOfCards SOC = new SetOfCards();
+		//Monopoly Game Controller
+		mgVC = new MonoplyGameController(MG, allPlayers);
+		
+		
 		if (isNumeric(time)) {
 			gameMaxDuration = Integer.parseInt(time) * 60;
 		} else {
 			JOptionPane.showInputDialog("illegal input");
 			return;
 		}
-
-		boolean AI = addAI();
-
-		String numOfPlayers = JOptionPane.showInputDialog("Please input the number of players(2-4)");
-		MonoplyGame MG = new MonoplyGame(0, true);
-		SetOfCards SOC = new SetOfCards();
-
+		
 		if (isNumeric(numOfPlayers)) {
 			int n = Integer.parseInt(numOfPlayers);
 
@@ -1005,11 +1006,9 @@ public class MonoplyGameGUI extends JFrame {
 
 			for (int i = 0; i < Integer.parseInt(numOfPlayers); i++) {
 				String name = JOptionPane.showInputDialog("Please input the name of the " + (i + 1) + " player");
-				if (!names.contains(name) && !name.toLowerCase().equals("computer")) {
-					names.add(name);
-					Player player = new Player(name, 1000, true, 0, false, 0, new ArrayList<Property>());
-					allPlayers.put(name, player);
-					MG.setnumOfPlayer(n);
+				if (!mgVC.getnames().contains(name) && !name.toLowerCase().equals("computer")) {
+					mgVC.addPlayer(name);
+					mgVC.setnumOfPlayer(n);
 				} else {
 					JOptionPane.showMessageDialog(null, "Invalid Input! Enter another name!");
 					i--;
@@ -1017,35 +1016,29 @@ public class MonoplyGameGUI extends JFrame {
 			}
          
 			if (AI) {
-				Player computer = new Player("Computer", 500, true, 0, false, 0, new ArrayList<Property>());
-				names.add("Computer");
-				allPlayers.put("Computer", computer);
-				MG.setnumOfPlayer(n + 1);
+				mgVC.addPlayer("Computer");
+				mgVC.setnumOfPlayer(n + 1);
 			}
-			MG.setactivePlayers(names);
+			mgVC.setactivePlayers();
 		} else {
 			JOptionPane.showMessageDialog(null, "Invalid Input");
 			return;
 		}
-
-		MG.setallPlayers(allPlayers);
+		
+		mgVC.setAllPlayers();
 
 		// paint UI
 		try {
-			setUpGUI(MG, allPlayers);
-
-			updateAllPlayerPositionToken(MG);
-
+			setUpGUI(mgVC.getgame(), allPlayers);
+			updateAllPlayerPositionToken(mgVC.getgame());
 			diceButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 
 					ChanceCard currentCard = SOC.drawChanceCard();
 					CommunityChestCard currentCard2 = SOC.drawCommunityChestCard();
 
-					Player currentPlayer = allPlayers.get(MG.getactivePlayers().get(0));
-					// ArrayList<String> nameOfTiles = new ArrayList<String>();
-					// nameOfTiles = getnameOfTiles();
-
+//					Player currentPlayer = allPlayers.get(MG.getactivePlayers().get(0));
+					Player currentPlayer = mgVC.getActivePlayer();
 					// init player position
 					turnLabel.setText("Current Turn:" + currentPlayer.getname());
 					turnPanel.add(turnLabel);
