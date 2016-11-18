@@ -644,6 +644,7 @@ public class MonoplyGameGUI extends JFrame {
             allPlayers.put ("Computer", computer);  
             MG.setnumOfPlayer(n+1);
          }
+         
 			MG.setactivePlayers(names);
 		} else {
 			JOptionPane.showMessageDialog(null, "Invalid Input");
@@ -674,6 +675,7 @@ public class MonoplyGameGUI extends JFrame {
 
 					int face1 = 0, face2 = 0;
 
+               // Check Jail Status [NEED AI INVOLVE. Always use Jail Card]
 					if (currentPlayer.getjailStatus() == true) {
 						if (currentPlayer.getnumOutOfJailCard() > 0) {
 							int dialogButton = JOptionPane.YES_NO_OPTION;
@@ -713,13 +715,16 @@ public class MonoplyGameGUI extends JFrame {
 							String[] choices = currentPlayer.getAllDescriptions()
 									.toArray(new String[currentPlayer.getAllDescriptions().size()]);
 
+
+                     // Roll Dice [Difference between human player and AI]
+                     
 							JOptionPane.showInputDialog(null, "Player: " + currentPlayer.getname(),
-									"Information" + currentPlayer.getname() + "'s properties",
-									JOptionPane.QUESTION_MESSAGE, null, // Use
-									// default
-									// icon
-									choices, // Array of choices
-									null); // Initial choice
+   									"Information" + currentPlayer.getname() + "'s properties",
+   									JOptionPane.QUESTION_MESSAGE, null, // Use
+   									// default
+   									// icon
+   									choices, // Array of choices
+   									null); // Initial choice
 
 							face1 = currentPlayer.throwDice()[0];
 							face2 = currentPlayer.throwDice()[1];
@@ -735,9 +740,10 @@ public class MonoplyGameGUI extends JFrame {
 							currentPlayer.move(face1 + face2);
 
 							updateAllPlayerPositionToken(MG);
-
+                     
+                     // Land on GO TO JAIL
 							if (currentPlayer.getposition() == 7
-									|| currentPlayer.getposition() == 22 | currentPlayer.getposition() == 36) {
+									|| currentPlayer.getposition() == 22 | currentPlayer.getposition() == 36) {         // Chance Tile
 								if (currentCard.isGoToJail()) {
 									if (currentPlayer.getnumOutOfJailCard() > 0) {
 										currentPlayer.setposition(10);
@@ -795,8 +801,8 @@ public class MonoplyGameGUI extends JFrame {
 								JOptionPane.showMessageDialog(null, currentCard.getDescription());
 								showStatus();
 
-							} else if (currentPlayer.getposition() == 2 || currentPlayer.getposition() == 17
-									|| currentPlayer.getposition() == 13) {
+							} else if (currentPlayer.getposition() == 2 || currentPlayer.getposition() == 17    // Community Chest
+									|| currentPlayer.getposition() == 33) {
 								if (currentCard2.isGoToJail()) {
 									if (currentPlayer.getnumOutOfJailCard() > 0) {
 										currentPlayer.setposition(10);
