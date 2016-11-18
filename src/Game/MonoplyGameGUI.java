@@ -327,7 +327,9 @@ public class MonoplyGameGUI extends JFrame {
                      //System.out.println((int)(0.5*currentProperty.getCost())+ " " + MG.getactivePlayers().get(i));
                   } else {
                      JOptionPane.showMessageDialog(null, "AI provides a price of " + allPlayers.get(MG.getactivePlayers().get(i)).getbalance()/3);
-                     givenMoney.put(allPlayers.get(MG.getactivePlayers().get(i)).getbalance()/3, MG.getactivePlayers().get(i));
+                     givenMoney.put((int)(allPlayers.get(MG.getactivePlayers().get(i)).getbalance()/3), MG.getactivePlayers().get(i));
+                     // ************* TEST *****************
+                     //System.out.println((int)(allPlayers.get(MG.getactivePlayers().get(i)).getbalance()/3)+ " " + MG.getactivePlayers().get(i));
                   }
                } else {
                // Human provides auction price
@@ -363,7 +365,10 @@ public class MonoplyGameGUI extends JFrame {
             
 				allPlayers.get(newOwner).payMoney(maxPrice);
 				currentProperty.setOwner(newOwner);
-
+            
+            // *************** TEST *******************
+            //System.out.println(allPlayers.get(newOwner).getname());
+            
 				allPlayers.get(newOwner).addproperty(currentProperty);
 				JOptionPane.showMessageDialog(null,
 						newOwner + " is the new owner of " + currentProperty.getDescription());
@@ -969,7 +974,7 @@ public class MonoplyGameGUI extends JFrame {
 				String name = JOptionPane.showInputDialog("Please input the name of the " + (i + 1) + " player");
 				if (!names.contains(name) && !name.toLowerCase().equals("computer")) {
 					names.add(name);
-					Player player = new Player(name, 1000, true, 0, false, 0, null);
+					Player player = new Player(name, 1000, true, 0, false, 0, new ArrayList<Property>());
 					allPlayers.put(name, player);
 					MG.setnumOfPlayer(n);
 				} else {
@@ -977,8 +982,9 @@ public class MonoplyGameGUI extends JFrame {
 					i--;
 				}
 			}
+         
 			if (AI) {
-				Player computer = new Player("Computer", 1500, true, 0, false, 0, null);
+				Player computer = new Player("Computer", 10, true, 0, false, 0, new ArrayList<Property>());
 				names.add("Computer");
 				allPlayers.put("Computer", computer);
 				MG.setnumOfPlayer(n + 1);
