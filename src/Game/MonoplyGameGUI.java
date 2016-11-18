@@ -262,26 +262,52 @@ public class MonoplyGameGUI extends JFrame {
 
 	private void propertyTile(Player currentPlayer, MonoplyGame MG) {
 		Property currentProperty = (Property) board.getTile(currentPlayer.getposition());
+      boolean auction = false;
 
 		// If the property does not have a owner
 		if (currentProperty.getOwner().isEmpty()) {
-			int dialogButton = JOptionPane.YES_NO_OPTION;
-			int dialogResult = JOptionPane.showConfirmDialog(null, "Would you like to buy this property?",
-					"Information", dialogButton);
-			if (dialogResult == JOptionPane.YES_OPTION && currentPlayer.getbalance() >= currentProperty.getCost()) {
-
-				currentProperty.setOwner(currentPlayer.getname());
-				currentProperty.buildHouse();
-				ArrayList<Property> arrP = new ArrayList<Property>();
-				arrP.add(currentProperty);
-				currentPlayer.payMoney(currentProperty.getCost());
-				if (currentPlayer.getproperty() == null) {
-					currentPlayer.setproperty(arrP);
-				} else {
-					currentPlayer.addproperty(currentProperty);
-				}
-
-			} else {
+      
+         // AI encounters an ownerless property
+         if (currentPlayer.getname().equals("Computer")) {
+            if (currentPlayer.getbalance() >= currentProperty.getCost()) {
+               currentProperty.setOwner(currentPlayer.getname());
+   				currentProperty.buildHouse();
+   				ArrayList<Property> arrP = new ArrayList<Property>();
+   				arrP.add(currentProperty);
+   				currentPlayer.payMoney(currentProperty.getCost());
+   				if (currentPlayer.getproperty() == null) {
+   					currentPlayer.setproperty(arrP);
+   				} else {
+   					currentPlayer.addproperty(currentProperty);
+   				}
+               JOptionPane.showMessageDialog(null, "I bought this Property!");
+            } else {
+               auction = true;
+               JOptionPane.showMessageDialog(null, "I can't afford this..");
+            }
+         } else { // human player 
+   			int dialogButton = JOptionPane.YES_NO_OPTION;
+   			int dialogResult = JOptionPane.showConfirmDialog(null, "Would you like to buy this property?",
+   					"Information", dialogButton);
+   			if (dialogResult == JOptionPane.YES_OPTION && currentPlayer.getbalance() >= currentProperty.getCost()) {
+   
+   				currentProperty.setOwner(currentPlayer.getname());
+   				currentProperty.buildHouse();
+   				ArrayList<Property> arrP = new ArrayList<Property>();
+   				arrP.add(currentProperty);
+   				currentPlayer.payMoney(currentProperty.getCost());
+   				if (currentPlayer.getproperty() == null) {
+   					currentPlayer.setproperty(arrP);
+   				} else {
+   					currentPlayer.addproperty(currentProperty);
+   				}
+   			} else {
+               auction = true;      // player cannot afford property
+            }
+         } 
+         
+         
+         if (auction) {
 				// Auction here
 				Hashtable<Integer, String> givenMoney = new Hashtable<Integer, String>();
 				for (int i = 0; i < MG.getactivePlayers().size(); i++) {
@@ -908,7 +934,8 @@ public class MonoplyGameGUI extends JFrame {
 					} else {
 
 						while (face1 == face2) {
-
+                     
+                     // mortgate
 							if (currentPlayer.getMorDes() != null && !currentPlayer.getMorDes().isEmpty()) {
 
 								int dialogButton = JOptionPane.YES_NO_OPTION;
@@ -946,20 +973,39 @@ public class MonoplyGameGUI extends JFrame {
 
 							String[] choices = currentPlayer.getAllDescriptions()
 									.toArray(new String[currentPlayer.getAllDescriptions().size()]);
-
-							JOptionPane.showInputDialog(null, "Player: " + currentPlayer.getname(),
-									"Information" + currentPlayer.getname() + "'s properties",
-									JOptionPane.QUESTION_MESSAGE, null, // Use
-									// default
-									// icon
-									choices, // Array of choices
-									null); // Initial choice
-
+                     
+                     // Computer starts to roll dice
+                     if (currentPlayer.getname().equals("Computer")) {
+                        String properties = "";
+                        if (choices.length == 0) {
+                           JOptionPane.showMessageDialog(null, "I do not have a property yet!", "AI's property",
+                           JOptionPane.PLAIN_MESSAGE);
+                        } else {
+                           for (int i = 0; i < choices.length; i++) {
+                              properties += choices[i]+'\n';
+                           }
+                           JOptionPane.showMessageDialog(null, "My properties:\n" + properties, "AI's property",
+                           JOptionPane.PLAIN_MESSAGE);
+                        }
+                     } else {    // Human rolls dice
+   							JOptionPane.showInputDialog(null, "Player: " + currentPlayer.getname(),
+   									"Information" + currentPlayer.getname() + "'s properties",
+   									JOptionPane.QUESTION_MESSAGE, null, // Use
+   									// default
+   									// icon
+   									choices, // Array of choices
+   									null); // Initial choice
+                     }
 							face1 = currentPlayer.throwDice()[0];
 							face2 = currentPlayer.throwDice()[1];
-							JOptionPane.showMessageDialog(null, "Face1:" + face1 + "\n" + "Face2: " + face2,
+                     if (currentPlayer.getname().equals("Computer")) {
+                        JOptionPane.showMessageDialog(null, "I Rolled\n"+"dice1: " + face1 + "\n"+"dice2: " + face2,
+                        "Roll Dice", JOptionPane.PLAIN_MESSAGE);
+                     } else {
+							   JOptionPane.showMessageDialog(null, "Face1:" + face1 + "\n" + "Face2: " + face2,
 									"Roll Dice", JOptionPane.PLAIN_MESSAGE);
-
+                     }
+                     
 							// remove player from its previous tile
 							// <h5></h5>
 							// see if player previous tile has any other person
