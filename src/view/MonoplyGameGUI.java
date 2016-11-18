@@ -24,6 +24,7 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import controller.MonoplyGameController;
+import controller.PlayerController;
 import model.Board;
 import model.ChanceCard;
 import model.CommunityChestCard;
@@ -39,6 +40,7 @@ public class MonoplyGameGUI extends JFrame {
 	ArrayList<JLabel> tileLabels = new ArrayList<JLabel>();
 	HashMap<String, Player> allPlayers = new HashMap<String, Player>();
 	MonoplyGameController mgVC;
+	PlayerController playerVC;
 	
 	// UI elements
 	// timer panel
@@ -107,30 +109,6 @@ public class MonoplyGameGUI extends JFrame {
 			return false;
 		}
 		return true;
-	}
-
-	private void nextPerson(Player currentPlayer, MonoplyGame MG) {
-		MG.getactivePlayers().remove(0);
-		// allPlayers.get(MG.getactivePlayers().get(1));
-		if (currentPlayer.getfinancialStatus()) {
-			MG.getactivePlayers().add(currentPlayer.getname());
-
-		} else {
-			for (int i = 0; i < 39; i++) {
-				if (currentPlayer.getproperty() == null) {
-					break;
-				}
-				if (board.getTile(i) instanceof Property) {
-					Property p = (Property) board.getTile(i);
-					if (currentPlayer.getproperty().contains(p)) {
-						p.clearAll();
-						currentPlayer.removeproperty(p);
-						currentPlayer.getMoney(p.getMorgagePrice());
-					}
-				}
-			}
-		}
-
 	}
 
 	private boolean bankcrupt(MonoplyGame MG, Player currentPlayer, int moneyNeedToPay) {
@@ -236,7 +214,8 @@ public class MonoplyGameGUI extends JFrame {
 
 		}
 
-		nextPerson(currentPlayer, MG);
+//		nextPerson(currentPlayer, MG);
+		mgVC.nextPerson();
 		updateAllPlayerPositionToken(MG);
 
 		if (MG.getactivePlayers().size() < 2) {
@@ -532,7 +511,6 @@ public class MonoplyGameGUI extends JFrame {
 								+ "Number Of Hotels: " + currentProperty.getNumOfHotels() + "\n",
 
 						"Info", JOptionPane.PLAIN_MESSAGE);
-
 			}
 		});
 
@@ -1032,29 +1010,31 @@ public class MonoplyGameGUI extends JFrame {
 
 //					Player currentPlayer = allPlayers.get(MG.getactivePlayers().get(0));
 					Player currentPlayer = mgVC.getActivePlayer();
+					playerVC = new PlayerController(currentPlayer,board,MG,player_one_label,player_two_label,player_three_label,player_four_label,computerLabel);
+					
 					// init player position
-					turnLabel.setText("Current Turn:" + currentPlayer.getname());
+//					turnLabel.setText("Current Turn:" + currentPlayer.getname());
+					turnLabel.setText("Current Turn:" + playerVC.getname());
 					turnPanel.add(turnLabel);
 
 					int face1 = 0, face2 = 0;
 
-					if (currentPlayer.getjailStatus() == true) {
-						jailStatus(currentPlayer, MG);
+					if (playerVC.getjailStatus() == true) {
+//						jailStatus(currentPlayer, MG);
+						playerVC.jailStatus();
 
 					} else {
 
 						while (face1 == face2) {
 
 							// mortgate
-							if (currentPlayer.getMorDes() != null && !currentPlayer.getMorDes().isEmpty()) {
+							if (playerVC.getMorDes() != null && !playerVC.getMorDes().isEmpty()) {
 
 								int dialogButton = JOptionPane.YES_NO_OPTION;
-
-								int dialogResult = JOptionPane.showConfirmDialog(null,
-										"Are you going to get your motgage back?", "Information", dialogButton);
+								int dialogResult = JOptionPane.showConfirmDialog(null,"Are you going to get your motgage back?", "Information", dialogButton);
+								
 								if (dialogResult == JOptionPane.YES_OPTION) {
-									String[] choice = currentPlayer.getMorDes()
-											.toArray(new String[currentPlayer.getMorDes().size()]);
+									String[] choice = playerVC.getMorDes().toArray(new String[playerVC.getMorDes().size()]);
 
 									String inpu = (String) JOptionPane.showInputDialog(null, "Choose now...",
 											"The Choice of a Lifetime", JOptionPane.QUESTION_MESSAGE, null, // Use
@@ -1062,14 +1042,14 @@ public class MonoplyGameGUI extends JFrame {
 																											// icon
 											choice, // Array of choices
 											null); // Initial choice
-									for (Property returnProperty : currentPlayer.getproperty()) {
+									for (Property returnProperty : playerVC.getproperty()) {
 
 										if (returnProperty.getDescription().equals(inpu)) {
 
-											if (currentPlayer.getbalance() >= returnProperty.getCost()) {
-												currentPlayer.payMoney(returnProperty.getCost());
+											if (playerVC.getbalance() >= returnProperty.getCost()) {
+												playerVC.payMoney(returnProperty.getCost());
 												returnProperty.cancelMor();
-												currentPlayer.removeMortgageProperty(returnProperty);
+												playerVC.removeMortgageProperty(returnProperty);
 												break;
 											} else {
 												JOptionPane.showMessageDialog(null, "Not enough money");
@@ -1081,11 +1061,10 @@ public class MonoplyGameGUI extends JFrame {
 								}
 							}
 
-							String[] choices = currentPlayer.getAllDescriptions()
-									.toArray(new String[currentPlayer.getAllDescriptions().size()]);
+							String[] choices = playerVC.getAllDescriptions().toArray(new String[playerVC.getAllDescriptions().size()]);
 
 							// Computer starts to roll dice
-							if (currentPlayer.getname().equals("Computer")) {
+							if (playerVC.getname().equals("Computer")) {
 								String properties = "";
 								if (choices.length == 0) {
 									JOptionPane.showMessageDialog(null, "I do not have a property yet!",
@@ -1098,17 +1077,17 @@ public class MonoplyGameGUI extends JFrame {
 											"AI's property", JOptionPane.PLAIN_MESSAGE);
 								}
 							} else { // Human rolls dice
-								JOptionPane.showInputDialog(null, "Player: " + currentPlayer.getname(),
-										"Information" + currentPlayer.getname() + "'s properties",
+								JOptionPane.showInputDialog(null, "Player: " + playerVC.getname(),
+										"Information" + playerVC.getname() + "'s properties",
 										JOptionPane.QUESTION_MESSAGE, null, // Use
 										// default
 										// icon
 										choices, // Array of choices
 										null); // Initial choice
 							}
-							face1 = currentPlayer.throwDice()[0];
-							face2 = currentPlayer.throwDice()[1];
-							if (currentPlayer.getname().equals("Computer")) {
+							face1 = playerVC.throwDice()[0];
+							face2 = playerVC.throwDice()[1];
+							if (playerVC.getname().equals("Computer")) {
 								JOptionPane.showMessageDialog(null,
 										"I Rolled\n" + "dice1: " + face1 + "\n" + "dice2: " + face2, "Roll Dice",
 										JOptionPane.PLAIN_MESSAGE);
@@ -1122,33 +1101,33 @@ public class MonoplyGameGUI extends JFrame {
 							// see if player previous tile has any other person
 							// System.out.println("all labees
 							// count:"+tileLabels.get(1).getText());
-							if (currentPlayer.getposition() + face1 + face2 >= 40){
+							if (playerVC.getposition() + face1 + face2 >= 40){
 								JOptionPane.showMessageDialog(null, "Passed the starting point, get $200 reward");
-								currentPlayer.getMoney(200);
+								playerVC.getMoney(200);
 							}
 
-							currentPlayer.move(face1 + face2);
+							playerVC.move(face1 + face2);
 
 							updateAllPlayerPositionToken(MG);
 
-							if (currentPlayer.getposition() == 30) {
+							if (playerVC.getposition() == 30) {
 								JOptionPane.showMessageDialog(null, "You theif! Go to jail!", "Warning",
 										JOptionPane.PLAIN_MESSAGE);
-								currentPlayer.setposition(10);
-								currentPlayer.setjailStatus(true);
+								playerVC.setposition(10);
+								playerVC.setjailStatus(true);
 								break;
 							}
 
 							updateAllPlayerPositionToken(MG);
 
-							if (currentPlayer.getposition() == 7
-									|| currentPlayer.getposition() == 22 | currentPlayer.getposition() == 36) {
+							if (playerVC.getposition() == 7
+									|| playerVC.getposition() == 22 | playerVC.getposition() == 36) {
 								if (currentCard.isGoToJail()) {
 
 									goToJailCard(currentPlayer, MG);
 
 								} else if (currentCard.isGetOutOfJail()) {
-									currentPlayer.setnumOutOfJailCard(currentPlayer.getnumOutOfJailCard() + 1);
+									playerVC.setnumOutOfJailCard(playerVC.getnumOutOfJailCard() + 1);
 								} else {
 
 									if (currentCard.getInfluenceOthers()) {
@@ -1157,19 +1136,19 @@ public class MonoplyGameGUI extends JFrame {
 												System.out.println(Name + currentCard.getAmountChange());
 												allPlayers.get(Name).payMoney(currentCard.getAmountChange());
 
-												currentPlayer.getMoney(currentCard.getAmountChange());
+												playerVC.getMoney(currentCard.getAmountChange());
 												if (allPlayers.get(Name).getbalance() < 0) {
 													bankcrupt(MG, allPlayers.get(Name),
 															-(allPlayers.get(Name).getbalance()));
 												}
 											}
-											if (currentPlayer.getbalance() < 0) {
-												bankcrupt(MG, currentPlayer, -currentPlayer.getbalance());
+											if (playerVC.getbalance() < 0) {
+												playerVC.bankcrupt(-playerVC.getbalance());
 											}
 										}
 
 									} else {
-										currentPlayer.getMoney(currentCard.getAmountChange());
+										playerVC.getMoney(currentCard.getAmountChange());
 									}
 								}
 
@@ -1177,19 +1156,19 @@ public class MonoplyGameGUI extends JFrame {
 								showStatus();
 								testEnding(MG);
 
-							} else if (currentPlayer.getposition() == 2 || currentPlayer.getposition() == 17
-									|| currentPlayer.getposition() == 13) {
+							} else if (playerVC.getposition() == 2 || playerVC.getposition() == 17
+									|| playerVC.getposition() == 13) {
 								if (currentCard2.isGoToJail()) {
 									goToJailCard(currentPlayer, MG);
 
 								} else if (currentCard2.isGetOutOfJail()) {
-									currentPlayer.setnumOutOfJailCard(currentPlayer.getnumOutOfJailCard() + 1);
+									playerVC.setnumOutOfJailCard(playerVC.getnumOutOfJailCard() + 1);
 
 								} else {
 									if (currentCard2.ifMove) {
-										currentPlayer.move(currentCard2.getposMove());
+										playerVC.move(currentCard2.getposMove());
 									} else {
-										currentPlayer.setposition(currentCard2.getJump());
+										playerVC.setposition(currentCard2.getJump());
 									}
 								}
 								testEnding(MG);
@@ -1199,36 +1178,36 @@ public class MonoplyGameGUI extends JFrame {
 
 							updateAllPlayerPositionToken(MG);
 
-							switch (currentPlayer.getposition()) {
+							switch (playerVC.getposition()) {
 
 							case 4:
-								currentPlayer.payMoney(200);
-								if (currentPlayer.getbalance() < 0) {
-									bankcrupt(MG, currentPlayer, -currentPlayer.getbalance());
+								playerVC.payMoney(200);
+								if (playerVC.getbalance() < 0) {
+									playerVC.bankcrupt(-playerVC.getbalance());
 								}
 								break;
 							case 5:
-								currentPlayer.getMoney(200);
+								playerVC.getMoney(200);
 								break;
 							case 12:
-								currentPlayer.getMoney(150);
+								playerVC.getMoney(150);
 								break;
 							case 15:
-								currentPlayer.getMoney(200);
+								playerVC.getMoney(200);
 								break;
 							case 25:
-								currentPlayer.getMoney(200);
+								playerVC.getMoney(200);
 								break;
 							case 28:
-								currentPlayer.getMoney(150);
+								playerVC.getMoney(150);
 								break;
 							case 35:
-								currentPlayer.getMoney(200);
+								playerVC.getMoney(200);
 								break;
 							case 38:
-								currentPlayer.payMoney(60);
-								if (currentPlayer.getbalance() < 0) {
-									bankcrupt(MG, currentPlayer, -currentPlayer.getbalance());
+								playerVC.payMoney(60);
+								if (playerVC.getbalance() < 0) {
+									playerVC.bankcrupt(-playerVC.getbalance());
 								}
 								break;
 							case 20:
@@ -1240,7 +1219,7 @@ public class MonoplyGameGUI extends JFrame {
 							testEnding(MG);
 
 							// If the current tile is property
-							if (board.getTile(currentPlayer.getposition()) instanceof Property) {
+							if (board.getTile(playerVC.getposition()) instanceof Property) {
 								propertyTile(currentPlayer, MG);
 
 							}
@@ -1258,6 +1237,7 @@ public class MonoplyGameGUI extends JFrame {
 								JOptionPane.PLAIN_MESSAGE);
 //						currentPlayer = allPlayers.get(MG.getactivePlayers().get(0));
 						currentPlayer = mgVC.getActivePlayer();
+						playerVC.setActivePlayer(mgVC.getActivePlayer());
 					}
 				}
 			});
