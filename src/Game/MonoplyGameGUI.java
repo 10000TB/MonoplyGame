@@ -855,11 +855,16 @@ public class MonoplyGameGUI extends JFrame {
 			}
 
 			for (int i = 0; i < Integer.parseInt(numOfPlayers); i++) {
-				String name = JOptionPane.showInputDialog("Please input the name the " + (i + 1) + " player");
-				names.add(name);
-				Player player = new Player(name, 1000, true, 0, false, 0, null);
-				allPlayers.put(name, player);
-				MG.setnumOfPlayer(n);
+				String name = JOptionPane.showInputDialog("Please input the name of the " + (i + 1) + " player");
+            if (!names.contains(name) && !name.toLowerCase().equals("computer")) {
+   				names.add(name);
+   				Player player = new Player(name, 1000, true, 0, false, 0, null);
+   				allPlayers.put(name, player);
+   				MG.setnumOfPlayer(n);
+            } else {
+               JOptionPane.showMessageDialog(null, "Invalid Input! Enter another name!");
+               i --;
+            }
 			}
          if (AI) {
             Player computer = new Player ("Computer", 1500, true, 0, false, 0, null);
