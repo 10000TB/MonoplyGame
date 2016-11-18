@@ -43,6 +43,10 @@ public class MonoplyGame {
 	public ArrayList<String> getactivePlayers() {
 		return this.activePlayers;
 	}
+   
+   public void deActivate (String playerName) {
+      activePlayers.remove(playerName);
+   }
 
 	public void setactivePlayers(ArrayList<String> activePlayers) {
 		this.activePlayers = activePlayers;
