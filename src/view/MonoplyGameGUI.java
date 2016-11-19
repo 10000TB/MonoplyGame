@@ -188,7 +188,7 @@ public class MonoplyGameGUI extends JFrame {
 			currentPlayer.setposition(10);
 			// AI use get out of jail card automatically
 			if (currentPlayer.getname().equals("Computer")) {
-				JOptionPane.showMessageDialog(null, "I Just my Get Out Of Jail card!");
+				JOptionPane.showMessageDialog(null, "I Just used my Get Out Of Jail card!");
 				currentPlayer.setjailStatus(false);
 				currentPlayer.setnumOutOfJailCard(currentPlayer.getnumOutOfJailCard() - 1);
 			} else {
