@@ -114,7 +114,7 @@ public class MonoplyGameGUI extends JFrame {
 	private boolean bankcrupt(MonoplyGame MG, Player currentPlayer, int moneyNeedToPay) {
 		int moneyOwed = moneyNeedToPay;
 
-		if (currentPlayer.getproperty() == null) {
+		if (currentPlayer.getproperty() == null || currentPlayer.getproperty().size() == 0) {
 			JOptionPane.showMessageDialog(null, "GET OUT OF THE GAME!");
 			currentPlayer.setfinancialStatus(false);
          MG.deActivate(currentPlayer.getname());
@@ -186,21 +186,27 @@ public class MonoplyGameGUI extends JFrame {
 
 		if (currentPlayer.getnumOutOfJailCard() > 0) {
 			currentPlayer.setposition(10);
-
-			int dialogButton = JOptionPane.YES_NO_OPTION;
-			int dialogResult = JOptionPane.showConfirmDialog(null,
-					"Is" + currentPlayer.getname() + " going to use the Get Out Of Jail card?", "Information",
-					dialogButton);
-			if (dialogResult == JOptionPane.YES_OPTION) {
+			// AI use get out of jail card automatically
+			if (currentPlayer.getname().equals("Computer")) {
+				JOptionPane.showMessageDialog(null, "I Just my Get Out Of Jail card!");
 				currentPlayer.setjailStatus(false);
 				currentPlayer.setnumOutOfJailCard(currentPlayer.getnumOutOfJailCard() - 1);
-
 			} else {
-				JOptionPane.showMessageDialog(null, "What's wrong with you, you m***** f*****!");
-				currentPlayer.setjailStatus(true);
 
+				int dialogButton = JOptionPane.YES_NO_OPTION;
+				int dialogResult = JOptionPane.showConfirmDialog(null,
+						"Is" + currentPlayer.getname() + " going to use the Get Out Of Jail card?", "Information",
+						dialogButton);
+				if (dialogResult == JOptionPane.YES_OPTION) {
+					currentPlayer.setjailStatus(false);
+					currentPlayer.setnumOutOfJailCard(currentPlayer.getnumOutOfJailCard() - 1);
+	
+				} else {
+					JOptionPane.showMessageDialog(null, "What's wrong with you, you m***** f*****!");
+					currentPlayer.setjailStatus(true);
+	
+				}
 			}
-
 		} else {
 			currentPlayer.setjailStatus(true);
 
