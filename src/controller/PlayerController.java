@@ -72,6 +72,10 @@ public class PlayerController extends JFrame{
 		return player.getAllDescriptions();
 	}
 	
+	public void addProperty(Property p){
+		player.addproperty(p);
+	}
+	
 	public void removeMortgageProperty(Property returnProperty){
 		player.removeMortgageProperty(returnProperty);
 	}
@@ -130,12 +134,42 @@ public class PlayerController extends JFrame{
 			}
 
 		}
+		
+		this.nextPerson();
+		
+		
+		
+	}
+	
+	public void nextPerson(){
+		Player currentPlayer  = player;
+		
+		MG.getactivePlayers().remove(0);
+		// allPlayers.get(MG.getactivePlayers().get(1));
+		if (currentPlayer.getfinancialStatus()) {
+			MG.getactivePlayers().add(currentPlayer.getname());
+
+		} else {
+			for (int i = 0; i < 39; i++) {
+				if (currentPlayer.getproperty() == null) {
+					break;
+				}
+				if (board.getTile(i) instanceof Property) {
+					Property p = (Property) board.getTile(i);
+					if (currentPlayer.getproperty().contains(p)) {
+						p.clearAll();
+						currentPlayer.removeproperty(p);
+						currentPlayer.getMoney(p.getMorgagePrice());
+					}
+				}
+			}
+		}
 	}
 		
 		public boolean bankcrupt(int moneyNeedToPay) {
 			int moneyOwed = moneyNeedToPay;
 
-			if (player.getproperty() == null) {
+			if (player.getproperty() == null || player.getproperty().size() == 0) {
 				JOptionPane.showMessageDialog(null, "GET OUT OF THE GAME!");
 				player.setfinancialStatus(false);
 	         MG.deActivate(player.getname());
@@ -148,6 +182,8 @@ public class PlayerController extends JFrame{
 	      
 	      // AI bankrupts and sells property
 	      if (player.getname().equals("Computer")) {
+	    	  
+	    	  
 	         Property soldProperty = player.getproperty().get(player.getproperty().size()-1);
 	         moneyOwed = moneyOwed - soldProperty.getMorgagePrice();
 	   		soldProperty.setOwner("");
@@ -176,6 +212,7 @@ public class PlayerController extends JFrame{
 	   					moneyOwed = moneyOwed - soldProperty.getMorgagePrice();
 	   					soldProperty.setMorg();
 	   					player.addMortgageProperty(soldProperty);
+	   					player.removeproperty(soldProperty);
 	   					player.getMoney(soldProperty.getMorgagePrice());
 	   					break;
 	   

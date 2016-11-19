@@ -178,56 +178,7 @@ public class MonoplyGameGUI extends JFrame {
 		return bankcrupt(MG, currentPlayer, moneyOwed);
 	}
 
-	private void jailStatus(Player currentPlayer, MonoplyGame MG) {
-		if (currentPlayer.getnumOutOfJailCard() > 0) {
-			int dialogButton = JOptionPane.YES_NO_OPTION;
-			int dialogResult = JOptionPane.showConfirmDialog(null,
-					"Is" + currentPlayer.getname() + " going to use the Get Out Of Jail card?", "Information",
-					dialogButton);
-			if (dialogResult == JOptionPane.YES_OPTION) {
-				currentPlayer.setjailStatus(false);
-				currentPlayer.setnumOutOfJailCard(currentPlayer.getnumOutOfJailCard() - 1);
 
-			}
-
-		} else {
-			JOptionPane.showMessageDialog(null,
-					"Let's try " + currentPlayer.getname() + "'s luckness! Number over than 80, you will get free");
-			int luckness = (int) (Math.random() * 99 + 1);
-			JOptionPane.showMessageDialog(null, "your number: " + luckness);
-
-			if (luckness > 80) {
-				JOptionPane.showMessageDialog(null, currentPlayer.getname() + "is so luck! Get out of here!");
-				currentPlayer.setjailStatus(false);
-			} else {
-				JOptionPane.showMessageDialog(null, "Oh man! DO NOT TRY TO PRISON BREAK");
-				JOptionPane.showMessageDialog(null,
-						currentPlayer.getname() + "GET A FINE OF $200 and cannot move this turn");
-				currentPlayer.payMoney(200);
-            showStatus();
-
-				if (currentPlayer.getbalance() < 0) {
-					bankcrupt(MG, currentPlayer, -1 * currentPlayer.getbalance());
-				}
-
-			}
-
-		}
-
-//		nextPerson(currentPlayer, MG);
-		mgVC.nextPerson();
-		updateAllPlayerPositionToken(MG);
-
-		if (MG.getactivePlayers().size() < 2) {
-			// end of game
-			JOptionPane.showMessageDialog(null, "WINNER IS " + MG.getactivePlayers().get(0) + "!");
-			dispose();
-			return;
-		}
-		JOptionPane.showMessageDialog(null, allPlayers.get(MG.getactivePlayers().get(0)).getname() + "'s turn",
-				"Information", JOptionPane.PLAIN_MESSAGE);
-		currentPlayer = allPlayers.get(MG.getactivePlayers().get(0));
-	}
 
 	private void goToJailCard(Player currentPlayer, MonoplyGame MG) {
 		currentPlayer.setposition(10);
@@ -1022,6 +973,8 @@ public class MonoplyGameGUI extends JFrame {
 					if (playerVC.getjailStatus() == true) {
 //						jailStatus(currentPlayer, MG);
 						playerVC.jailStatus();
+						
+						testEnding(MG);
 
 					} else {
 
@@ -1049,6 +1002,7 @@ public class MonoplyGameGUI extends JFrame {
 											if (playerVC.getbalance() >= returnProperty.getCost()) {
 												playerVC.payMoney(returnProperty.getCost());
 												returnProperty.cancelMor();
+												playerVC.addProperty(returnProperty);
 												playerVC.removeMortgageProperty(returnProperty);
 												break;
 											} else {
